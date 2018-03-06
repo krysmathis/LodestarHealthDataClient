@@ -1,5 +1,5 @@
 import React from "react";
-import MAPBOXGL from 'react-map-gl';
+import MAPBOXGL, {FlyToInterpolator} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 
@@ -48,9 +48,15 @@ class InteractiveMap extends React.Component {
     fetch (targetUrl)
         .then(result =>(result.json())) // convert to json
         .then(data => {
+            
+            const _long = data[0].long;
+            const _lat = data[0].lat;
+            
             this.setState({
-                xy: [data[0].long, data[0].lat]
+                xy: [_long, _lat]
             });
+
+            this._goToViewport(_long,_lat)
         });
 
     if (navigator.geolocation) {
@@ -62,6 +68,15 @@ class InteractiveMap extends React.Component {
     }
   }
 
+  _goToViewport = (longitude, latitude) => {
+    this._onChangeViewport({
+      longitude,
+      latitude,
+      zoom: 8,
+      transitionInterpolator: new FlyToInterpolator(),
+      transitionDuration: 1000
+    });
+  };
 
   _recenter = coordinates => {
     const { latitude, longitude } = coordinates;
@@ -108,13 +123,13 @@ class InteractiveMap extends React.Component {
 
       <MAPBOXGL
         mapboxApiAccessToken={MAPBOXGL.accessToken}
-        onChangeViewport={this._onChangeViewport}
+        onViewportChange={this._onChangeViewport}
         mapStyle={mapStyle}
         ref={map => (this.map = map)}
         {...viewport}
       >
       <div className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
-          <div>{`Longitude: ${viewport.longitude} Latitude: ${viewport.latitude} Zoom: ${viewport.zoom}`}</div>
+          <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
         {/* {this.state.xy.filter(this._withinBounds).map((xy, i) => {
           return (
