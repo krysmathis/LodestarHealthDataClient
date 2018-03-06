@@ -4,10 +4,18 @@ import './App.css';
 
 class App extends Component {
   componentDidMount() {
-    const targetUrl = 'https://api.lodestarhealthdata.com/api/Facility?latitude=55.5&longitude=45.4'
+
+    let targetUrl = 'https://api.lodestarhealthdata.com/api/Facility?latitude=55.5&longitude=45.4';
+    
+    // handling production vs development in a simple way
+    console.log(window.location.href)
+    
+    if (window.location.href === "http://localhost:3000/") {
+        targetUrl = "http://localhost:5000/api/Facility/?latitude=55.5&longitude=45.5";
+    } 
     fetch (targetUrl)
     .then(result =>(result.json()))
-    .then(data => console.log(data));
+    .then(data => console.log("data", {"url" :targetUrl, "data": data}));
 
   }
 
