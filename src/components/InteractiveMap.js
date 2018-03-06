@@ -1,7 +1,8 @@
 import React from "react";
-import MAPBOXGL, {FlyToInterpolator} from 'react-map-gl';
+import MAPBOXGL, {Marker, Popup, FlyToInterpolator} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-
+import FacilityPin from './Facility-Pin';
+import FacilityInfo from './Facility-Info';
 
 MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhycTdjeDlsNzZ5In0.D1mdaVwx9hmI47dZd0cvRQ';
 
@@ -19,8 +20,11 @@ class InteractiveMap extends React.Component {
         isDragging: null
       },
       mapStyle: "mapbox://styles/mapbox/streets-v9",
-      xy: []
+      xy: [],
+      facilities: [],
+      popupInfo: null
     };
+    this._renderFacilityMarker= this._renderFacilityMarker.bind(this);
   }
 
   // added the map will not properly resize without it, it will 'stick' in the first setting
@@ -53,7 +57,8 @@ class InteractiveMap extends React.Component {
             const _lat = data[0].lat;
             
             this.setState({
-                xy: [_long, _lat]
+                xy: [_long, _lat],
+                facilities: data
             });
 
             this._goToViewport(_long,_lat)
@@ -116,6 +121,34 @@ class InteractiveMap extends React.Component {
     this.setState({ viewport });
   };
 
+  _renderFacilityMarker = (facility, index) => {
+    if (facility.length === 0) {
+      return
+    }
+    return (
+      <Marker key={`marker-${index}`}
+        longitude={facility.long}
+        latitude={facility.lat} >
+        <FacilityPin size={20} onClick={() => this.setState({popupInfo: facility})} />
+      </Marker>
+    );
+  }
+
+  _renderPopup() {
+
+    const {popupInfo} = this.state;
+
+    return popupInfo && (
+      <Popup tipSize={5}
+        anchor="top"
+        longitude={popupInfo.long}
+        latitude={popupInfo.lat}
+        onClose={() => this.setState({popupInfo: null})} >
+        <FacilityInfo info={popupInfo} />
+      </Popup>
+    );
+  }
+
   render() {
     const { mapStyle, viewport } = this.state;
 
@@ -131,16 +164,9 @@ class InteractiveMap extends React.Component {
       <div className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
-        {/* {this.state.xy.filter(this._withinBounds).map((xy, i) => {
-          return (
-            <Marker
-              xy={{ x: xy.lat, y: xy.lon }}
-              color={getRgbForValue(xy.secsSinceReport)}
-              key={i}
-              text={xy.routeId}
-            />
-          );
-        })} */}
+          {this.state.facilities.map(this._renderFacilityMarker)}
+          {this._renderPopup()}
+
         {/* <Info />
         <Legend /> */}
       </MAPBOXGL>
