@@ -4,9 +4,8 @@ import './App.css';
 
 class App extends Component {
   componentDidMount() {
-    var proxyUrl = 'https://cors-anywhere.herokuapp.com/',
-    targetUrl = 'https://api.lodestarhealthdata.com/api/Facility?latitude=55.5&longitude=45.4'
-    fetch (proxyUrl + targetUrl)
+    const targetUrl = 'https://api.lodestarhealthdata.com/api/Facility?latitude=55.5&longitude=45.4'
+    fetch (targetUrl)
     .then(result =>(result.json()))
     .then(data => console.log(data));
 
