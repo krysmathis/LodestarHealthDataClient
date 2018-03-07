@@ -1,5 +1,5 @@
 import React from "react";
-import MAPBOXGL, {Marker, Popup, FlyToInterpolator} from 'react-map-gl';
+import MAPBOXGL, {Popup, Marker, FlyToInterpolator} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import FacilityInfo from './Facility-Info';
@@ -128,8 +128,9 @@ class InteractiveMap extends React.Component {
     return (
       <Marker key={`marker-${index}`}
         longitude={facility.long}
-        latitude={facility.lat} >
-        <FacilityPin size={20} onClick={() => this.setState({popupInfo: facility})} />
+        latitude={facility.lat} 
+        >
+        <FacilityPin size={20} color={"pink"} onClick={() => this.setState({popupInfo: facility})} />
       </Marker>
     );
   }
@@ -161,12 +162,12 @@ class InteractiveMap extends React.Component {
         ref={map => (this.map = map)}
         {...viewport}
       >
+    
       <div className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
           {this.state.facilities.map(this._renderFacilityMarker)}
           {this._renderPopup()}
-
         {/* <Info />
         <Legend /> */}
       </MAPBOXGL>
