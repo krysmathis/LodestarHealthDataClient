@@ -1,5 +1,5 @@
 import React from "react";
-import MAPBOXGL, {Popup, Marker, FlyToInterpolator} from 'react-map-gl';
+import MAPBOXGL, {Popup, Marker, FlyToInterpolator, NavigationControl as navigator} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import FacilityInfo from './Facility-Info';
@@ -22,7 +22,8 @@ class InteractiveMap extends React.Component {
       mapStyle: "mapbox://styles/mapbox/streets-v9",
       xy: [],
       facilities: [],
-      popupInfo: null
+      popupInfo: null,
+      apiUrl: 'https://api.lodestarhealthdata.com/api/Facility'
     };
     this._renderFacilityMarker= this._renderFacilityMarker.bind(this);
   }
@@ -37,16 +38,18 @@ class InteractiveMap extends React.Component {
     });
   }
 
+  
+
   componentDidMount() {
 
     // this will use the API if not in developement mod
-    let targetUrl = 'https://api.lodestarhealthdata.com/api/Facility?latitude=55.5&longitude=45.4';
+    let targetUrl = this.state.apiUrl;
     
     // handling production vs development in a simple way
     console.log(window.location.href)
     
     if (window.location.href === "http://localhost:3000/") {
-      targetUrl = "http://localhost:5000/api/Facility/?latitude=55.5&longitude=45.5";
+      targetUrl = "http://localhost:5000/api/Facility";
     } 
     
     fetch (targetUrl)
@@ -90,6 +93,9 @@ class InteractiveMap extends React.Component {
     this.setState({ viewport });
   };
 
+  fun() {
+    this.map._getMap().getBounds();
+  }
 
   _getBounds = () => {
     const rawBounds = this.map._getMap().getBounds();
@@ -130,7 +136,14 @@ class InteractiveMap extends React.Component {
         longitude={facility.long}
         latitude={facility.lat} 
         >
-        <FacilityPin size={20} color={"pink"} onClick={() => this.setState({popupInfo: facility})} />
+        <FacilityPin  size={20} 
+                      color={"pink"} 
+                      onClick={
+                        () => {
+                          this.state.popupInfo === null ? 
+                          this.setState({popupInfo: facility}) :
+                          this.setState({popupInfo: null})
+                        }} />
       </Marker>
     );
   }
