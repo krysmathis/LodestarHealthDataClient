@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import InteractiveMap from "./components/InteractiveMap.js";
+import FacilitySidebar from './components/Facility-Sidebar';
 
 
 class App extends Component {
@@ -10,8 +11,10 @@ class App extends Component {
       windowDimensions: {
         height: 800,
         width: 800
-      }
+      },
+      facility: null
     };
+    this.displayFacilityDetails = this.displayFacilityDetails.bind(this);
   }
 
   componentDidMount = () => {
@@ -32,14 +35,29 @@ class App extends Component {
     
   };
 
+  // update the facility information
+  displayFacilityDetails(_facility) {
+    this.setState({
+        facility: _facility
+    })
+  }
 
   render() {
 
     return (
-      <InteractiveMap
-        height={this.state.windowDimensions.height}
-        width={this.state.windowDimensions.width}
-      />
+      <div>
+      <div className="">
+        <InteractiveMap
+          height={this.state.windowDimensions.height}
+          width={this.state.windowDimensions.width}
+          publishDetails={this.displayFacilityDetails}
+        />
+      </div>
+      <div className="map-overlay">
+        <FacilitySidebar facility={this.state.facility} />
+      </div>
+      </div>
+      
     );
   }
 }
