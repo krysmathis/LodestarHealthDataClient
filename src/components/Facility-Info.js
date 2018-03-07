@@ -11,7 +11,7 @@ export default class FacilityInfo extends PureComponent {
         <div>
           {displayName} 
         </div>
-        <img width={240} src={info.image} />
+        <img width={240} src={info.image} alt="location marker"/>
       </div>
     );
   }
