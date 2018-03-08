@@ -5,7 +5,8 @@ const styles = {
     backgroundColor: 'white',
     margin: 0,
     padding: 10,
-    width: '100%'
+    width: '100%',
+    zIndex: 100,
   },
   another: {
     backgroundColor: 'red'

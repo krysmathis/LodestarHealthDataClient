@@ -67,9 +67,9 @@ class App extends Component {
           width={this.state.windowDimensions.width}
           publishDetails={this.displayFacilityDetails}
         />
-      </div>
       <div className={this.state.overlayClass}>
         { this.state.showSidebar ? <FacilitySidebar onClick={this.hideSidebar} facility={this.state.facility} /> : null }
+      </div>
       </div>
       </div>
       

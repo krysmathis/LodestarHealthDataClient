@@ -32,8 +32,8 @@ class InteractiveMap extends React.Component {
     };
 
     
-    this._renderFacilityMarker= this._renderFacilityMarker.bind(this);
-
+    this._renderFacilityMarker = this._renderFacilityMarker.bind(this);
+    this._goToViewport = this._goToViewport.bind(this);
   }
 
  
@@ -103,12 +103,6 @@ class InteractiveMap extends React.Component {
     });
   };
 
-  _recenter = coordinates => {
-    const { latitude, longitude } = coordinates;
-    const newViewport = { latitude, longitude };
-    const viewport = Object.assign({}, this.state.viewport, newViewport);
-    this.setState({ viewport });
-  };
 
   _getBounds = () => {
     const rawBounds = this.mapRef.getMap().getBounds();
@@ -152,8 +146,7 @@ class InteractiveMap extends React.Component {
     // to one representation of a facility
     let color = "black"
     let markerSize = 20;
-
-    system === "HCA" ? markerSize = markerSize * 2 : markerSize = markerSize;
+    system === "HCA" ? markerSize = (markerSize * 2) : markerSize = 20;
     if (this.state.viewport.zoom < zoomChangeAt) {
       markerSize = 5;
 
@@ -161,13 +154,10 @@ class InteractiveMap extends React.Component {
         return;
       }
     }
-
-    
     // if the system is HCA show up as blue otherwise as red
     system === "HCA" ? color = "#030F42" : color = "red";
 
     // TODO: rules on the size of the marker
-
     return (
       <Marker key={`marker-${index}`}
         longitude={facility.long}
@@ -178,12 +168,21 @@ class InteractiveMap extends React.Component {
                       opacity={.75}
                       onClick={
                         () => {
-                          this.setState({popupInfo: facility})
-                          this.props.publishDetails(facility);
+                          this._initializePopupData(facility);
+                          // this.setState({popupInfo: facility});
+                          setTimeout(() => this._goToViewport(facility.long, facility.lat),100);
+                          // this.props.publishDetails(facility);
                         }} />
       </Marker>
     );
   }
+
+  _initializePopupData = (facility) => {
+    this.setState({popupInfo: facility});
+    // this._goToViewport(facility.long, facility.lat);
+    this.props.publishDetails(facility);
+}
+
 
   _renderPopup() {
 
@@ -219,7 +218,7 @@ class InteractiveMap extends React.Component {
         <div className="inline-block absolute top right mt12 ml12 bg-darken75 color-white z1 txt-s txt-bold">
           <FilterBox facilities={this.state.facilities} onSubmit={this._goToViewport}/>
         </div>
-      <div className="inline-block absolute top left mt10 ml10 bg-darken75 color-white z1 py6 px10 round-full txt-s txt-bold">
+      <div className="locationBlock">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
           {this.state.facilities.map(this._renderFacilityMarker)}

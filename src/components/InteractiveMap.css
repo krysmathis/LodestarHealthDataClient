@@ -1,0 +1,12 @@
+.locationBlock {
+    display: inline-block;
+    position: absolute;
+    bottom: 10px;
+    right: 30%;
+    background-color: black;
+    color: white;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 15px;
+    /* inline-block absolute top right mt12 ml12 bg-darken75 color-white z1 txt-s txt-bold */
+}
