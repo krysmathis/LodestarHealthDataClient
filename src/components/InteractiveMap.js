@@ -69,9 +69,7 @@ class InteractiveMap extends React.Component {
     // this will use the API if not in developement mod
     let targetUrl = this.state.apiUrl;
     
-    // handling production vs development in a simple way
-    console.log(window.location.href)
-    
+    // handling production vs development in a simple way    
     if (window.location.href === "http://localhost:3000/") {
       targetUrl = "http://localhost:5000/api/Facility";
     } 
@@ -93,7 +91,6 @@ class InteractiveMap extends React.Component {
   }
 
   _goToViewport = (longitude, latitude) => {
-    console.log("getting called")
     this._onChangeViewport({
       longitude,
       latitude,

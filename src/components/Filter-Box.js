@@ -1,4 +1,5 @@
 import React from "react";
+import '../../node_modules/animate.css'
 
 class FilterBox extends React.Component {
     constructor(props) {

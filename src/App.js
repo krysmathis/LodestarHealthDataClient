@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import './../node_modules/animate.css'
 import InteractiveMap from "./components/InteractiveMap.js";
 import FacilitySidebar from './components/Facility-Sidebar';
 
@@ -40,7 +41,7 @@ class App extends Component {
   // update the facility information
   displayFacilityDetails(_facility) {
     
-    let _overlayClass = 'map-overlay'
+    let _overlayClass = 'map-overlay animated slideInLeft'
     
     if (_facility === null) {
       _overlayClass = 'map-overlay hidden'
