@@ -34,7 +34,7 @@ class FilterBox extends React.Component {
         this.exitFilter();
         this.renderListOfOptions();
         evt.target.value = null;
-        this.props.onSubmit(facility.long, facility.lat)
+        this.props.onSubmit(facility)
 
         return;
     }

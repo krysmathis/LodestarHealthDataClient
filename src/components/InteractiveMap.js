@@ -93,7 +93,7 @@ class InteractiveMap extends React.Component {
   }
 
   _goToViewport = (longitude, latitude) => {
-    
+    console.log("getting called")
     this._onChangeViewport({
       longitude,
       latitude,
@@ -103,6 +103,12 @@ class InteractiveMap extends React.Component {
     });
   };
 
+  _searchFormSubmit = (facility) => {
+
+    this._goToViewport(facility.long,facility.lat);
+    setTimeout(() => this._initializePopupData(facility),100);
+    
+  };
 
   _getBounds = () => {
     const rawBounds = this.mapRef.getMap().getBounds();
@@ -128,9 +134,12 @@ class InteractiveMap extends React.Component {
     );
   };
 
+  
   _onChangeViewport = newViewport => {
+    
     const viewport = Object.assign({}, this.state.viewport, newViewport);
     this.setState({ viewport });
+    
   };
 
 
@@ -213,8 +222,9 @@ class InteractiveMap extends React.Component {
         {...viewport}
         >
     
-        <div className="inline-block absolute top right mt12 ml12 bg-darken75 color-white z1 txt-s txt-bold">
-          <FilterBox facilities={this.state.facilities} onSubmit={this._goToViewport}/>
+        <div className="filterBox">
+          <div>Search by Facility Name</div>
+          <FilterBox facilities={this.state.facilities} onSubmit={this._searchFormSubmit}/>
         </div>
       <div className="locationBlock">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
