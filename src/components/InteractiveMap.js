@@ -3,7 +3,7 @@ import MAPBOXGL, {Popup, Marker, FlyToInterpolator, NavigationControl as navigat
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import FacilityInfo from './Facility-Info';
-import {fromJS} from '../../node_modules/immutable/dist/immutable'
+// import {fromJS} from '../../node_modules/immutable/dist/immutable'
 
 MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhycTdjeDlsNzZ5In0.D1mdaVwx9hmI47dZd0cvRQ';
 
@@ -20,7 +20,7 @@ class InteractiveMap extends React.Component {
         startDragLngLat: null,
         isDragging: null
       },
-      mapStyle: "mapbox://styles/mapbox/light-v9",
+      mapStyle: "mapbox://styles/krysmathis/cjeimaj4r1k6w2rqeflmdfwc8",
       xy: [],
       facilities: [],
       popupInfo: null,
@@ -44,7 +44,7 @@ class InteractiveMap extends React.Component {
 
   componentDidMount() {
 
-    this.getFacilities();
+    this.getFacilities(); 
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position =>
@@ -53,9 +53,7 @@ class InteractiveMap extends React.Component {
     } else {
       console.log("nope");
     }
-    
-    console.log("map boundaries on load: ", this._getBounds());
-      
+          
   }
 
   // queries the API to return the listed facilities
@@ -128,7 +126,6 @@ class InteractiveMap extends React.Component {
   };
 
   _onChangeViewport = newViewport => {
-      
     const viewport = Object.assign({}, this.state.viewport, newViewport);
     this.setState({ viewport });
   };
@@ -141,6 +138,11 @@ class InteractiveMap extends React.Component {
     // could control the color and size from here as each Marker is a one
     // to one representation of a facility
     let color = "black"
+    let markerSize = 20;
+
+    if (this.state.viewport.zoom < 10) {
+      markerSize = 5;
+    }
     // if the system is HCA show up as blue otherwise as red
     facility.system_Affiliation_Name === "HCA" ? color = "#030F42" : color = "red";
 
@@ -151,7 +153,7 @@ class InteractiveMap extends React.Component {
         longitude={facility.long}
         latitude={facility.lat} 
         >
-        <FacilityPin  size={20} 
+        <FacilityPin  size={markerSize} 
                       color={color} 
                       onClick={
                         () => {
