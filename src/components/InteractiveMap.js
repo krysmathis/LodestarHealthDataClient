@@ -4,6 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import FacilityInfo from './Facility-Info';
 import FilterBox from './Filter-Box';
+import './InteractiveMap.css';
 // import {fromJS} from '../../node_modules/immutable/dist/immutable'
 
 MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhycTdjeDlsNzZ5In0.D1mdaVwx9hmI47dZd0cvRQ';
@@ -24,6 +25,8 @@ class InteractiveMap extends React.Component {
       mapStyle: "mapbox://styles/krysmathis/cjeimaj4r1k6w2rqeflmdfwc8",
       xy: [],
       facilities: [],
+      facilityAvg: {},
+      facilitiesInRange: [],
       popupInfo: null,
       apiUrl: 'https://api.lodestarhealthdata.com/api/Facility'
     };
@@ -150,6 +153,7 @@ class InteractiveMap extends React.Component {
     let color = "black"
     let markerSize = 20;
 
+    system === "HCA" ? markerSize = markerSize * 2 : markerSize = markerSize;
     if (this.state.viewport.zoom < zoomChangeAt) {
       markerSize = 5;
 
@@ -171,6 +175,7 @@ class InteractiveMap extends React.Component {
         >
         <FacilityPin  size={markerSize} 
                       color={color} 
+                      opacity={.75}
                       onClick={
                         () => {
                           this.setState({popupInfo: facility})
@@ -214,7 +219,7 @@ class InteractiveMap extends React.Component {
         <div className="inline-block absolute top right mt12 ml12 bg-darken75 color-white z1 txt-s txt-bold">
           <FilterBox facilities={this.state.facilities} onSubmit={this._goToViewport}/>
         </div>
-      <div className="inline-block absolute bottom left mt10 ml10 bg-darken75 color-white z1 py6 px10 round-full txt-s txt-bold">
+      <div className="inline-block absolute top left mt10 ml10 bg-darken75 color-white z1 py6 px10 round-full txt-s txt-bold">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
           {this.state.facilities.map(this._renderFacilityMarker)}

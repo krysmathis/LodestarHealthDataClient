@@ -27,7 +27,6 @@ export default class FacilityInfo extends PureComponent {
         <div>
           Affiliation: {info.system_Affiliation_Name}
         </div>
-        
           {/* <img width={240} src={info.image} alt="location marker"/> */}
       </div>
     );

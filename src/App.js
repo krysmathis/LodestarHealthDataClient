@@ -12,7 +12,9 @@ class App extends Component {
         height: 800,
         width: 800
       },
-      facility: null
+      facility: null,
+      showSidebar: false,
+      overlayClass: 'map-overlay hidden'
     };
     this.displayFacilityDetails = this.displayFacilityDetails.bind(this);
   }
@@ -37,9 +39,22 @@ class App extends Component {
 
   // update the facility information
   displayFacilityDetails(_facility) {
+    
+    let _overlayClass = 'map-overlay'
+    
+    if (_facility === null) {
+      _overlayClass = 'map-overlay hidden'
+    }
+
     this.setState({
-        facility: _facility
+        facility: _facility,
+        showSidebar: true,
+        overlayClass: _overlayClass
     })
+  }
+
+  hideSidebar() {
+
   }
 
   render() {
@@ -53,8 +68,8 @@ class App extends Component {
           publishDetails={this.displayFacilityDetails}
         />
       </div>
-      <div className="map-overlay">
-        <FacilitySidebar facility={this.state.facility} />
+      <div className={this.state.overlayClass}>
+        { this.state.showSidebar ? <FacilitySidebar onClick={this.hideSidebar} facility={this.state.facility} /> : null }
       </div>
       </div>
       
