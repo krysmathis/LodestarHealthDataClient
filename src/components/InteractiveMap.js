@@ -169,9 +169,8 @@ class InteractiveMap extends React.Component {
                       onClick={
                         () => {
                           this._initializePopupData(facility);
-                          // this.setState({popupInfo: facility});
+                          // now center the map on the clicked location
                           setTimeout(() => this._goToViewport(facility.long, facility.lat),100);
-                          // this.props.publishDetails(facility);
                         }} />
       </Marker>
     );
@@ -179,7 +178,6 @@ class InteractiveMap extends React.Component {
 
   _initializePopupData = (facility) => {
     this.setState({popupInfo: facility});
-    // this._goToViewport(facility.long, facility.lat);
     this.props.publishDetails(facility);
 }
 
