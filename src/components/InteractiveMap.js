@@ -3,6 +3,7 @@ import MAPBOXGL, {Popup, Marker, FlyToInterpolator, NavigationControl as navigat
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import FacilityInfo from './Facility-Info';
+import FilterBox from './Filter-Box';
 // import {fromJS} from '../../node_modules/immutable/dist/immutable'
 
 MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhycTdjeDlsNzZ5In0.D1mdaVwx9hmI47dZd0cvRQ';
@@ -26,9 +27,13 @@ class InteractiveMap extends React.Component {
       popupInfo: null,
       apiUrl: 'https://api.lodestarhealthdata.com/api/Facility'
     };
+
+    
     this._renderFacilityMarker= this._renderFacilityMarker.bind(this);
 
   }
+
+ 
 
   // added the map will not properly resize without it, it will 'stick' in the first setting
   componentWillReceiveProps(nextProps) {
@@ -85,12 +90,13 @@ class InteractiveMap extends React.Component {
   }
 
   _goToViewport = (longitude, latitude) => {
+    
     this._onChangeViewport({
       longitude,
       latitude,
-      zoom: 8,
+      zoom: 8.5,
       transitionInterpolator: new FlyToInterpolator(),
-      transitionDuration: 1000
+      transitionDuration: 500
     });
   };
 
@@ -130,21 +136,31 @@ class InteractiveMap extends React.Component {
     this.setState({ viewport });
   };
 
+
   _renderFacilityMarker = (facility, index) => {
+    const zoomChangeAt = 8.5;
+    // do not render if there is nothing to render  
     if (facility.length === 0) {
-      return
+      return; 
     }
 
+    const system = facility.system_Affiliation_Name;
     // could control the color and size from here as each Marker is a one
     // to one representation of a facility
     let color = "black"
     let markerSize = 20;
 
-    if (this.state.viewport.zoom < 10) {
+    if (this.state.viewport.zoom < zoomChangeAt) {
       markerSize = 5;
+
+      if (  system !== "HCA") {
+        return;
+      }
     }
+
+    
     // if the system is HCA show up as blue otherwise as red
-    facility.system_Affiliation_Name === "HCA" ? color = "#030F42" : color = "red";
+    system === "HCA" ? color = "#030F42" : color = "red";
 
     // TODO: rules on the size of the marker
 
@@ -193,9 +209,12 @@ class InteractiveMap extends React.Component {
         mapStyle={mapStyle}
         ref={map => (this.mapRef = map)}
         {...viewport}
-      >
+        >
     
-      <div className="inline-block absolute top right mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
+        <div className="inline-block absolute top right mt12 ml12 bg-darken75 color-white z1 txt-s txt-bold">
+          <FilterBox facilities={this.state.facilities} onSubmit={this._goToViewport}/>
+        </div>
+      <div className="inline-block absolute bottom left mt10 ml10 bg-darken75 color-white z1 py6 px10 round-full txt-s txt-bold">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
           {this.state.facilities.map(this._renderFacilityMarker)}
