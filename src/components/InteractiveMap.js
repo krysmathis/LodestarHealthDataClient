@@ -102,16 +102,16 @@ class InteractiveMap extends React.Component {
                 facilities: data
             });
             console.log(data);
-            this._goToViewport(_long,_lat)
+            this._goToViewport(_long,_lat, 8.5)
           }
         });
   }
 
-  _goToViewport = (longitude, latitude) => {
+  _goToViewport = (longitude, latitude, zoom) => {
     this._onChangeViewport({
       longitude,
       latitude,
-      zoom: 8.5,
+      zoom: zoom,
       transitionInterpolator: new FlyToInterpolator(),
       transitionDuration: 500
     });
@@ -119,7 +119,12 @@ class InteractiveMap extends React.Component {
 
   _searchFormSubmit = (facility) => {
 
-    this._goToViewport(facility.long,facility.lat);
+    this._goToViewport(
+      facility.long, 
+      facility.lat,
+      this.state.viewport.zoom < 8.5 ? 8.5 : this.state.viewport.zoom
+    )
+
     setTimeout(() => this._initializePopupData(facility),100);
     
   };
@@ -193,7 +198,11 @@ class InteractiveMap extends React.Component {
                         () => {
                           this._initializePopupData(facility);
                           // now center the map on the clicked location
-                          setTimeout(() => this._goToViewport(facility.long, facility.lat),100);
+                          setTimeout(() => this._goToViewport(
+                              facility.long, 
+                              facility.lat,
+                              this.state.viewport.zoom < 8.5 ? 8.5 : this.state.viewport.zoom)
+                            ,100);
                         }} />
       </Marker>
     );

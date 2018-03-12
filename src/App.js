@@ -101,8 +101,13 @@ class App extends Component {
         'Accept': 'application/json'
        }
     })
-    .then((token) => token.json())
+    .then((token) => {
+      if (token.ok) {
+        token.json()
+      }
+    })
     .then(t => { 
+        
         localStorage.setItem("token", t);
         this.isUserLoggedIn();
     });
