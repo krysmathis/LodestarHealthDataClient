@@ -18,7 +18,9 @@ class App extends Component {
       overlayClass: 'map-overlay hidden',
       username: null,
       password: null,
-      apiUrl: 'https://api.lodestarhealthdata.com/api/token'
+      apiUrl: 'https://api.lodestarhealthdata.com/api/token',
+      token: null,
+      userLoggedIn: true // to do update this to actually verify user log in
     };
     this.displayFacilityDetails = this.displayFacilityDetails.bind(this);
   }
@@ -61,11 +63,17 @@ class App extends Component {
   //*********************************** 
   // handler for accessing the tokens and login
   isUserLoggedIn(){
-    return localStorage.getItem("token") !== null;
+    const loggedIn = localStorage.getItem("token") !== null;
+    this.setState({
+      userLoggedIn: loggedIn
+    }) 
+    return loggedIn
   }        
   
   getSavedToken() {
-    return localStorage.getItem("token");
+    this.setState({
+      token: localStorage.getItem("token")
+    });
   }
 
   updateUsername = (evt) => {
@@ -92,22 +100,13 @@ class App extends Component {
       headers : { 
         'Accept': 'application/json'
        }
-    }).then((token) => token.json().then(t => console.log(t)));
+    })
+    .then((token) => token.json())
+    .then(t => { 
+        localStorage.setItem("token", t);
+        this.isUserLoggedIn();
+    });
   } 
-
-  /*
-  $('#btLogin').click(function() {
-      $.post("http://localhost:5000/api/token", $.param({username: $('#username').val(), password: $('#password').val()})).done(function(token){
-          localStorage.setItem("token", token);
-          $('#btLoginContainer').hide();
-          $('#btLogoutContainer').show();
-          var message = "<p>Token received and saved in local storage under the key 'token'</p>";
-          message += "<p>Token Value: </p><p style='word-wrap:break-word'>" + token + "</p>";
-          $('#responseContainer').html(message);                                            
-      }).fail(handleError);
-  });
-
-  */
   //***********************************
   
 
@@ -115,13 +114,13 @@ class App extends Component {
 
     return (
       <div>
-      <nav><input type="text" onChange={this.updateUsername} placeholder="b@b.com"/><input type="password" onChange={this.updatePassword} placeholder="P@55word"/><button onClick={this.submitUser}>Login</button>Navbar</nav>
+      { this.state.userLoggedIn === false ? <nav><input type="text" onChange={this.updateUsername} placeholder="b@b.com"/><input type="password" onChange={this.updatePassword} placeholder="P@55word"/><button onClick={this.submitUser}>Login</button>Navbar</nav> : null }
       <div className="">
-        <InteractiveMap
+        { this.state.userLoggedIn === true ? <InteractiveMap
           height={this.state.windowDimensions.height}
           width={this.state.windowDimensions.width}
           publishDetails={this.displayFacilityDetails}
-        />
+        /> : null }
       <div className={this.state.overlayClass}>
         { this.state.showSidebar ? <FacilitySidebar onClick={this.hideSidebar} facility={this.state.facility} /> : null }
       </div>

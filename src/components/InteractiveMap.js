@@ -28,12 +28,14 @@ class InteractiveMap extends React.Component {
       facilityAvg: {},
       facilitiesInRange: [],
       popupInfo: null,
-      apiUrl: 'https://api.lodestarhealthdata.com/api/Facility'
+      apiUrl: 'https://api.lodestarhealthdata.com/api/Facility',
+      token: null
     };
 
     
     this._renderFacilityMarker = this._renderFacilityMarker.bind(this);
     this._goToViewport = this._goToViewport.bind(this);
+    this.getSavedToken = this.getSavedToken.bind(this);
   }
 
  
@@ -56,12 +58,16 @@ class InteractiveMap extends React.Component {
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position =>
-        console.log(position)
+        console.log("navigator position ", position)
       );
     } else {
       console.log("nope");
     }
           
+  }
+
+  getSavedToken() {
+    return localStorage.getItem("token")
   }
 
   // queries the API to return the listed facilities
@@ -74,10 +80,20 @@ class InteractiveMap extends React.Component {
       targetUrl = "http://localhost:5000/api/Facility";
     } 
     
-    fetch (targetUrl)
-        .then(result =>(result.json())) // convert to json
-        .then(data => {
-            
+    fetch (targetUrl, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Authorization': 'Bearer ' + this.getSavedToken()
+      }
+    }).then(result =>{
+      if(result.ok) {
+        return result.json();
+      }
+    }) // convert to json
+    .then(data => {
+      if(data) {
+        
             const _long = data[0].long;
             const _lat = data[0].lat;
             
@@ -87,6 +103,7 @@ class InteractiveMap extends React.Component {
             });
             console.log(data);
             this._goToViewport(_long,_lat)
+          }
         });
   }
 
