@@ -5,6 +5,8 @@ import FacilityPin from './Facility-Pin';
 import FacilityInfo from './Facility-Info';
 import FilterBox from './Filter-Box';
 import './InteractiveMap.css';
+import distance from '../DistanceCalc';
+
 // import {fromJS} from '../../node_modules/immutable/dist/immutable'
 
 MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhycTdjeDlsNzZ5In0.D1mdaVwx9hmI47dZd0cvRQ';
@@ -209,8 +211,22 @@ class InteractiveMap extends React.Component {
   }
 
   _initializePopupData = (facility) => {
+    
+    // this is where we could publish data into the sidebar
+    // collect the nearby facilities
+    let nearby = this.state.facilities.filter(f => distance(
+      facility.lat,
+      facility.long,
+      f.lat,
+      f.long,
+      "N"
+    ) < 50 && f !== facility );
+    
     this.setState({popupInfo: facility});
-    this.props.publishDetails(facility);
+    this.props.publishDetails(facility, nearby);
+    
+    console.log("nearby: ", nearby);
+
 }
 
 

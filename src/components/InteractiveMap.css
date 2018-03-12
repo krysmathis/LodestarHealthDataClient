@@ -8,7 +8,6 @@
     margin: 10px;
     padding: 10px;
     border-radius: 15px;
-    /* inline-block absolute top right mt12 ml12 bg-darken75 color-white z1 txt-s txt-bold */
 }
 
 .filterBox {
@@ -21,16 +20,13 @@
     margin: 10px;
     padding: 10px;
     box-shadow: 1px 1px 1px rgba(0,0,0,.5);
-    /* inline-block absolute top right mt12 ml12 bg-darken75 color-white z1 txt-s txt-bold */
 }
 .filterBox li{
    background-color: white;
    border-bottom: 1px solid lightgray  ;
-    /* inline-block absolute top right mt12 ml12 bg-darken75 color-white z1 txt-s txt-bold */
 }
 
 .filterBox li:last-child{
     background-color: white;
     border-bottom: none;
-     /* inline-block absolute top right mt12 ml12 bg-darken75 color-white z1 txt-s txt-bold */
  }

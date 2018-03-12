@@ -14,13 +14,14 @@ class App extends Component {
         width: 800
       },
       facility: null,
+      facilitiesInRange: [],
       showSidebar: false,
       overlayClass: 'map-overlay hidden',
       username: null,
       password: null,
       apiUrl: 'https://api.lodestarhealthdata.com/api/token',
       token: null,
-      userLoggedIn: false // to do update this to actually verify user log in
+      userLoggedIn: true // to do update this to actually verify user log in
     };
     this.displayFacilityDetails = this.displayFacilityDetails.bind(this);
   }
@@ -44,7 +45,7 @@ class App extends Component {
   };
 
   // update the facility information
-  displayFacilityDetails(_facility) {
+  displayFacilityDetails(_facility,_nearby) {
     
     let _overlayClass = 'map-overlay animated slideInLeft'
     
@@ -54,6 +55,7 @@ class App extends Component {
 
     this.setState({
         facility: _facility,
+        facilitiesInRange: _nearby,
         showSidebar: true,
         overlayClass: _overlayClass
     })
@@ -94,23 +96,22 @@ class App extends Component {
       targetUrl = "http://localhost:5000/api/token";
     } 
 
-    let target = `${targetUrl}/?username=${this.state.username}&password=${this.state.password}`
+    let target = `${targetUrl}/?=${this.state.username}&password=${this.state.password}`
     fetch(target, {
       method:'POST',
-      // headers : { 
-      //   'Accept': 'application/json'
-      //  }
+      headers : { 
+        'Accept': 'application/json'
+       }
     })
-    .then((token) => {
-      console.log(token)
-        token.text()
-    })
+    .then((token) => 
+      token.json()
+    )
     .then(t => { 
-        
         localStorage.setItem("token", t);
         this.isUserLoggedIn();
     });
   } 
+    
   //***********************************
   
 
@@ -126,7 +127,7 @@ class App extends Component {
           publishDetails={this.displayFacilityDetails}
         /> : null }
       <div className={this.state.overlayClass}>
-        { this.state.showSidebar ? <FacilitySidebar onClick={this.hideSidebar} facility={this.state.facility} /> : null }
+        { this.state.showSidebar ? <FacilitySidebar onClick={this.hideSidebar} facility={this.state.facility} facilitiesInRange={this.state.facilitiesInRange}/> : null }
       </div>
       </div>
       </div>
