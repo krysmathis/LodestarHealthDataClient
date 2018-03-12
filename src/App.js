@@ -20,7 +20,7 @@ class App extends Component {
       password: null,
       apiUrl: 'https://api.lodestarhealthdata.com/api/token',
       token: null,
-      userLoggedIn: true // to do update this to actually verify user log in
+      userLoggedIn: false // to do update this to actually verify user log in
     };
     this.displayFacilityDetails = this.displayFacilityDetails.bind(this);
   }
@@ -91,20 +91,19 @@ class App extends Component {
 
     // handling production vs development in a simple way    
     if (window.location.href === "http://localhost:3000/") {
-      //targetUrl = "http://localhost:5000/api/token";
+      targetUrl = "http://localhost:5000/api/token";
     } 
 
     let target = `${targetUrl}/?username=${this.state.username}&password=${this.state.password}`
     fetch(target, {
       method:'POST',
-      headers : { 
-        'Accept': 'application/json'
-       }
+      // headers : { 
+      //   'Accept': 'application/json'
+      //  }
     })
     .then((token) => {
-      if (token.ok) {
-        token.json()
-      }
+      console.log(token)
+        token.text()
     })
     .then(t => { 
         
@@ -121,7 +120,7 @@ class App extends Component {
       <div>
       { this.state.userLoggedIn === false ? <nav><input type="text" onChange={this.updateUsername}/><input type="password" onChange={this.updatePassword}/><button onClick={this.submitUser}>Login</button>Navbar</nav> : null }
       <div className="">
-        { this.state.userLoggedIn === true ? <InteractiveMap
+        { this.state.userLoggedIn === true || this.state.userLoggedIn === false ? <InteractiveMap
           height={this.state.windowDimensions.height}
           width={this.state.windowDimensions.width}
           publishDetails={this.displayFacilityDetails}
