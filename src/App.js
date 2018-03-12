@@ -114,7 +114,7 @@ class App extends Component {
 
     return (
       <div>
-      { this.state.userLoggedIn === false ? <nav><input type="text" onChange={this.updateUsername} placeholder="b@b.com"/><input type="password" onChange={this.updatePassword} placeholder="P@55word"/><button onClick={this.submitUser}>Login</button>Navbar</nav> : null }
+      { this.state.userLoggedIn === false ? <nav><input type="text" onChange={this.updateUsername}/><input type="password" onChange={this.updatePassword}/><button onClick={this.submitUser}>Login</button>Navbar</nav> : null }
       <div className="">
         { this.state.userLoggedIn === true ? <InteractiveMap
           height={this.state.windowDimensions.height}
