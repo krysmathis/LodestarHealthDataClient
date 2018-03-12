@@ -20,8 +20,7 @@
     color: black;
     margin: 10px;
     padding: 10px;
-    border-radius: 15px;
-    box-shadow: 5px 5px 5px rgba(0,0,0,.5);
+    box-shadow: 1px 1px 1px rgba(0,0,0,.5);
     /* inline-block absolute top right mt12 ml12 bg-darken75 color-white z1 txt-s txt-bold */
 }
 .filterBox li{

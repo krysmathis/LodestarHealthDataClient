@@ -28,12 +28,14 @@ class InteractiveMap extends React.Component {
       facilityAvg: {},
       facilitiesInRange: [],
       popupInfo: null,
-      apiUrl: 'https://api.lodestarhealthdata.com/api/Facility'
+      apiUrl: 'https://api.lodestarhealthdata.com/api/Facility',
+      token: null
     };
 
     
     this._renderFacilityMarker = this._renderFacilityMarker.bind(this);
     this._goToViewport = this._goToViewport.bind(this);
+    this.getSavedToken = this.getSavedToken.bind(this);
   }
 
  
@@ -56,12 +58,16 @@ class InteractiveMap extends React.Component {
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position =>
-        console.log(position)
+        console.log("navigator position ", position)
       );
     } else {
       console.log("nope");
     }
           
+  }
+
+  getSavedToken() {
+    return localStorage.getItem("token")
   }
 
   // queries the API to return the listed facilities
@@ -74,10 +80,20 @@ class InteractiveMap extends React.Component {
       targetUrl = "http://localhost:5000/api/Facility";
     } 
     
-    fetch (targetUrl)
-        .then(result =>(result.json())) // convert to json
-        .then(data => {
-            
+    fetch (targetUrl, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Authorization': 'Bearer ' + this.getSavedToken()
+      }
+    }).then(result =>{
+      if(result.ok) {
+        return result.json();
+      }
+    }) // convert to json
+    .then(data => {
+      if(data) {
+        
             const _long = data[0].long;
             const _lat = data[0].lat;
             
@@ -86,15 +102,16 @@ class InteractiveMap extends React.Component {
                 facilities: data
             });
             console.log(data);
-            this._goToViewport(_long,_lat)
+            this._goToViewport(_long,_lat, 8.5)
+          }
         });
   }
 
-  _goToViewport = (longitude, latitude) => {
+  _goToViewport = (longitude, latitude, zoom) => {
     this._onChangeViewport({
       longitude,
       latitude,
-      zoom: 8.5,
+      zoom: zoom,
       transitionInterpolator: new FlyToInterpolator(),
       transitionDuration: 500
     });
@@ -102,7 +119,12 @@ class InteractiveMap extends React.Component {
 
   _searchFormSubmit = (facility) => {
 
-    this._goToViewport(facility.long,facility.lat);
+    this._goToViewport(
+      facility.long, 
+      facility.lat,
+      this.state.viewport.zoom < 8.5 ? 8.5 : this.state.viewport.zoom
+    )
+
     setTimeout(() => this._initializePopupData(facility),100);
     
   };
@@ -176,7 +198,11 @@ class InteractiveMap extends React.Component {
                         () => {
                           this._initializePopupData(facility);
                           // now center the map on the clicked location
-                          setTimeout(() => this._goToViewport(facility.long, facility.lat),100);
+                          setTimeout(() => this._goToViewport(
+                              facility.long, 
+                              facility.lat,
+                              this.state.viewport.zoom < 8.5 ? 8.5 : this.state.viewport.zoom)
+                            ,100);
                         }} />
       </Marker>
     );
