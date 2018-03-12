@@ -15,7 +15,10 @@ class App extends Component {
       },
       facility: null,
       showSidebar: false,
-      overlayClass: 'map-overlay hidden'
+      overlayClass: 'map-overlay hidden',
+      username: null,
+      password: null,
+      apiUrl: 'https://api.lodestarhealthdata.com/api/token'
     };
     this.displayFacilityDetails = this.displayFacilityDetails.bind(this);
   }
@@ -54,14 +57,65 @@ class App extends Component {
     })
   }
 
-  hideSidebar() {
-
+  
+  //*********************************** 
+  // handler for accessing the tokens and login
+  isUserLoggedIn(){
+    return localStorage.getItem("token") !== null;
+  }        
+  
+  getSavedToken() {
+    return localStorage.getItem("token");
   }
+
+  updateUsername = (evt) => {
+    this.setState({username: evt.target.value});
+  }
+  
+  updatePassword = (evt) => {
+    this.setState({password: evt.target.value});
+  }
+
+  submitUser = (evt) => {
+    // build url
+    // this will use the API if not in developement mod
+    let targetUrl = this.state.apiUrl;
+
+    // handling production vs development in a simple way    
+    if (window.location.href === "http://localhost:3000/") {
+      targetUrl = "http://localhost:5000/api/token";
+    } 
+
+    let target = `${targetUrl}/?username=${this.state.username}&password=${this.state.password}`
+    fetch(target, {
+      method:'POST',
+      headers : { 
+        'Accept': 'application/json'
+       }
+    }).then((token) => token.json().then(t => console.log(t)));
+  } 
+
+  /*
+  $('#btLogin').click(function() {
+      $.post("http://localhost:5000/api/token", $.param({username: $('#username').val(), password: $('#password').val()})).done(function(token){
+          localStorage.setItem("token", token);
+          $('#btLoginContainer').hide();
+          $('#btLogoutContainer').show();
+          var message = "<p>Token received and saved in local storage under the key 'token'</p>";
+          message += "<p>Token Value: </p><p style='word-wrap:break-word'>" + token + "</p>";
+          $('#responseContainer').html(message);                                            
+      }).fail(handleError);
+  });
+
+  */
+  //***********************************
+  
 
   render() {
 
     return (
       <div>
+      <nav><input type="text" onChange={this.updateUsername} placeholder="b@b.com"/><input type="password" onChange={this.updatePassword} placeholder="P@55word"/><button onClick={this.submitUser}>Login</button>Navbar</nav>
       <div className="">
         <InteractiveMap
           height={this.state.windowDimensions.height}
