@@ -220,7 +220,7 @@ class InteractiveMap extends React.Component {
       f.lat,
       f.long,
       "N"
-    ) < 50 && f !== facility );
+    ) < 50 );
     
     this.setState({popupInfo: facility});
     this.props.publishDetails(facility, nearby);

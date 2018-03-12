@@ -1,5 +1,14 @@
 import React from 'react';
-import {XYPlot, MarkSeries} from 'react-vis';
+import {XYPlot, 
+        XAxis,
+        YAxis,
+        MarkSeries,
+        VerticalGridLines,
+        HorizontalGridLines,
+        HorizontalBarSeries,
+        VerticalBarSeries,
+        HorizontalBarSeriesCanvas
+    } from 'react-vis';
 import '../../node_modules/react-vis/dist/style.css';
 
 const styles = {
@@ -18,6 +27,12 @@ const styles = {
 
 class FacilitySidebar extends React.Component {
 
+    generateData = () => {
+        //overall_Hospital_Linear_Mean_Score
+        return this.props.facilitiesInRange.map((f,idx) => {
+            return {x: f.facility_Name.substring(0,15), y: f.overall_Hospital_Linear_Mean_Score, color: idx}
+        })
+    }
     
     renderNearbyLocationNames = () => {
 
@@ -27,25 +42,41 @@ class FacilitySidebar extends React.Component {
         }
 
         return (
+            <div>
+            <h1>Nearby Locations</h1>
             <ul>
-            <h3>Nearby Locations</h3>
             {this.props.facilitiesInRange.map((f) => 
-                <li key={`neaby-${f.facilityId}`}>{f.facility_Name}</li>
+                f.facilityId === this.props.facility.facilityId ? null : <li key={`neaby-${f.facilityId}`}>{f.facility_Name}</li>
              )}
              </ul>
+             </div>
              
         )
     }
 
-    render() {
+    barChart = () => {
+       return (
+        <div>
+            <h2>Overall Hospital Linear Mean Score</h2>
+            <XYPlot
+            xType="ordinal"
+            width={300}
+            height={300}
+            xDistance={100}
+            >
+            <VerticalGridLines />
+            <HorizontalGridLines />
+            <XAxis />
+            <YAxis />
+            <VerticalBarSeries 
+                className="vertical-bar-series-example"
+                data={this.generateData()}/>
+            </XYPlot>
+        </div>
+       );
+    }
 
-        const myData = [
-            {x: 1, y: 10, size: Math.floor(Math.random() * 20)},
-            {x: 1.7, y: 12, size: 10},
-            {x: 2, y: 5, size: 1},
-            {x: 3, y: 15, size: 12},
-            {x: 2.5, y: 7, size: 4}
-        ];
+    render() {
         
         const header = (<div>
                             <p>This section could display the detail</p>
@@ -58,15 +89,8 @@ class FacilitySidebar extends React.Component {
             return  (
                 <div>
                 <div>{this.props.facility.system_Affiliation_Name}</div>
-                { this.renderNearbyLocationNames()}
-                <XYPlot style={{...styles.box}}
-                width={200}
-                height={200}>
-                <MarkSeries
-                    className="mark-series-example"
-                    sizeRange={[5, 15]}
-                    data={myData}/>
-                </XYPlot>
+                { this.renderNearbyLocationNames() }
+                { this.barChart() }
                 </div>
                 )
         }

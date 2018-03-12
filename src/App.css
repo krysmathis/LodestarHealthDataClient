@@ -11,6 +11,10 @@
   overflow: hidden;
 }
 
+.map-overlay h1 {
+  font-size: 1.5em !important;
+}
+
 .hidden {
   display: none;
 }
