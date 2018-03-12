@@ -91,7 +91,7 @@ class App extends Component {
 
     // handling production vs development in a simple way    
     if (window.location.href === "http://localhost:3000/") {
-      targetUrl = "http://localhost:5000/api/token";
+      //targetUrl = "http://localhost:5000/api/token";
     } 
 
     let target = `${targetUrl}/?username=${this.state.username}&password=${this.state.password}`

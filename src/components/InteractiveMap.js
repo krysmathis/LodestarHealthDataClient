@@ -77,15 +77,15 @@ class InteractiveMap extends React.Component {
     
     // handling production vs development in a simple way    
     if (window.location.href === "http://localhost:3000/") {
-      targetUrl = "http://localhost:5000/api/Facility";
+      //targetUrl = "http://localhost:5000/api/Facility";
     } 
     
     fetch (targetUrl, {
       method: 'GET',
       mode: 'cors',
-      headers: {
-        'Authorization': 'Bearer ' + this.getSavedToken()
-      }
+      // headers: {
+      //   'Authorization': 'Bearer ' + this.getSavedToken()
+      // }
     }).then(result =>{
       if(result.ok) {
         return result.json();
