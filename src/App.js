@@ -21,7 +21,7 @@ class App extends Component {
       password: null,
       apiUrl: 'https://api.lodestarhealthdata.com/api/token',
       token: null,
-      userLoggedIn: true // to do update this to actually verify user log in
+      userLoggedIn: false // to do update this to actually verify user log in
     };
     this.displayFacilityDetails = this.displayFacilityDetails.bind(this);
   }
@@ -87,7 +87,7 @@ class App extends Component {
   }
 
   submitUser = (evt) => {
-    // build url
+
     // this will use the API if not in developement mod
     let targetUrl = this.state.apiUrl;
 
