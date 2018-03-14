@@ -1,6 +1,7 @@
 import React from "react";
 import '../../node_modules/animate.css'
 
+
 class FilterBox extends React.Component {
     constructor(props) {
         super(props)
@@ -56,7 +57,7 @@ class FilterBox extends React.Component {
 
     render() {
         return (
-            <div>
+            <div >
                 <input type="text" onChange={this.handleInputChange} onFocus={this.clearText} value={this.state.filterText}/>
                 <ul>{this.renderListOfOptions()}</ul>
             </div>

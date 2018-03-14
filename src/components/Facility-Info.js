@@ -1,4 +1,8 @@
 import React, {PureComponent} from 'react';
+import QualityTable from './tables/QualityTable';
+import MarketTable from './tables/MarketTable';
+import FinanceTable from './tables/FinanceTable';
+import InformationTable from './tables/InformationTable';
 
 const styles = {
   box: {
@@ -10,7 +14,12 @@ const styles = {
   },
   another: {
     backgroundColor: 'red'
+  },
+  info__h2: {
+    fontWeight: 800
   }
+  
+  
 
 }
 
@@ -22,13 +31,15 @@ export default class FacilityInfo extends PureComponent {
 
     return (
       <div style={{...styles.box}}>
-        <div >
+        <h2 className="info__h2">
           {displayName} 
-        </div>
-        <div>
-          Affiliation: {info.system_Affiliation_Name}
-        </div>
-          {/* <img width={240} src={info.image} alt="location marker"/> */}
+        </h2>
+        
+        <InformationTable facility={info}/>
+        <QualityTable facility={info}/>
+        <MarketTable facility={info}/>
+        <FinanceTable facility={info}/>
+        <button class="btn btn-primary">Make Home Location</button>
       </div>
     );
   }

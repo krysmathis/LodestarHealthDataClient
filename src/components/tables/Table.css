@@ -1,0 +1,13 @@
+
+
+.column__name {
+    width: 60%;
+}
+
+.data__table {
+    text-align: left;
+    width: 100%;
+}
+
+tr:nth-child(even) {background: #CCC}
+tr:nth-child(odd) {background: #FFF}

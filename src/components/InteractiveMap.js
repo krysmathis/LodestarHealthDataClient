@@ -5,11 +5,14 @@ import FacilityPin from './Facility-Pin';
 import FacilityInfo from './Facility-Info';
 import FilterBox from './Filter-Box';
 import './InteractiveMap.css';
-import distance from '../DistanceCalc';
+import distance from '../utils/DistanceCalc';
 
 // import {fromJS} from '../../node_modules/immutable/dist/immutable'
 
 MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhycTdjeDlsNzZ5In0.D1mdaVwx9hmI47dZd0cvRQ';
+
+// default level of zoom for the map
+const defaultZoom = 8.5;
 
 class InteractiveMap extends React.Component {
   constructor(props) {
@@ -18,7 +21,7 @@ class InteractiveMap extends React.Component {
       viewport: {
         latitude: 36.6536025,
         longitude: -86.4004877,
-        zoom: 8,
+        zoom: 8.5,
         width: this.props.width,
         height: this.props.height,
         startDragLngLat: null,
@@ -74,20 +77,21 @@ class InteractiveMap extends React.Component {
 
   // queries the API to return the listed facilities
   getFacilities()  {
+
     // this will use the API if not in developement mod
     let targetUrl = this.state.apiUrl;
     
     // handling production vs development in a simple way    
     if (window.location.href === "http://localhost:3000/") {
-        //targetUrl = "http://localhost:5000/api/Facility";
+        targetUrl = "http://localhost:5000/api/Facility";
     } 
     
     fetch (targetUrl, {
       method: 'GET',
       mode: 'cors',
-      // headers: {
-      //   'Authorization': 'Bearer ' + this.getSavedToken()
-      // }
+      headers: {
+        'Authorization': 'Bearer ' + this.getSavedToken()
+      }
     }).then(result =>{
       if(result.ok) {
         return result.json();
@@ -124,7 +128,7 @@ class InteractiveMap extends React.Component {
     this._goToViewport(
       facility.long, 
       facility.lat,
-      this.state.viewport.zoom < 8.5 ? 8.5 : this.state.viewport.zoom
+      this.state.viewport.zoom < defaultZoom ? defaultZoom : this.state.viewport.zoom
     )
 
     setTimeout(() => this._initializePopupData(facility),100);
@@ -146,12 +150,12 @@ class InteractiveMap extends React.Component {
     return bounds;
   };
 
-  _withinBounds = latLon => {
+  _withinBounds = facility => {
     return (
-      latLon.lat >= this._getBounds().lat.low &&
-      latLon.lat <= this._getBounds().lat.high &&
-      latLon.lon >= this._getBounds().lon.low &&
-      latLon.lon <= this._getBounds().lon.high
+      facility.lat >= this._getBounds().lat.low &&
+      facility.lat <= this._getBounds().lat.high &&
+      facility.long >= this._getBounds().lon.low &&
+      facility.long <= this._getBounds().lon.high
     );
   };
 
@@ -165,18 +169,24 @@ class InteractiveMap extends React.Component {
 
 
   _renderFacilityMarker = (facility, index) => {
-    const zoomChangeAt = 8.5;
+   
+    const zoomChangeAt = defaultZoom;
     // do not render if there is nothing to render  
     if (facility.length === 0) {
       return; 
     }
 
     const system = facility.system_Affiliation_Name;
+    
     // could control the color and size from here as each Marker is a one
     // to one representation of a facility
     let color = "black"
-    let markerSize = 20;
+
+    // marker size is dynamic based on a calculation
+    let markerSize = facility.cY_Discharges/1000;
+
     system === "HCA" ? markerSize = (markerSize * 2) : markerSize = 20;
+    
     if (this.state.viewport.zoom < zoomChangeAt) {
       markerSize = 5;
 
@@ -203,8 +213,8 @@ class InteractiveMap extends React.Component {
                           setTimeout(() => this._goToViewport(
                               facility.long, 
                               facility.lat,
-                              this.state.viewport.zoom < 8.5 ? 8.5 : this.state.viewport.zoom)
-                            ,100);
+                              this.state.viewport.zoom < defaultZoom ? defaultZoom : this.state.viewport.zoom)
+                            ,200);
                         }} />
       </Marker>
     );
@@ -220,7 +230,7 @@ class InteractiveMap extends React.Component {
       f.lat,
       f.long,
       "N"
-    ) < 50 );
+    ) < 5 );
     
     this.setState({popupInfo: facility});
     this.props.publishDetails(facility, nearby);
@@ -268,7 +278,7 @@ class InteractiveMap extends React.Component {
       <div className="locationBlock">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
-          {this.state.facilities.map(this._renderFacilityMarker)}
+          {this.state.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}
           {this._renderPopup()}
         {/* <Info />
         <Legend /> */}  
