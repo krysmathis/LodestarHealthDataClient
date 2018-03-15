@@ -127,7 +127,9 @@ class InteractiveMap extends React.Component {
     if the facility is an HCA facility or not
     */
    let markerSize = facility.cY_Discharges/this.props.avgMarkerSize * baseMarkerSize;
-   system === "HCA" ? markerSize = (markerSize * 2) : markerSize;
+   if(system === "HCA") {
+      markerSize = (markerSize * 2)
+   } 
    
    /*
    When zoomed out, do two things: 

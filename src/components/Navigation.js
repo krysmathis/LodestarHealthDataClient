@@ -22,16 +22,21 @@ export default class Navigation extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        
         this.setState({
             loggedIn: nextProps.userLoggedIn
         })
     }
 
-    componentWillMount() {
-        
-        console.log("Mounting with:", this.props);
+    updateLoggedIn = (username) => {
+        // check if there is a token first
+        if (localStorage.getItem("token") !== null) {
+            this.setState({
+                loggedIn: username
+            })
+        }
     }
-
+    
     updateUsername = (evt) => {
         this.setState({username: evt.target.value});
     }
@@ -58,6 +63,14 @@ export default class Navigation extends Component {
         }
     }
 
+    logout = () => {
+        this.props.userLogOut();
+        this.setState({
+            loggedIn: null
+        })
+    }
+
+    
     /*
         Description:
         In the render function, the program creates a reference to the 
@@ -78,7 +91,7 @@ export default class Navigation extends Component {
                     <input type="password" onChange={this.updatePassword}/>
                     <button onClick={this.submitUser}>Login</button>
                 </div>
-           : <div>{this.props.userLoggedIn} <button>Logout</button></div> }
+           : <div>{this.props.userLoggedIn} <button onClick={this.logout}>Logout</button></div> }
             <div className="filterBox">
                 <FilterBox facilities={this.props.facilities} onSubmit={this.submitFacility}/>
             </div>

@@ -16,7 +16,6 @@ class App extends Component {
     
     this.getSavedToken = this.getSavedToken.bind(this);
   }
-
   
   //*********************************** 
   // handler for accessing the tokens and login
@@ -32,12 +31,12 @@ class App extends Component {
 
   isUserLoggedIn(){
    
-    if (this.state.token !== null) {
+    if (localStorage.getItem("token") !== null) {
       fetch (this.state.apiUrl, {
         method: 'GET',
         mode: 'cors',
         headers: {
-          'Authorization': 'Bearer ' + this.state.token
+          'Authorization': 'Bearer ' + localStorage.getItem("token")
         }
       }).then(result =>{
 
@@ -47,7 +46,7 @@ class App extends Component {
       }).then(r => {
         this.setState({
           userLoggedIn: r.username
-        })
+        }, () => this.container.updateUsernameInNav(r.username))
       })
     } else {
       this.setState({
@@ -84,6 +83,14 @@ class App extends Component {
         this.isUserLoggedIn();
     });
   } 
+
+  logoutUser = () => {
+    localStorage.removeItem("token");
+    this.setState({
+      token: null,
+      userLoggedIn: null
+    })
+  }
   //***********************************
   
 
@@ -91,7 +98,7 @@ class App extends Component {
 
     return (
       <div>
-      <MapContainer userLoggedIn={this.state.userLoggedIn} onSubmit={this.submitUser}/>
+      <MapContainer ref={container => {this.container = container}} userLoggedIn={this.state.userLoggedIn} userLogOut={this.logoutUser} onSubmit={this.submitUser}/>
       
       </div>
       

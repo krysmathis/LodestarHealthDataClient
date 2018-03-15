@@ -24,6 +24,7 @@ export default class MapContainer extends React.Component {
         facilities: [],
         avgMarkerSize: 6000
        }
+
        this.displayFacilityDetails = this.displayFacilityDetails.bind(this);
        this.getSavedToken = this.getSavedToken.bind(this);
 
@@ -109,9 +110,7 @@ export default class MapContainer extends React.Component {
       if(data) {
 
             // TODO: capture the user's home location
-            const _long = data[0].long;
-            const _lat = data[0].lat;
-            
+            this.getHomeLocation();
             /*
               Calculate the average marker size in order to create a scalable
               marker size
@@ -123,7 +122,6 @@ export default class MapContainer extends React.Component {
             
           
             this.setState({
-                xy: [_long, _lat],
                 facilities: data,
                 avgMarkerSize: _avgMarkerSize
             });
@@ -136,11 +134,20 @@ export default class MapContainer extends React.Component {
     this.map._searchFormSubmit(facility);
   }
 
+  updateUsernameInNav = (username) => {
+    this.nav.updateLoggedIn(username);
+    this.getHomeLocation();
+  }
+
   /*
     Allow the user to post a home location to the database
   */
   submitHomeLocation = (latitude, longitude) => {
-    console.log("home location")
+
+    if (this.props.userLoggedIn === null) {
+      return;
+    }
+
     fetch (this.getApiPath()+ `/homelocation?username=${this.props.userLoggedIn}&latitude=${latitude}&longitude=${longitude}`, {
       method: 'POST',
       mode: 'cors',
@@ -155,10 +162,40 @@ export default class MapContainer extends React.Component {
 
   }
 
+  getHomeLocation = () => {
+    
+    if (this.props.userLoggedIn === null) {
+      return;
+    }
+
+    fetch (this.getApiPath()+ `/homelocation?username=${this.props.userLoggedIn}`, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Authorization': 'Bearer ' + this.getSavedToken()
+      }
+    }).then(result =>{
+      if(result.ok) {
+        return result.json()
+      }
+    }).then(r => {
+    
+      if (r !== undefined) {
+        const _lat = r.lat;
+        const _lon = r.lon;
+  
+        // adjust the viewport to the saved location
+        this.map._goToViewport(_lon,_lat, 8.5);
+      }
+
+    }) // convert to json
+
+  }
+
   render() {
     return (
       <div className="">
-      <Navigation facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest}/>
+      <Navigation ref={nav => {this.nav = nav}} userLogOut={this.props.userLogOut} facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest}/>
         <div>
           { <InteractiveMap
             height={this.state.windowDimensions.height}
