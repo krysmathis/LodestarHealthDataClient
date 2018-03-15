@@ -19,7 +19,7 @@ export default class MapContainer extends React.Component {
         facility: null,
         showSidebar: false,
         overlayClass: 'map-overlay hidden',
-        apiUrl: 'https://api.lodestarhealthdata.com/api/',
+        apiUrl: 'https://api.lodestarhealthdata.com/api',
         token: null,
         facilities: [],
         avgMarkerSize: 6000
