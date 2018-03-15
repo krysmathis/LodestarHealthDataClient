@@ -23,6 +23,11 @@ const styles = {
 
 export default class FacilityInfo extends PureComponent {
 
+  setHomeLocation = () => {
+    const {info} = this.props;
+    this.props.setHomeLocation(info.lat, info.long);
+  }
+
   render() {
     const {info} = this.props;
     const displayName = `${info.facility_Name}`;
@@ -37,7 +42,7 @@ export default class FacilityInfo extends PureComponent {
         <QualityTable facility={info}/>
         <MarketTable facility={info}/>
         <FinanceTable facility={info}/>
-        <button className="btn btn-primary">Make Home Location</button>
+        <button className="btn btn-primary" onClick={this.setHomeLocation}>Make Home Location</button>
       </div>
     );
   }

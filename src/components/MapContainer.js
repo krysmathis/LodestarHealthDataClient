@@ -19,7 +19,7 @@ export default class MapContainer extends React.Component {
         facility: null,
         showSidebar: false,
         overlayClass: 'map-overlay hidden',
-        apiUrl: 'https://api.lodestarhealthdata.com/api/Facility',
+        apiUrl: 'https://api.lodestarhealthdata.com/api/',
         token: null,
         facilities: [],
         avgMarkerSize: 6000
@@ -77,17 +77,24 @@ export default class MapContainer extends React.Component {
     return localStorage.getItem("token")
   }
 
-  // queries the API to return the listed facilities
-  getFacilities()  {
-    // this will use the API if not in developement mod
+  getApiPath = () => {
+    
     let targetUrl = this.state.apiUrl;
     
     // handling production vs development in a simple way    
     if (window.location.href === "http://localhost:3000/") {
-        targetUrl = "http://localhost:5000/api/Facility";
+        targetUrl = "http://localhost:5000/api";
     } 
+
+    return targetUrl;
+  }
+
+  // queries the API to return the listed facilities
+  getFacilities()  {
+    // this will use the API if not in developement mod
+
     
-    fetch (targetUrl, {
+    fetch (this.getApiPath() + "/Facility", {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -100,6 +107,8 @@ export default class MapContainer extends React.Component {
     }) // convert to json
     .then(data => {
       if(data) {
+
+            // TODO: capture the user's home location
             const _long = data[0].long;
             const _lat = data[0].lat;
             
@@ -127,6 +136,25 @@ export default class MapContainer extends React.Component {
     this.map._searchFormSubmit(facility);
   }
 
+  /*
+    Allow the user to post a home location to the database
+  */
+  submitHomeLocation = (latitude, longitude) => {
+    console.log("home location")
+    fetch (this.getApiPath()+ `/homelocation?username=${this.props.userLoggedIn}&latitude=${latitude}&longitude=${longitude}`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Authorization': 'Bearer ' + this.getSavedToken()
+      }
+    }).then(result =>{
+      if(result.ok) {
+        console.log(result.json())
+      }
+    }) // convert to json
+
+  }
+
   render() {
     return (
       <div className="">
@@ -139,6 +167,7 @@ export default class MapContainer extends React.Component {
             facilities={this.state.facilities}
             ref={map => { this.map = map; }}
             avgMarkerSize={this.state.avgMarkerSize}
+            setHomeLocation={this.submitHomeLocation}
           /> }
         <div className={this.state.overlayClass}>
           { this.state.showSidebar ? <FacilitySidebar onClick={this.hideSidebar} facility={this.state.facility} facilitiesInRange={this.state.facilitiesInRange}/> : null }

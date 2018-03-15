@@ -204,7 +204,7 @@ class InteractiveMap extends React.Component {
           this.setState({popupInfo: null})
           this.props.publishDetails(null)
           }} >
-        <FacilityInfo info={popupInfo} />
+        <FacilityInfo info={popupInfo} setHomeLocation={this.props.setHomeLocation}/>
       </Popup>
     );
   }
