@@ -1,13 +1,5 @@
 import React from 'react';
-import numberWithCommas from '../../utils/NumbersWithCommas';
 import './Table.css';
-
-const style = {
-    table: {
-        textAlign: 'left',
-        width: '100%'
-    }
-}
 
 const dollarConvert = (num) => "$"  + (num/1000000).toFixed(1) + " MM";
 
@@ -25,7 +17,6 @@ export default class FinanceTable extends React.Component {
                 total_Liabilities
             } = this.props.facility
 
-        console.log(this.props.facility)
         return (
         <table className="data__table">
         <thead>

@@ -1,11 +1,5 @@
 import React from 'react';
 
-const style = {
-    table: {
-        textAlign: 'left',
-        width: '100%'
-    }
-}
 
 export default class InformationTable extends React.Component {
     
@@ -13,13 +7,11 @@ export default class InformationTable extends React.Component {
         
         const {
             system_Affiliation_Name,
-            overall_Hospital_Linear_Mean_Score,
             likelihood_To_Recommend, 
             cY_Discharges,
             
             } = this.props.facility
 
-        console.log(this.props.facility)
         return (
         <table className="data__table">
         <thead>

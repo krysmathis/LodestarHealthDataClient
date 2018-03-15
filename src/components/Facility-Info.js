@@ -19,8 +19,6 @@ const styles = {
     fontWeight: 800
   }
   
-  
-
 }
 
 export default class FacilityInfo extends PureComponent {
@@ -39,7 +37,7 @@ export default class FacilityInfo extends PureComponent {
         <QualityTable facility={info}/>
         <MarketTable facility={info}/>
         <FinanceTable facility={info}/>
-        <button class="btn btn-primary">Make Home Location</button>
+        <button className="btn btn-primary">Make Home Location</button>
       </div>
     );
   }

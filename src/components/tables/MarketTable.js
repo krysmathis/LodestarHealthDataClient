@@ -1,12 +1,6 @@
 import React from 'react';
 import numberWithCommas from '../../utils/NumbersWithCommas';
 
-const style = {
-    table: {
-        textAlign: 'left',
-        width: '100%'
-    }
-}
 
 
 export default class MarketTable extends React.Component {

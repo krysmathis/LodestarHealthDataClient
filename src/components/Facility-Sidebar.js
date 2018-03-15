@@ -2,27 +2,11 @@ import React from 'react';
 import {XYPlot, 
         XAxis,
         YAxis,
-        MarkSeries,
         VerticalGridLines,
         HorizontalGridLines,
-        HorizontalBarSeries,
         VerticalBarSeries,
-        HorizontalBarSeriesCanvas
     } from 'react-vis';
 import '../../node_modules/react-vis/dist/style.css';
-
-const styles = {
-    box: {
-      backgroundColor: 'white',
-      margin: 0,
-      padding: 10,
-      width: '100%',
-      zIndex: 100,
-    },
-    another: {
-      backgroundColor: 'red'
-    }
-  }
   
 
 class FacilitySidebar extends React.Component {

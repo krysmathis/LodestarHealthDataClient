@@ -30,7 +30,6 @@ class FilterBox extends React.Component {
 
     submitFilter = (evt) => {
 
-        console.log(evt.target.id)
         // get the lat and long from the facility based on the id
         const facility = this.props.facilities.find(f => f.facilityId === parseInt(evt.target.id,0))
         this.exitFilter();

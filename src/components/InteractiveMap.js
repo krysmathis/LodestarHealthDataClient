@@ -1,5 +1,5 @@
 import React from "react";
-import MAPBOXGL, {Popup, Marker, FlyToInterpolator, NavigationControl as navigator} from 'react-map-gl';
+import MAPBOXGL, {Popup, Marker, FlyToInterpolator} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import FacilityInfo from './Facility-Info';
@@ -40,7 +40,6 @@ class InteractiveMap extends React.Component {
     
     this._renderFacilityMarker = this._renderFacilityMarker.bind(this);
     this._goToViewport = this._goToViewport.bind(this);
-    this.getSavedToken = this.getSavedToken.bind(this);
   }
 
  
@@ -58,59 +57,7 @@ class InteractiveMap extends React.Component {
   
 
   componentDidMount() {
-
-    this.getFacilities(); 
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position =>
-        console.log("navigator position ", position)
-      );
-    } else {
-      console.log("nope");
-    }
-          
-  }
-
-  getSavedToken() {
-    return localStorage.getItem("token")
-  }
-
-  // queries the API to return the listed facilities
-  getFacilities()  {
-
-    // this will use the API if not in developement mod
-    let targetUrl = this.state.apiUrl;
-    
-    // handling production vs development in a simple way    
-    if (window.location.href === "http://localhost:3000/") {
-        targetUrl = "http://localhost:5000/api/Facility";
-    } 
-    
-    fetch (targetUrl, {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        'Authorization': 'Bearer ' + this.getSavedToken()
-      }
-    }).then(result =>{
-      if(result.ok) {
-        return result.json();
-      }
-    }) // convert to json
-    .then(data => {
-      if(data) {
-        
-            const _long = data[0].long;
-            const _lat = data[0].lat;
-            
-            this.setState({
-                xy: [_long, _lat],
-                facilities: data
-            });
-            console.log(data);
-            this._goToViewport(_long,_lat, 8.5)
-          }
-        });
+ 
   }
 
   _goToViewport = (longitude, latitude, zoom) => {
@@ -224,7 +171,7 @@ class InteractiveMap extends React.Component {
     
     // this is where we could publish data into the sidebar
     // collect the nearby facilities
-    let nearby = this.state.facilities.filter(f => distance(
+    let nearby = this.props.facilities.filter(f => distance(
       facility.lat,
       facility.long,
       f.lat,
@@ -235,7 +182,6 @@ class InteractiveMap extends React.Component {
     this.setState({popupInfo: facility});
     this.props.publishDetails(facility, nearby);
     
-    console.log("nearby: ", nearby);
 
 }
 
@@ -272,12 +218,12 @@ class InteractiveMap extends React.Component {
         >
       <div className="filterBox">
         <div>Search by Facility Name</div>
-        <FilterBox facilities={this.state.facilities} onSubmit={this._searchFormSubmit}/>
+        <FilterBox facilities={this.props.facilities} onSubmit={this._searchFormSubmit}/>
       </div>
       <div className="locationBlock">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
-          {this.state.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}
+          {this.props.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}
           {this._renderPopup()}
         {/* <Info />
         <Legend /> */}  

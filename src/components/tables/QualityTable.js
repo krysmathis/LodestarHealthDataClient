@@ -1,11 +1,5 @@
 import React from 'react';
 
-const style = {
-    table: {
-        textAlign: 'left',
-        width: '100%'
-    }
-}
 
 export default class QualityTable extends React.Component {
     
