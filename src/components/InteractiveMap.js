@@ -270,11 +270,10 @@ class InteractiveMap extends React.Component {
         ref={map => (this.mapRef = map)}
         {...viewport}
         >
-    
-        <div className="filterBox">
-          <div>Search by Facility Name</div>
-          <FilterBox facilities={this.state.facilities} onSubmit={this._searchFormSubmit}/>
-        </div>
+      <div className="filterBox">
+        <div>Search by Facility Name</div>
+        <FilterBox facilities={this.state.facilities} onSubmit={this._searchFormSubmit}/>
+      </div>
       <div className="locationBlock">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>

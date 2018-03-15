@@ -15,6 +15,7 @@ export default class InformationTable extends React.Component {
             system_Affiliation_Name,
             overall_Hospital_Linear_Mean_Score,
             likelihood_To_Recommend, 
+            cY_Discharges,
             
             } = this.props.facility
 
@@ -32,11 +33,15 @@ export default class InformationTable extends React.Component {
             <td className="column__name">System Affiliation</td>
             <td>{system_Affiliation_Name}</td> 
         </tr>
+
+        <tr>
+            <td>CY Discharges</td>
+            <td>{cY_Discharges}</td> 
+        </tr>
         <tr>
             <td>Likelihood To Recommend</td>
             <td>{likelihood_To_Recommend}</td> 
         </tr>
-
         </tbody>
         </table>
         )

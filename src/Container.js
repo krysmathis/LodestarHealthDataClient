@@ -4,6 +4,7 @@ import './../node_modules/animate.css'
 import InteractiveMap from "./components/InteractiveMap.js";
 import FacilitySidebar from './components/Facility-Sidebar';
 
+
 export default class Container extends Component {
     constructor(props) {
         super(props);
@@ -118,7 +119,12 @@ export default class Container extends Component {
     
         return (
           <div>
-          { this.state.userLoggedIn === false ? <nav><input type="text" onChange={this.updateUsername}/><input type="password" onChange={this.updatePassword}/><button onClick={this.submitUser}>Login</button></nav> : null }
+          { this.state.userLoggedIn === false ? 
+          <nav>
+            <input type="text" onChange={this.updateUsername}/>
+            <input type="password" onChange={this.updatePassword}/>
+            <button onClick={this.submitUser}>Login</button>
+            </nav> : null }
           <div className="">
             { this.state.userLoggedIn === true || this.state.userLoggedIn === false ? <InteractiveMap
               height={this.state.windowDimensions.height}
