@@ -7,43 +7,59 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
       username: null,
       password: null,
       apiUrl: 'https://api.lodestarhealthdata.com/api/token',
       token: null,
-      userLoggedIn: false // to do update this to actually verify user log in
+      userLoggedIn: null // to do update this to actually verify user log in
     };
+    
+    this.getSavedToken = this.getSavedToken.bind(this);
+  }
+
+  
+  //*********************************** 
+  // handler for accessing the tokens and login
+  componentWillMount() {
+    this.getSavedToken();
+  }
+
+  getSavedToken()  {
+    const _token = {token: localStorage.getItem("token")}
+    this.setState(_token,() => this.isUserLoggedIn());
     
   }
 
-
-  //*********************************** 
-  // handler for accessing the tokens and login
-
   isUserLoggedIn(){
-    const loggedIn = localStorage.getItem("token") !== null;
-    this.setState({
-      userLoggedIn: loggedIn
-    }) 
-    return loggedIn
+   
+    if (this.state.token !== null) {
+      fetch (this.state.apiUrl, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Authorization': 'Bearer ' + this.state.token
+        }
+      }).then(result =>{
+
+        if(result.ok) {
+          return result.json();
+        }
+      }).then(r => {
+        this.setState({
+          userLoggedIn: r.username
+        })
+      })
+    } else {
+      this.setState({
+        userLoggedIn: null
+      }) 
+    }
+
   }        
   
-  getSavedToken() {
-    this.setState({
-      token: localStorage.getItem("token")
-    });
-  }
-
-  updateUsername = (evt) => {
-    this.setState({username: evt.target.value});
-  }
+ 
   
-  updatePassword = (evt) => {
-    this.setState({password: evt.target.value});
-  }
-
-  submitUser = (evt) => {
+  submitUser = (username, password) => {
 
     // this will use the API if not in developement mod
     let targetUrl = this.state.apiUrl;
@@ -53,7 +69,7 @@ class App extends Component {
       targetUrl = "http://localhost:5000/api/token";
     } 
 
-    let target = `${targetUrl}/?=${this.state.username}&password=${this.state.password}`
+    let target = `${targetUrl}/?=${username}&password=${password}`
     fetch(target, {
       method:'POST',
       headers : { 
@@ -75,13 +91,7 @@ class App extends Component {
 
     return (
       <div>
-      { this.state.userLoggedIn === false ? 
-      <nav>
-        <input type="text" onChange={this.updateUsername}/>
-        <input type="password" onChange={this.updatePassword}/>
-        <button onClick={this.submitUser}>Login</button>
-      </nav> : null }
-      <MapContainer userLoggedIn={this.state.userLoggedIn} />
+      <MapContainer userLoggedIn={this.state.userLoggedIn} onSubmit={this.submitUser}/>
       
       </div>
       

@@ -11,8 +11,7 @@ const pinStyle = {
 export default class FacilityPin extends PureComponent {
 
   render() {
-    const {size = 20, color, onClick, opacity} = this.props;
-    
+    const {size, color, onClick, opacity} = this.props;
     return (
      
       <svg height={size*2} width={size*2}

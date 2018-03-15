@@ -41,6 +41,7 @@ class FilterBox extends React.Component {
     }
 
     renderListOfOptions() {
+        
         if (this.props.facilities === null || 
             this.state.filterText === null ||
             this.state.filterText === ''
@@ -48,16 +49,16 @@ class FilterBox extends React.Component {
             return
         }
         const filteredResults = this.props.facilities.filter(f => f.facility_Name.toLowerCase().includes(this.state.filterText.toLowerCase()));
-        const lis = filteredResults.map((f) => 
+        const listOfFacilitiesThatContainSubstring = filteredResults.map((f) => 
             <li key={f.facilityId} onClick={this.submitFilter} id={f.facilityId}>{f.facility_Name}</li>
         );
-        return (lis);
+        return (listOfFacilitiesThatContainSubstring);
     }
 
     render() {
         return (
             <div >
-                <input type="text" onChange={this.handleInputChange} onFocus={this.clearText} value={this.state.filterText}/>
+                <input type="text" onChange={this.handleInputChange} onFocus={this.clearText} value={this.state.filterText} placeholder="Search facilities"/>
                 <ul>{this.renderListOfOptions()}</ul>
             </div>
         )

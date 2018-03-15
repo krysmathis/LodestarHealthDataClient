@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './../App.css';
 import './../../node_modules/animate.css'
 import InteractiveMap from './InteractiveMap';
 import FacilitySidebar from './Facility-Sidebar';
+import Navigation from './Navigation';
 
 
 // The map container contains the sidebar and the interactive map
-export default class MapContainer extends Component {
+export default class MapContainer extends React.Component {
     constructor(props) {
       super(props);
        this.state = {
@@ -20,7 +21,8 @@ export default class MapContainer extends Component {
         overlayClass: 'map-overlay hidden',
         apiUrl: 'https://api.lodestarhealthdata.com/api/Facility',
         token: null,
-        facilities: []
+        facilities: [],
+        avgMarkerSize: 6000
        }
        this.displayFacilityDetails = this.displayFacilityDetails.bind(this);
        this.getSavedToken = this.getSavedToken.bind(this);
@@ -43,8 +45,9 @@ export default class MapContainer extends Component {
   
     updateDimensions = () => {
       const _windowDimensions = this.state.windowDimensions
-      _windowDimensions.height = window.innerHeight;
+      _windowDimensions.height = window.innerHeight - 50;
       _windowDimensions.width = window.innerWidth;
+
       
       this.setState({
         _windowDimensions
@@ -76,7 +79,6 @@ export default class MapContainer extends Component {
 
   // queries the API to return the listed facilities
   getFacilities()  {
-    console.log("gettings")
     // this will use the API if not in developement mod
     let targetUrl = this.state.apiUrl;
     
@@ -101,25 +103,46 @@ export default class MapContainer extends Component {
             const _long = data[0].long;
             const _lat = data[0].lat;
             
+            /*
+              Calculate the average marker size in order to create a scalable
+              marker size
+            */
+            const totalMarkerSize = data
+                              .filter(f => f.cY_Discharges > 0)
+                              .reduce(function (acc, obj) { return acc + obj.cY_Discharges; }, 0);
+            const _avgMarkerSize = totalMarkerSize/data.length;
+            
+          
             this.setState({
                 xy: [_long, _lat],
-                facilities: data
+                facilities: data,
+                avgMarkerSize: _avgMarkerSize
             });
           }
         });
   }
 
+  submitSearchRequest = (facility) => {
+    console.log("search request initiated",facility);
+    this.map._searchFormSubmit(facility);
+  }
+
   render() {
     return (
       <div className="">
-        { this.props.userLoggedIn === true || this.props.userLoggedIn === false ? <InteractiveMap
-          height={this.state.windowDimensions.height}
-          width={this.state.windowDimensions.width}
-          publishDetails={this.displayFacilityDetails}
-          facilities={this.state.facilities}
-        /> : null }
-      <div className={this.state.overlayClass}>
-        { this.state.showSidebar ? <FacilitySidebar onClick={this.hideSidebar} facility={this.state.facility} facilitiesInRange={this.state.facilitiesInRange}/> : null }
+      <Navigation facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest}/>
+        <div>
+          { <InteractiveMap
+            height={this.state.windowDimensions.height}
+            width={this.state.windowDimensions.width}
+            publishDetails={this.displayFacilityDetails}
+            facilities={this.state.facilities}
+            ref={map => { this.map = map; }}
+            avgMarkerSize={this.state.avgMarkerSize}
+          /> }
+        <div className={this.state.overlayClass}>
+          { this.state.showSidebar ? <FacilitySidebar onClick={this.hideSidebar} facility={this.state.facility} facilitiesInRange={this.state.facilitiesInRange}/> : null }
+        </div>
       </div>
       </div>
     )

@@ -3,16 +3,14 @@ import MAPBOXGL, {Popup, Marker, FlyToInterpolator} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import FacilityInfo from './Facility-Info';
-import FilterBox from './Filter-Box';
 import './InteractiveMap.css';
 import distance from '../utils/DistanceCalc';
-
-// import {fromJS} from '../../node_modules/immutable/dist/immutable'
 
 MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhycTdjeDlsNzZ5In0.D1mdaVwx9hmI47dZd0cvRQ';
 
 // default level of zoom for the map
 const defaultZoom = 8.5;
+const baseMarkerSize = 20;
 
 class InteractiveMap extends React.Component {
   constructor(props) {
@@ -37,7 +35,6 @@ class InteractiveMap extends React.Component {
       token: null
     };
 
-    
     this._renderFacilityMarker = this._renderFacilityMarker.bind(this);
     this._goToViewport = this._goToViewport.bind(this);
   }
@@ -116,35 +113,43 @@ class InteractiveMap extends React.Component {
 
 
   _renderFacilityMarker = (facility, index) => {
-   
-    const zoomChangeAt = defaultZoom;
+    
     // do not render if there is nothing to render  
     if (facility.length === 0) {
       return; 
     }
-
+    
+    // capture the system as this is a trigger point
     const system = facility.system_Affiliation_Name;
     
+    /* 
+    marker size is dynamic based on a calculation and depends on
+    if the facility is an HCA facility or not
+    */
+   let markerSize = facility.cY_Discharges/this.props.avgMarkerSize * baseMarkerSize;
+   system === "HCA" ? markerSize = (markerSize * 2) : markerSize;
+   
+   /*
+   When zoomed out, do two things: 
+   1. Shrink the marker size so the user can view all markers
+   2. Only show HCA Hospitals
+   */
+  const zoomChangeAt = defaultZoom;
+  if (this.state.viewport.zoom < zoomChangeAt) {
+    markerSize = 5;
+    
+    if (  system !== "HCA") {
+      return;
+    }
+  }
+  
     // could control the color and size from here as each Marker is a one
     // to one representation of a facility
-    let color = "black"
-
-    // marker size is dynamic based on a calculation
-    let markerSize = facility.cY_Discharges/1000;
-
-    system === "HCA" ? markerSize = (markerSize * 2) : markerSize = 20;
-    
-    if (this.state.viewport.zoom < zoomChangeAt) {
-      markerSize = 5;
-
-      if (  system !== "HCA") {
-        return;
-      }
-    }
     // if the system is HCA show up as blue otherwise as red
+    let color = "black"
     system === "HCA" ? color = "#030F42" : color = "red";
 
-    // TODO: rules on the size of the marker
+
     return (
       <Marker key={`marker-${index}`}
         longitude={facility.long}
@@ -216,10 +221,7 @@ class InteractiveMap extends React.Component {
         ref={map => (this.mapRef = map)}
         {...viewport}
         >
-      <div className="filterBox">
-        <div>Search by Facility Name</div>
-        <FilterBox facilities={this.props.facilities} onSubmit={this._searchFormSubmit}/>
-      </div>
+     
       <div className="locationBlock">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
