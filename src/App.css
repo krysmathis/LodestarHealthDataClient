@@ -7,8 +7,11 @@
   /* font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif; */
   background-color: rgba(0,0,0,.75);
   color: white;
-  max-height: 100%;
-  overflow: hidden;
+  max-height: 50%;
+  overflow: scroll;
+  margin: 10px;
+  padding: 5px;
+  
 }
 
 .map-overlay h1 {

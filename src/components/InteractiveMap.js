@@ -11,7 +11,7 @@ MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhyc
 
 // default level of zoom for the map
 const defaultZoom = 8.5;
-const facilityZoom = 13;
+const facilityZoom = 11;
 const baseMarkerSize = 20;
 
 class InteractiveMap extends React.Component {
@@ -60,10 +60,12 @@ class InteractiveMap extends React.Component {
   }
 
   _goToViewport = (longitude, latitude, zoom) => {
+
     this._onChangeViewport({
       longitude,
       latitude,
       zoom: zoom,
+      offset: {x: 200, y: 200},
       transitionInterpolator: new FlyToInterpolator(),
       transitionDuration: 500
     });
@@ -251,7 +253,7 @@ class InteractiveMap extends React.Component {
     const { mapStyle, viewport } = this.state;
 
     return (
-
+      <div>
       <MAPBOXGL
         mapboxApiAccessToken={MAPBOXGL.accessToken}
         onViewportChange={this._onChangeViewport}
@@ -263,11 +265,10 @@ class InteractiveMap extends React.Component {
       <div className="locationBlock">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
-          {this.props.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}
-          {this._renderPopup()}
-        {/* <Info />
-        <Legend /> */}  
+        {this.props.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}
       </MAPBOXGL>
+        {this._renderPopup()}
+      </div>
     );
   }
 }

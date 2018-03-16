@@ -8,7 +8,11 @@ import {XYPlot,
     } from 'react-vis';
 import '../../node_modules/react-vis/dist/style.css';
   
-
+/*
+    The facility sidebar will show nearby locations to allow the 
+    user the ability to select facilities even if they overlap
+    other, more visible locations
+*/
 class FacilitySidebar extends React.Component {
 
     generateData = () => {
@@ -43,6 +47,10 @@ class FacilitySidebar extends React.Component {
         )
     }
 
+    /*
+        The bar chart is optional at this point
+        TODO: move this to the other object
+    */
     barChart = () => {
        return (
         <div>

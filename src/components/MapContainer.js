@@ -47,9 +47,8 @@ export default class MapContainer extends React.Component {
   
     updateDimensions = () => {
       const _windowDimensions = this.state.windowDimensions
-      _windowDimensions.height = window.innerHeight - 50;
+      _windowDimensions.height = window.innerHeight-64;
       _windowDimensions.width = window.innerWidth;
-
       
       this.setState({
         _windowDimensions
@@ -191,6 +190,9 @@ export default class MapContainer extends React.Component {
   render() {
     return (
       <div className="">
+      <div className='h12 bg-darken10 relative round-full'>
+        <div className='absolute h12 bg-green-light round-full'></div>
+      </div>
         <Navigation ref={nav => {this.nav = nav}} userLogOut={this.props.userLogOut} facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest}/>
         <div>
           { <InteractiveMap
@@ -202,9 +204,9 @@ export default class MapContainer extends React.Component {
             avgMarkerSize={this.state.avgMarkerSize}
             setHomeLocation={this.submitHomeLocation}
           /> }
-          <div className={this.state.overlayClass}>
-            { this.state.showSidebar ? <FacilitySidebar onClick={this.publishNearbyLocation} facility={this.state.facilities} facilitiesInRange={this.state.facilitiesInRange}/> : null }
-          </div>
+        </div>
+        <div className={this.state.overlayClass}>
+          { this.state.showSidebar ? <FacilitySidebar onClick={this.publishNearbyLocation} facility={this.state.facilities} facilitiesInRange={this.state.facilitiesInRange}/> : null }
         </div>
       </div>
     )

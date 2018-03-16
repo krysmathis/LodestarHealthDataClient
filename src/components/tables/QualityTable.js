@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Table} from 'react-materialize'
 
 export default class QualityTable extends React.Component {
     
@@ -13,7 +13,7 @@ export default class QualityTable extends React.Component {
 
     
     return (
-    <table className="data__table">
+    <Table className="data__table">
     <thead>
     <tr>
         <th>Quality</th>
@@ -38,7 +38,7 @@ export default class QualityTable extends React.Component {
         <td>{quality_Readmissions}</td> 
     </tr>
     </tbody>
-    </table>
+    </Table>
     )
 
     }

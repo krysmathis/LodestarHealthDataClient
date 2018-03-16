@@ -1,5 +1,6 @@
 import React from "react";
-import '../../node_modules/animate.css'
+import '../../node_modules/animate.css';
+import {Button, Input} from 'react-materialize';
 
 
 class FilterBox extends React.Component {
@@ -26,6 +27,7 @@ class FilterBox extends React.Component {
 
     clearText = (evt) => {
         evt.target.value = '';
+        this.renderListOfOptions();
     }
 
     submitFilter = (evt) => {
@@ -58,7 +60,7 @@ class FilterBox extends React.Component {
     render() {
         return (
             <div >
-                <input type="text" onChange={this.handleInputChange} onFocus={this.clearText} value={this.state.filterText} placeholder="Search facilities"/>
+                <Input type="text" onChange={this.handleInputChange} onFocus={this.clearText} value={this.state.filterText} placeholder="Search facilities"/>
                 <ul>{this.renderListOfOptions()}</ul>
             </div>
         )

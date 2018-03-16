@@ -10,41 +10,62 @@
     border-radius: 15px;
 }
 
-.mapContainer__nav {
+nav {
+    background-color: lightblue;
+    width: 100%;
+}
+
+.nav__user-login {
     display: flex;
+    flex-direction: row;
+}
+
+.mapContainer__nav {
+    display: flex !important;
+    align-content: center;
+    justify-content: space-between;
 }
 
 .infoContainer {
     width: 40%;
-    top:0;
+    top:50px;
     bottom: 0;
-    /* left: 0; */
     right: 0;
     margin: auto;
     position: absolute;
     background-color: rgba(255, 255, 255,.75);
+    overflow: scroll;
 }
 
 .filterBox {
     z-index: 1;
     display: block;
-    background-color: white;
     color: black;
+    width: 40%;
 }
 
 .filterBox ul {
+
     position: absolute;
-    background-color: rgba(255, 255, 255,.75);
+    background-color: rgba(255, 255, 255,1);
     z-index: 100;
+    /* overflow: scroll; */
+    max-height: 80%;
+    /* white-space:nowrap; */
+
 
 }
 
 
 .filterBox li {
     min-width: 200px;
+    display: inline-block;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
     z-index: 1;
     background-color: white;
-    border-bottom: 1px solid lightgray  ;
+    border-bottom: 1px solid lightgray;
 }
 .filterBox li:hover {
    cursor: pointer;

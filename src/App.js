@@ -62,7 +62,7 @@ class App extends Component {
   submitUser = (username, password) => {
 
 
-    let target = `${getApiPath()}/?=${username}&password=${password}`
+    let target = `${getApiPath()}/token?username=${username}&password=${password}`
     
     fetch(target, {
       method:'POST',
