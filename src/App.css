@@ -4,7 +4,7 @@
   top: 50px;
   bottom: 0;
   left: 0;
-  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  /* font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif; */
   background-color: rgba(0,0,0,.75);
   color: white;
   max-height: 100%;

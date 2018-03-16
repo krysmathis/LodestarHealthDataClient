@@ -17,6 +17,11 @@ class FacilitySidebar extends React.Component {
             return {x: f.facility_Name.substring(0,15), y: f.overall_Hospital_Linear_Mean_Score, color: idx}
         })
     }
+
+    publishFacility = (evt) => {
+        const id = parseInt(evt.target.parentNode.id.split('nearby-')[1],0);
+        this.props.onClick(id);
+    }
     
     renderNearbyLocationNames = () => {
 
@@ -28,10 +33,10 @@ class FacilitySidebar extends React.Component {
         return (
             <div>
             <h1>Nearby Locations</h1>
-            <ul>
-            {this.props.facilitiesInRange.map((f) => 
-                f.facilityId === this.props.facility.facilityId ? null : <li key={`neaby-${f.facilityId}`}>{f.facility_Name}</li>
-             )}
+            <ul className="nearbyLocations__ul">
+            {this.props.facilitiesInRange.sort((a,b) => a.distance - b.distance).map((f) => 
+                f.facilityId === this.props.facility.facilityId ? null : <li onClick={this.publishFacility} className="nearbyLocations__li" key={`nearby-${f.facilityId}`} id={`nearby-${f.facilityId}`}><div className="nearbyLocations__name">{f.facility_Name}</div> <div>{f.distance}</div></li>
+            )}
              </ul>
              </div>
              
@@ -74,7 +79,6 @@ class FacilitySidebar extends React.Component {
                 <div>
                 <div>{this.props.facility.system_Affiliation_Name}</div>
                 { this.renderNearbyLocationNames() }
-                { this.barChart() }
                 </div>
                 )
         }

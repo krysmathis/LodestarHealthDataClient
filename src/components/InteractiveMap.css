@@ -54,3 +54,23 @@
     background-color: white;
     border-bottom: none;
  }
+
+ .nearbyLocations__ul {
+     display: flex;
+     flex-direction: column;
+ }
+
+ .nearbyLocations__name {
+     width: 80%;
+ }
+
+ .nearbyLocations__li {
+     min-height: 50px;
+     display: flex;
+     align-content: space-between;
+ }
+ .nearbyLocations__li:hover {
+    background-color: white;
+    color: black;
+    
+ }

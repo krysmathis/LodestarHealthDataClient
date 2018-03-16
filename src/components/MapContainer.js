@@ -18,6 +18,7 @@ export default class MapContainer extends React.Component {
           width: 800
         },
         facility: null,
+        facilitiesInRange: [],
         showSidebar: false,
         overlayClass: 'map-overlay hidden',
         token: null,
@@ -65,6 +66,7 @@ export default class MapContainer extends React.Component {
       _overlayClass = 'map-overlay hidden'
     }
 
+    // update the nearby facilities to get the ones on top of it
     this.setState({
         facility: _facility,
         facilitiesInRange: _nearby,
@@ -119,8 +121,12 @@ export default class MapContainer extends React.Component {
         });
   }
 
+  publishNearbyLocation = (id) => {
+    const facility = this.state.facilitiesInRange.find(f => f.facilityId === id);
+    this.submitSearchRequest(facility);
+  }
+
   submitSearchRequest = (facility) => {
-    console.log("search request initiated",facility);
     this.map._searchFormSubmit(facility);
   }
 
@@ -185,7 +191,7 @@ export default class MapContainer extends React.Component {
   render() {
     return (
       <div className="">
-      <Navigation ref={nav => {this.nav = nav}} userLogOut={this.props.userLogOut} facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest}/>
+        <Navigation ref={nav => {this.nav = nav}} userLogOut={this.props.userLogOut} facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest}/>
         <div>
           { <InteractiveMap
             height={this.state.windowDimensions.height}
@@ -196,10 +202,10 @@ export default class MapContainer extends React.Component {
             avgMarkerSize={this.state.avgMarkerSize}
             setHomeLocation={this.submitHomeLocation}
           /> }
-        <div className={this.state.overlayClass}>
-          { this.state.showSidebar ? <FacilitySidebar onClick={this.hideSidebar} facility={this.state.facility} facilitiesInRange={this.state.facilitiesInRange}/> : null }
+          <div className={this.state.overlayClass}>
+            { this.state.showSidebar ? <FacilitySidebar onClick={this.publishNearbyLocation} facility={this.state.facilities} facilitiesInRange={this.state.facilitiesInRange}/> : null }
+          </div>
         </div>
-      </div>
       </div>
     )
   }

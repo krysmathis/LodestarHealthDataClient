@@ -1,5 +1,5 @@
 import React from "react";
-import MAPBOXGL, {Popup, Marker, FlyToInterpolator} from 'react-map-gl';
+import MAPBOXGL, {Marker, FlyToInterpolator} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import FacilityInfo from './Facility-Info';
@@ -11,6 +11,7 @@ MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhyc
 
 // default level of zoom for the map
 const defaultZoom = 8.5;
+const facilityZoom = 13;
 const baseMarkerSize = 20;
 
 class InteractiveMap extends React.Component {
@@ -31,6 +32,7 @@ class InteractiveMap extends React.Component {
       facilities: [],
       facilityAvg: {},
       facilitiesInRange: [],
+      facilitiesOnTopOfSelectedFacility: [],
       popupInfo: null,
       token: null
     };
@@ -151,6 +153,13 @@ class InteractiveMap extends React.Component {
     let color = "black"
     system === "HCA" ? color = "#030F42" : color = "red";
 
+    // logic to handle if the facility is the selected facility so the program
+    // will ensure the user can visually distinguish between the selected marker
+    // and all others
+    let selected = false;
+    if (this.state.popupInfo !== null) {
+      selected = facility.facilityId === this.state.popupInfo.facilityId;
+    }
 
     return (
       <Marker key={`marker-${index}`}
@@ -160,24 +169,30 @@ class InteractiveMap extends React.Component {
         <FacilityPin  size={markerSize} 
                       color={color} 
                       opacity={.75}
+                      selected={selected}
                       onClick={
                         () => {
-                          this._initializePopupData(facility);
-                          // now center the map on the clicked location
-                          setTimeout(() => this._goToViewport(
-                              facility.long, 
-                              facility.lat,
-                              this.state.viewport.zoom < defaultZoom ? defaultZoom : this.state.viewport.zoom)
-                            ,200);
+                         this._showSelectedFacility(facility);
                         }} />
       </Marker>
     );
+  }
+
+  _showSelectedFacility = (facility) => {
+    this._initializePopupData(facility);
+      // now center the map on the clicked location
+      setTimeout(() => this._goToViewport(
+          facility.long, 
+          facility.lat,
+          this.state.viewport.zoom < facilityZoom ? facilityZoom : this.state.viewport.zoom)
+        ,100);
   }
 
   _initializePopupData = (facility) => {
     
     // this is where we could publish data into the sidebar
     // collect the nearby facilities
+
     let nearby = this.props.facilities.filter(f => distance(
       facility.lat,
       facility.long,
@@ -185,9 +200,28 @@ class InteractiveMap extends React.Component {
       f.long,
       "N"
     ) < 5 );
+
+    // now check if any nearby facilities are a distance of zero
+    const nearbyWithDistance = [];
+    nearby.forEach(f => {
+      f.distance = distance(
+        facility.lat,
+        facility.long,
+        f.lat,
+        f.long,
+        "N"
+      ).toFixed(2);
+      nearbyWithDistance.push(f);
+    })
     
+
+    /* 
+        here we would not set the state if there are multiple facilities
+        and display a popup instead and then send it the values below
+    */
+
     this.setState({popupInfo: facility});
-    this.props.publishDetails(facility, nearby);
+    this.props.publishDetails(facility, nearbyWithDistance);
     
 
 }
