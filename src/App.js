@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import './../node_modules/animate.css'
 import MapContainer from './components/MapContainer';
+import getApiPath from './utils/EnvironmentFinder';
 
 class App extends Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class App extends Component {
   isUserLoggedIn(){
    
     if (localStorage.getItem("token") !== null) {
-      fetch (this.state.apiUrl, {
+      fetch (getApiPath() + "/token", {
         method: 'GET',
         mode: 'cors',
         headers: {
@@ -60,15 +61,9 @@ class App extends Component {
   
   submitUser = (username, password) => {
 
-    // this will use the API if not in developement mod
-    let targetUrl = this.state.apiUrl;
 
-    // handling production vs development in a simple way    
-    if (window.location.href === "http://localhost:3000/") {
-      targetUrl = "http://localhost:5000/api/token";
-    } 
-
-    let target = `${targetUrl}/?=${username}&password=${password}`
+    let target = `${getApiPath()}/?=${username}&password=${password}`
+    
     fetch(target, {
       method:'POST',
       headers : { 

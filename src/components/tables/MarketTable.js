@@ -19,7 +19,7 @@ export default class MarketTable extends React.Component {
         <thead>
         <tr>
             <th className="column__name">Market Information</th>
-            <th>Value</th> 
+            <th></th> 
         </tr>
         </thead>
         <tbody>

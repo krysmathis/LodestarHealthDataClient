@@ -4,6 +4,7 @@ import './../../node_modules/animate.css'
 import InteractiveMap from './InteractiveMap';
 import FacilitySidebar from './Facility-Sidebar';
 import Navigation from './Navigation';
+import getApiPath from '../utils/EnvironmentFinder';
 
 
 // The map container contains the sidebar and the interactive map
@@ -19,7 +20,6 @@ export default class MapContainer extends React.Component {
         facility: null,
         showSidebar: false,
         overlayClass: 'map-overlay hidden',
-        apiUrl: 'https://api.lodestarhealthdata.com/api',
         token: null,
         facilities: [],
         avgMarkerSize: 6000
@@ -78,24 +78,14 @@ export default class MapContainer extends React.Component {
     return localStorage.getItem("token")
   }
 
-  getApiPath = () => {
-    
-    let targetUrl = this.state.apiUrl;
-    
-    // handling production vs development in a simple way    
-    if (window.location.href === "http://localhost:3000/") {
-        targetUrl = "http://localhost:5000/api";
-    } 
 
-    return targetUrl;
-  }
 
   // queries the API to return the listed facilities
   getFacilities()  {
     // this will use the API if not in developement mod
 
     
-    fetch (this.getApiPath() + "/Facility", {
+    fetch (getApiPath() + "/Facility", {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -148,7 +138,7 @@ export default class MapContainer extends React.Component {
       return;
     }
 
-    fetch (this.getApiPath()+ `/homelocation?username=${this.props.userLoggedIn}&latitude=${latitude}&longitude=${longitude}`, {
+    fetch (getApiPath()+ `/homelocation?username=${this.props.userLoggedIn}&latitude=${latitude}&longitude=${longitude}`, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -168,7 +158,7 @@ export default class MapContainer extends React.Component {
       return;
     }
 
-    fetch (this.getApiPath()+ `/homelocation?username=${this.props.userLoggedIn}`, {
+    fetch (getApiPath()+ `/homelocation?username=${this.props.userLoggedIn}`, {
       method: 'GET',
       mode: 'cors',
       headers: {

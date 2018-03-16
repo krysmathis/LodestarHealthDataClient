@@ -22,7 +22,7 @@ export default class FinanceTable extends React.Component {
         <thead>
         <tr>
             <th>Financial Metrics</th>
-            <th>Value</th> 
+            <th></th> 
         </tr>
         </thead>
         <tbody>

@@ -3,6 +3,7 @@ import MAPBOXGL, {Popup, Marker, FlyToInterpolator} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import FacilityInfo from './Facility-Info';
+import InfoContainer from './Info-Container';
 import './InteractiveMap.css';
 import distance from '../utils/DistanceCalc';
 
@@ -31,7 +32,6 @@ class InteractiveMap extends React.Component {
       facilityAvg: {},
       facilitiesInRange: [],
       popupInfo: null,
-      apiUrl: 'https://api.lodestarhealthdata.com/api/Facility',
       token: null
     };
 
@@ -198,16 +198,18 @@ class InteractiveMap extends React.Component {
     const {popupInfo} = this.state;
 
     return popupInfo && (
-      <Popup tipSize={20}
-        anchor="top"
+      <InfoContainer tipSize={10}
+        anchor={"top-left"}
+        
         longitude={popupInfo.long}
         latitude={popupInfo.lat}
+        
         onClose={() => {
           this.setState({popupInfo: null})
           this.props.publishDetails(null)
           }} >
         <FacilityInfo info={popupInfo} setHomeLocation={this.props.setHomeLocation}/>
-      </Popup>
+      </InfoContainer>
     );
   }
 

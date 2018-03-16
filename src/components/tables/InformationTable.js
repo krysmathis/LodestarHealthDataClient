@@ -17,7 +17,7 @@ export default class InformationTable extends React.Component {
         <thead>
         <tr>
             <th>General Information</th>
-            <th>Value</th> 
+            <th></th> 
         </tr>
         </thead>
         <tbody>
