@@ -190,25 +190,34 @@ export default class MapContainer extends React.Component {
   render() {
     return (
       <div className="">
-      <div className='h12 bg-darken10 relative round-full'>
-        <div className='absolute h12 bg-green-light round-full'></div>
-      </div>
-        <Navigation ref={nav => {this.nav = nav}} userLogOut={this.props.userLogOut} facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest}/>
-        <div>
-          { <InteractiveMap
-            height={this.state.windowDimensions.height}
-            width={this.state.windowDimensions.width}
-            publishDetails={this.displayFacilityDetails}
-            facilities={this.state.facilities}
-            ref={map => { this.map = map; }}
-            avgMarkerSize={this.state.avgMarkerSize}
-            setHomeLocation={this.submitHomeLocation}
-          /> }
-        </div>
-        <div className={this.state.overlayClass}>
-          { this.state.showSidebar ? <FacilitySidebar onClick={this.publishNearbyLocation} facility={this.state.facilities} facilitiesInRange={this.state.facilitiesInRange}/> : null }
-        </div>
-      </div>
+      <Navigation ref={nav => {this.nav = nav}} userLogOut={this.props.userLogOut} facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest}/>
+        <div class='viewport-full relative scroll-hidden'>
+          { // this is the loading display
+            this.state.facilities.length === 0 ?
+            <div class='flex-parent flex-parent--center-cross flex-parent--center-main absolute top right bottom left bg-darken10 z5'>
+              <div class='flex-child loading'></div>
+            </div> : null
+          }
+          <div>
+              { <InteractiveMap 
+                height={this.state.windowDimensions.height}
+                width={this.state.windowDimensions.width}
+                publishDetails={this.displayFacilityDetails}
+                facilities={this.state.facilities}
+                ref={map => { this.map = map; }}
+                avgMarkerSize={this.state.avgMarkerSize}
+                setHomeLocation={this.submitHomeLocation}
+              /> }
+            </div>
+            
+            <div className={this.state.overlayClass}>
+              { this.state.showSidebar ? <FacilitySidebar onClick={this.publishNearbyLocation} facility={this.state.facilities} facilitiesInRange={this.state.facilitiesInRange}/> : null }
+            </div>
+           
+    </div>
+    </div>
+        
+        
     )
   }
 }

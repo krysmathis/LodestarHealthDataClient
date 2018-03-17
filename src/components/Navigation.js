@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import FilterBox from './Filter-Box';
 import './InteractiveMap.css';
-import {Input, Button} from 'react-materialize'
 /* 
     The navbar will have the following props:
         - facilities: an array of all the facilities to filter
@@ -88,18 +87,21 @@ export default class Navigation extends Component {
         return (
            
             <nav className="mapContainer__nav">
-
+                <div className="filterBox">
+                    <FilterBox facilities={this.props.facilities} onSubmit={this.submitFacility}/>
+                </div>
+            { this.state.loggedIn === null ? 
+                <div className="nav__user-login flex-parent">
+                    <input className='input border-r--0 round-l' label="username" type="text" placeholder="username" onChange={this.updateUsername}/>
+                    <input className='input border-r--0 round-l' abel="password" type="password" placeholder="password" onChange={this.updatePassword}/>
+                    <button className='btn px24 round-r' onClick={this.submitUser}>Login</button>
+                </div>
+            : <div className="nav__user-logout">
+                <div className='nav__user-logged-in'>{this.props.userLoggedIn}</div> 
+                <button className='btn px24 round-r' onClick={this.logout}>Logout</button>
+            </div> 
+            }
                 
-                    <Input label="username" type="text" onChange={this.updateUsername}/>
-                    <Input label="password" type="password" onChange={this.updatePassword}/>
-                    <Button waves='light' onClick={this.submitUser}>Login</Button>
-  
-
-            
-                
-            <div className="filterBox">
-                <FilterBox facilities={this.props.facilities} onSubmit={this.submitFacility}/>
-            </div>
                 
             </nav> 
         )

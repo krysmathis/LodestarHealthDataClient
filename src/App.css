@@ -1,16 +1,15 @@
 .map-overlay {
   position: absolute;
-  width: 25%;
+  width: 35%;
   top: 50px;
   bottom: 0;
   left: 0;
-  /* font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif; */
-  background-color: rgba(0,0,0,.75);
-  color: white;
   max-height: 50%;
-  overflow: scroll;
+  /* background-color:white;
+  color: black;
+  overflow-y: scroll;
   margin: 10px;
-  padding: 5px;
+  padding: 5px; */
   
 }
 

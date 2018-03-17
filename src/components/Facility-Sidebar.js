@@ -84,9 +84,21 @@ class FacilitySidebar extends React.Component {
             return <div>{header}</div>
         } else {
             return  (
+                
                 <div>
-                <div>{this.props.facility.system_Affiliation_Name}</div>
-                { this.renderNearbyLocationNames() }
+                    <div class='absolute top-ml left bottom z1 w-full w240-ml px12 py12-ml'>
+                        <div class='flex-parent flex-parent--column viewport-third h-auto-ml hmax-full bg-white round-ml shadow-darken10'>
+                        <div class='px12 py12 scroll-auto'>
+                            <h3 class='txt-m txt-bold mb8'>{this.props.facility.system_Affiliation_Name}</h3>
+                            { this.renderNearbyLocationNames() }
+                        </div>
+                        <footer class='px12 py12 bg-gray-faint round-b-ml txt-s'>
+                            Footer content here
+                        </footer>
+                        </div>
+                    </div>
+
+               
                 </div>
                 )
         }

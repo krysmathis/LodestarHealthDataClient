@@ -46,8 +46,8 @@ class InteractiveMap extends React.Component {
   // added the map will not properly resize without it, it will 'stick' in the first setting
   componentWillReceiveProps(nextProps) {
     const viewPort = this.state.viewport;
-    viewPort.width = nextProps.width;
-    viewPort.height = nextProps.height;
+    viewPort.width = nextProps.width - (nextProps.width * .35);
+    viewPort.height = nextProps.height - (nextProps.height * .35);
     this.setState({
         viewport: viewPort
     });
@@ -254,7 +254,8 @@ class InteractiveMap extends React.Component {
 
     return (
       <div>
-      <MAPBOXGL
+
+      <MAPBOXGL 
         mapboxApiAccessToken={MAPBOXGL.accessToken}
         onViewportChange={this._onChangeViewport}
         mapStyle={mapStyle}
