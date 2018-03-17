@@ -58,7 +58,7 @@ class FilterBox extends React.Component {
     render() {
         return (
             <div >
-        <div class='flex-parent'>
+        <div className='flex-parent'>
             <input className='input border-r--0 round-l' type="text" onChange={this.handleInputChange} onFocus={this.clearText} value={this.state.filterText} placeholder="Search facilities"/>
             <button className='btn px24 round-r' onClick={this.exitFilter}>Clear</button>
         </div>

@@ -3,6 +3,8 @@ import './../App.css';
 import './../../node_modules/animate.css'
 import InteractiveMap from './InteractiveMap';
 import FacilitySidebar from './Facility-Sidebar';
+import FacilityInfo from './Facility-Info';
+import InfoContainer from './Info-Container';
 import Navigation from './Navigation';
 import getApiPath from '../utils/EnvironmentFinder';
 
@@ -187,15 +189,36 @@ export default class MapContainer extends React.Component {
 
   }
 
+  renderPopup() {
+
+    const {facility} = this.state;
+
+    return facility && (
+      <InfoContainer tipSize={10}
+        anchor={"top-left"}
+        
+        longitude={facility.long}
+        latitude={facility.lat}
+        
+        onClose={() => {
+          this.setState({facility: null})
+          this.displayFacilityDetails(null)
+          }} >
+        <FacilityInfo info={facility} setHomeLocation={this.submitHomeLocation}/>
+      </InfoContainer>
+    );
+  }
+
+
   render() {
     return (
       <div className="">
       <Navigation ref={nav => {this.nav = nav}} userLogOut={this.props.userLogOut} facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest}/>
-        <div class='viewport-full relative scroll-hidden'>
+        <div className='viewport-full relative scroll-hidden'>
           { // this is the loading display
             this.state.facilities.length === 0 ?
-            <div class='flex-parent flex-parent--center-cross flex-parent--center-main absolute top right bottom left bg-darken10 z5'>
-              <div class='flex-child loading'></div>
+            <div className='flex-parent flex-parent--center-cross flex-parent--center-main absolute top right bottom left bg-darken10 z5'>
+              <div className='flex-child loading'></div>
             </div> : null
           }
           <div>
@@ -208,6 +231,7 @@ export default class MapContainer extends React.Component {
                 avgMarkerSize={this.state.avgMarkerSize}
                 setHomeLocation={this.submitHomeLocation}
               /> }
+              {this.renderPopup()}
             </div>
             
             <div className={this.state.overlayClass}>

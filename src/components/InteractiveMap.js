@@ -2,8 +2,6 @@ import React from "react";
 import MAPBOXGL, {Marker, FlyToInterpolator} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
-import FacilityInfo from './Facility-Info';
-import InfoContainer from './Info-Container';
 import './InteractiveMap.css';
 import distance from '../utils/DistanceCalc';
 
@@ -72,6 +70,8 @@ class InteractiveMap extends React.Component {
   };
 
   _searchFormSubmit = (facility) => {
+
+    if (facility === null || facility === undefined) { return }
 
     this._goToViewport(
       facility.long, 
@@ -229,26 +229,6 @@ class InteractiveMap extends React.Component {
 }
 
 
-  _renderPopup() {
-
-    const {popupInfo} = this.state;
-
-    return popupInfo && (
-      <InfoContainer tipSize={10}
-        anchor={"top-left"}
-        
-        longitude={popupInfo.long}
-        latitude={popupInfo.lat}
-        
-        onClose={() => {
-          this.setState({popupInfo: null})
-          this.props.publishDetails(null)
-          }} >
-        <FacilityInfo info={popupInfo} setHomeLocation={this.props.setHomeLocation}/>
-      </InfoContainer>
-    );
-  }
-
   render() {
     const { mapStyle, viewport } = this.state;
 
@@ -268,7 +248,7 @@ class InteractiveMap extends React.Component {
         </div>
         {this.props.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}
       </MAPBOXGL>
-        {this._renderPopup()}
+        
       </div>
     );
   }
