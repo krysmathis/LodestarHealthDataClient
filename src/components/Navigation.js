@@ -101,8 +101,7 @@ export default class Navigation extends Component {
                 <button className='btn px24 round-r' onClick={this.logout}>Logout</button>
             </div> 
             }
-                
-                
+    
             </nav> 
         )
     }

@@ -203,7 +203,6 @@ export default class MapContainer extends React.Component {
           this.setState({facility: null})
           this.displayFacilityDetails(null)
           }} >
-
         <FacilityInfo info={facility} setHomeLocation={this.submitHomeLocation}/>
       </InfoContainer>
     );

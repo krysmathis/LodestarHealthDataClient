@@ -268,7 +268,7 @@ _renderPopup() {
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
         {this.props.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}
-        {this._renderPopup()}
+        {/* {this._renderPopup()} */}
       </MAPBOXGL>
         
       </div>
