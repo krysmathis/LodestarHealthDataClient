@@ -5,6 +5,8 @@ import FacilityPin from './Facility-Pin';
 import './InteractiveMap.css';
 import distance from '../utils/DistanceCalc';
 
+//"mapbox://styles/krysmathis/cjeimaj4r1k6w2rqeflmdfwc8",
+const mapStyle = 'mapbox://styles/mapbox/streets-v9'
 MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhycTdjeDlsNzZ5In0.D1mdaVwx9hmI47dZd0cvRQ';
 
 // default level of zoom for the map
@@ -25,7 +27,6 @@ class InteractiveMap extends React.Component {
         startDragLngLat: null,
         isDragging: null
       },
-      mapStyle: "mapbox://styles/krysmathis/cjeimaj4r1k6w2rqeflmdfwc8",
       xy: [],
       facilities: [],
       facilityAvg: {},
@@ -252,7 +253,7 @@ _renderPopup() {
 
 
   render() {
-    const { mapStyle, viewport } = this.state;
+    const { viewport } = this.state;
 
     return (
       <div>

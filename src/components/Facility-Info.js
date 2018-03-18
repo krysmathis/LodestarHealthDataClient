@@ -9,7 +9,7 @@ const styles = {
     backgroundColor: 'white',
     margin: 0,
     padding: 10,
-    width: '100%',
+    width: '90%',
     zIndex: 100,
     position: 'absolute'
   },
