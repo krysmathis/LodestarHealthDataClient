@@ -29,12 +29,13 @@ nav {
 
 .infoContainer {
     width: 35%;
-    top: 0px;
+    top: 30px;
     bottom: 0;
     right: 0;
     margin: auto;
     position: absolute;
     overflow: scroll;
+    background-color: white;
 }
 
 .filterBox {

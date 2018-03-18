@@ -43,6 +43,10 @@ class App extends Component {
 
         if(result.ok) {
           return result.json();
+        } else {
+          return { 
+            username: null
+          }
         }
       }).then(r => {
         this.setState({
@@ -56,8 +60,6 @@ class App extends Component {
     }
 
   }        
-  
- 
   
   submitUser = (username, password) => {
 

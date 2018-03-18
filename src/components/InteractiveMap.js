@@ -1,5 +1,5 @@
 import React from "react";
-import MAPBOXGL, {Marker, FlyToInterpolator} from 'react-map-gl';
+import MAPBOXGL, {Marker, Popup, FlyToInterpolator} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import './InteractiveMap.css';
@@ -44,8 +44,8 @@ class InteractiveMap extends React.Component {
   // added the map will not properly resize without it, it will 'stick' in the first setting
   componentWillReceiveProps(nextProps) {
     const viewPort = this.state.viewport;
-    viewPort.width = nextProps.width - (nextProps.width * .35);
-    viewPort.height = nextProps.height - (nextProps.height * .35);
+    viewPort.width = nextProps.width;
+    viewPort.height = nextProps.height;
     this.setState({
         viewport: viewPort
     });
@@ -171,14 +171,17 @@ class InteractiveMap extends React.Component {
         <FacilityPin  size={markerSize} 
                       color={color} 
                       opacity={.75}
-                      selected={selected}
+                      selected={selected}                      
                       onClick={
                         () => {
                          this._showSelectedFacility(facility);
-                        }} />
+                        }}
+                      />
       </Marker>
     );
   }
+
+
 
   _showSelectedFacility = (facility) => {
     this._initializePopupData(facility);
@@ -228,6 +231,25 @@ class InteractiveMap extends React.Component {
 
 }
 
+_renderPopup() {
+
+  const {popupInfo} = this.state;
+
+  return popupInfo && (
+    <Popup tipSize={20}
+      anchor="top"
+      longitude={popupInfo.long}
+      latitude={popupInfo.lat}
+      onMouseExit={() => {
+        this.setState({popupInfo: null})
+        this.props.publishDetails(null)
+        }} >
+      hello World!
+    </Popup>
+  );
+}
+
+
 
   render() {
     const { mapStyle, viewport } = this.state;
@@ -242,11 +264,11 @@ class InteractiveMap extends React.Component {
         ref={map => (this.mapRef = map)}
         {...viewport}
         >
-     
       <div className="locationBlock">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
         {this.props.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}
+        {this._renderPopup()}
       </MAPBOXGL>
         
       </div>

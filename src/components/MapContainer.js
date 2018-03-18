@@ -1,12 +1,14 @@
 import React from 'react';
 import './../App.css';
-import './../../node_modules/animate.css'
+import './../../node_modules/animate.css';
 import InteractiveMap from './InteractiveMap';
 import FacilitySidebar from './Facility-Sidebar';
 import FacilityInfo from './Facility-Info';
 import InfoContainer from './Info-Container';
 import Navigation from './Navigation';
 import getApiPath from '../utils/EnvironmentFinder';
+import MapPopup from './MapPopup';
+
 
 
 // The map container contains the sidebar and the interactive map
@@ -189,21 +191,19 @@ export default class MapContainer extends React.Component {
 
   }
 
-  renderPopup() {
+
+
+  renderFacilityInfo() {
 
     const {facility} = this.state;
 
     return facility && (
-      <InfoContainer tipSize={10}
-        anchor={"top-left"}
-        
-        longitude={facility.long}
-        latitude={facility.lat}
-        
+      <InfoContainer
         onClose={() => {
           this.setState({facility: null})
           this.displayFacilityDetails(null)
           }} >
+
         <FacilityInfo info={facility} setHomeLocation={this.submitHomeLocation}/>
       </InfoContainer>
     );
@@ -231,15 +231,19 @@ export default class MapContainer extends React.Component {
                 avgMarkerSize={this.state.avgMarkerSize}
                 setHomeLocation={this.submitHomeLocation}
               /> }
-              {this.renderPopup()}
-            </div>
-            
+          </div>
+          </div>
+              {/* this is where the info shows up - needs a better name */}
+              {this.renderFacilityInfo()}
             <div className={this.state.overlayClass}>
-              { this.state.showSidebar ? <FacilitySidebar onClick={this.publishNearbyLocation} facility={this.state.facilities} facilitiesInRange={this.state.facilitiesInRange}/> : null }
+              { this.state.showSidebar ? 
+              <div>
+                <FacilitySidebar onClick={this.publishNearbyLocation} facility={this.state.facilities} facilitiesInRange={this.state.facilitiesInRange}/> 
+                </div>: 
+                null 
+              }
             </div>
-           
-    </div>
-    </div>
+          </div>
         
         
     )
