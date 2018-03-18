@@ -1,0 +1,30 @@
+/* The sidebar menu */
+.sidenav {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 60px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1001; /* Stay on top */
+    top: 0; /* Stay at the top */
+    right: 0;
+    background-color: #111; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+    color: white;
+    box-shadow: rgba(0,0,0,.2) -1px 1px 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.nav__btn {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: 5px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: rgba(250,250,250,.2);
+    justify-items: center;
+}

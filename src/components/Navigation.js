@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import FilterBox from './Filter-Box';
 import './InteractiveMap.css';
+import './Navigation.css'
+import InfoContainer from './Info-Container';
 /* 
     The navbar will have the following props:
         - facilities: an array of all the facilities to filter
@@ -16,7 +18,10 @@ export default class Navigation extends Component {
             username: null,
             password: null,
             facilityId: null,
-            loggedIn: null
+            loggedIn: null,
+            showFilter: false,
+            showLogin: false,
+            showSidebar: false,
         };    
         this.updatePassword = this.updatePassword.bind(this);
         this.updateUsername = this.updateUsername.bind(this);
@@ -27,6 +32,18 @@ export default class Navigation extends Component {
         this.setState({
             loggedIn: nextProps.userLoggedIn
         })
+    }
+
+    // toggle the filter
+    showLoginSidebar = () => {
+        const prevState = this.state
+        let show = prevState.showLogin === true ? false : true
+        
+        this.setState({
+            showLogin: show,
+            showSidebar: show,
+            showFilter: false
+        })    
     }
 
     updateLoggedIn = (username) => {
@@ -44,6 +61,22 @@ export default class Navigation extends Component {
     
     updatePassword = (evt) => {
     this.setState({password: evt.target.value});
+    }
+
+    renderUserLogin = () => {
+    
+        if (this.state.loggedIn === null) {
+           return (<div className="nav__user-login flex-parent">
+                <input className='input border-r--0 round-l' label="username" type="text" placeholder="username" onChange={this.updateUsername}/>
+                <input className='input border-r--0 round-l' abel="password" type="password" placeholder="password" onChange={this.updatePassword}/>
+                <button className='btn px24 round-r' onClick={this.submitUser}>Login</button>
+            </div>)
+        } else {
+            return (<div className="nav__user-logout">
+            <div className='nav__user-logged-in'>{this.props.userLoggedIn}</div> 
+            <button className='btn px24 round-r' onClick={this.logout}>Logout</button>
+            </div> )
+        }
     }
     
     /*
@@ -71,7 +104,18 @@ export default class Navigation extends Component {
         })
     }
 
-    
+    // toggle the filter
+    showFilterSidebar = () => {
+        const prevState = this.state
+        let show = prevState.showFilter === true ? false : true
+        
+        this.setState({
+            showFilter: show,
+            showSidebar: show,
+            showLogin: false
+        })    
+    }
+
     /*
         Description:
         In the render function, the program creates a reference to the 
@@ -80,29 +124,50 @@ export default class Navigation extends Component {
     */
     submitFacility = (facility) => {
         this.props.onFacilitySubmit(facility);
+        this.setState({
+            showFilter: false,
+            showSidebar: false
+        })  
     }
     
     render() {
-
+        const {loggedIn} = this.state;
+        // the nav bar will control the user login and filter box
         return (
-           
-            <nav className="mapContainer__nav">
-                <div className="filterBox">
+            <div>
+            
+            <nav className="sidenav">
+            
+            <button className="nav__btn" onClick={this.showFilterSidebar}><svg className='icon h36 w36'><use xlinkHref='#icon-search'/></svg></button>
+            <button className="nav__btn" onClick={this.showLoginSidebar}><svg className='icon h36 w36'><use xlinkHref='#icon-user'/></svg></button>
+             
+            
+            </nav> 
+
+            {this.state.showLogin ?
+                <InfoContainer
+                
+                onClose={() => {
+                this.showFilterSidebar
+                }} >
+                <div>
+                    {this.renderUserLogin()}
+                </div>
+            </InfoContainer>
+            : null }
+
+            { this.state.showFilter ? 
+            <InfoContainer
+                
+                onClose={() => {
+                    this.showFilterSidebar
+                }} >
+                <div>
                     <FilterBox facilities={this.props.facilities} onSubmit={this.submitFacility}/>
                 </div>
-            { this.state.loggedIn === null ? 
-                <div className="nav__user-login flex-parent">
-                    <input className='input border-r--0 round-l' label="username" type="text" placeholder="username" onChange={this.updateUsername}/>
-                    <input className='input border-r--0 round-l' abel="password" type="password" placeholder="password" onChange={this.updatePassword}/>
-                    <button className='btn px24 round-r' onClick={this.submitUser}>Login</button>
-                </div>
-            : <div className="nav__user-logout">
-                <div className='nav__user-logged-in'>{this.props.userLoggedIn}</div> 
-                <button className='btn px24 round-r' onClick={this.logout}>Logout</button>
-            </div> 
-            }
-    
-            </nav> 
+            </InfoContainer>
+            : null}
+            </div>
         )
     }
 

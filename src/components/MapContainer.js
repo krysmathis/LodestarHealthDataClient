@@ -51,7 +51,7 @@ export default class MapContainer extends React.Component {
   
     updateDimensions = () => {
       const _windowDimensions = this.state.windowDimensions
-      _windowDimensions.height = window.innerHeight-64;
+      _windowDimensions.height = window.innerHeight;
       _windowDimensions.width = window.innerWidth;
       
       this.setState({
@@ -61,6 +61,7 @@ export default class MapContainer extends React.Component {
     };
 
   // update the facility information
+  // TODO: rename this to overlapping facilities box
   displayFacilityDetails(_facility,_nearby) {
     
     let _overlayClass = 'map-overlay animated slideInLeft'
@@ -199,6 +200,7 @@ export default class MapContainer extends React.Component {
 
     return facility && (
       <InfoContainer
+        
         onClose={() => {
           this.setState({facility: null})
           this.displayFacilityDetails(null)
