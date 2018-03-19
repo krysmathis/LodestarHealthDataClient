@@ -209,12 +209,12 @@ export default class MapContainer extends React.Component {
 
     return facility && (
       <InfoContainer
-        containerClass={'infoContainer-no-border'}
+        containerClass={'infoContainer-no-border animate fadeInRight'}
         onClose={() => {
           this.setState({facility: null})
           this.displayFacilityDetails(null)
           }} >
-        <FacilityInfo info={facility} setHomeLocation={this.submitHomeLocation}/>
+        <FacilityInfo info={facility} setHomeLocation={this.submitHomeLocation} handleClose={this.displayFacilityDetails}/>
       </InfoContainer>
     );
   }

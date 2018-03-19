@@ -1,6 +1,6 @@
 import React from 'react';
-
-
+import DollarConvert from '../../utils/DollarConvert';
+import numberWithCommas from '../../utils/NumbersWithCommas';
 export default class InformationTable extends React.Component {
     
     render() {
@@ -28,7 +28,7 @@ export default class InformationTable extends React.Component {
 
         <tr>
             <td>CY Discharges</td>
-            <td>{cY_Discharges}</td> 
+            <td>{numberWithCommas(cY_Discharges)}</td> 
         </tr>
         <tr>
             <td>Likelihood To Recommend</td>
