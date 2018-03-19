@@ -7,7 +7,7 @@ import FacilityInfo from './Facility-Info';
 import InfoContainer from './Info-Container';
 import Navigation from './Navigation';
 import getApiPath from '../utils/EnvironmentFinder';
-import MapPopup from './MapPopup';
+
 
 
 
@@ -27,7 +27,7 @@ export default class MapContainer extends React.Component {
         overlayClass: 'map-overlay hidden',
         token: null,
         facilities: [],
-        avgMarkerSize: 6000
+        avgMarkerSize: 6000,
        }
 
        this.displayFacilityDetails = this.displayFacilityDetails.bind(this);
@@ -49,10 +49,12 @@ export default class MapContainer extends React.Component {
       } 
     }
   
-    updateDimensions = () => {
+    updateDimensions = (offset) => {
+
+      const _offset = offset > 0 ? offset : 0;
       const _windowDimensions = this.state.windowDimensions
       _windowDimensions.height = window.innerHeight;
-      _windowDimensions.width = window.innerWidth;
+      _windowDimensions.width = window.innerWidth - (window.innerWidth * _offset);
       
       this.setState({
         _windowDimensions
@@ -66,8 +68,9 @@ export default class MapContainer extends React.Component {
     
     let _overlayClass = 'map-overlay animated slideInLeft'
     
-    if (_facility === null) {
+    if (_facility === null || _nearby.length <= 1) {
       _overlayClass = 'map-overlay hidden'
+
     }
 
     // update the nearby facilities to get the ones on top of it
@@ -77,6 +80,13 @@ export default class MapContainer extends React.Component {
         showSidebar: true,
         overlayClass: _overlayClass
     })
+
+    if (_facility === null) {
+      this.updateDimensions(0)
+    } else {
+      // now move the map over
+      this.updateDimensions(.35)
+    }
   
   }
 
@@ -192,15 +202,14 @@ export default class MapContainer extends React.Component {
 
   }
 
-
-
   renderFacilityInfo() {
 
+    // TODO: toggle off if the nav element is clicked
     const {facility} = this.state;
 
     return facility && (
       <InfoContainer
-        
+        containerClass={'infoContainer-no-border'}
         onClose={() => {
           this.setState({facility: null})
           this.displayFacilityDetails(null)
@@ -214,7 +223,7 @@ export default class MapContainer extends React.Component {
   render() {
     return (
       <div className="">
-      <Navigation ref={nav => {this.nav = nav}} userLogOut={this.props.userLogOut} facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest}/>
+      <Navigation ref={nav => {this.nav = nav}} userLogOut={this.props.userLogOut} facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest} toggle={this.displayFacilityDetails}/>
         <div className='viewport-full relative scroll-hidden'>
           { // this is the loading display
             this.state.facilities.length === 0 ?

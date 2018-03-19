@@ -28,3 +28,7 @@
     background-color: rgba(250,250,250,.2);
     justify-items: center;
 }
+
+.full-width {
+    width: 100%;
+}

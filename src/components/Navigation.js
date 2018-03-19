@@ -38,6 +38,8 @@ export default class Navigation extends Component {
     showLoginSidebar = () => {
         const prevState = this.state
         let show = prevState.showLogin === true ? false : true
+
+        this.props.toggle(null);
         
         this.setState({
             showLogin: show,
@@ -108,12 +110,12 @@ export default class Navigation extends Component {
     showFilterSidebar = () => {
         const prevState = this.state
         let show = prevState.showFilter === true ? false : true
-        
         this.setState({
             showFilter: show,
             showSidebar: show,
             showLogin: false
         })    
+        this.props.toggle(null);
     }
 
     /*
@@ -131,7 +133,6 @@ export default class Navigation extends Component {
     }
     
     render() {
-        const {loggedIn} = this.state;
         // the nav bar will control the user login and filter box
         return (
             <div>
@@ -146,11 +147,9 @@ export default class Navigation extends Component {
 
             {this.state.showLogin ?
                 <InfoContainer
-                
-                onClose={() => {
-                this.showFilterSidebar
-                }} >
-                <div>
+                containerClass={'infoContainer'}
+                >
+                <div className="full-width">
                     {this.renderUserLogin()}
                 </div>
             </InfoContainer>
@@ -158,11 +157,9 @@ export default class Navigation extends Component {
 
             { this.state.showFilter ? 
             <InfoContainer
-                
-                onClose={() => {
-                    this.showFilterSidebar
-                }} >
-                <div>
+            containerClass={'infoContainer'}
+               >
+                <div className="full-width">
                     <FilterBox facilities={this.props.facilities} onSubmit={this.submitFacility}/>
                 </div>
             </InfoContainer>

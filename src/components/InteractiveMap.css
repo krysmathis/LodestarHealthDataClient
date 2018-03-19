@@ -2,7 +2,7 @@
     display: inline-block;
     position: absolute;
     bottom: 5px;
-    right: 60%;
+    right: 40%;
     font-size: .75em;
     background-color: black;
     color: white;
@@ -41,6 +41,26 @@ nav {
     padding: 10px;
     display: flex;
     align-content: center;
+    overflow: auto;
+}
+
+.infoContainer-no-border {
+    width: 40%;
+    top: 0px;
+    bottom: 0;
+    right: 0px;
+    margin: 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    position: absolute;
+    background-color: white;
+    z-index: 100;
+    padding: 10px;
+    display: flex;
+    align-content: center;
+    overflow: auto;
+    height: 100%;
+    box-shadow: rgba(0,0,0,.2) -1px 1px 5px;
 }
 
 .notScrollable {

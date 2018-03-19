@@ -185,13 +185,19 @@ class InteractiveMap extends React.Component {
 
 
   _showSelectedFacility = (facility) => {
+    
     this._initializePopupData(facility);
+
       // now center the map on the clicked location
-      setTimeout(() => this._goToViewport(
+      setTimeout(() => {
+        // go to viewport first
+        this._goToViewport(
           facility.long, 
           facility.lat,
           this.state.viewport.zoom < facilityZoom ? facilityZoom : this.state.viewport.zoom)
-        ,100);
+        
+      },100);
+
   }
 
   _initializePopupData = (facility) => {
@@ -205,7 +211,7 @@ class InteractiveMap extends React.Component {
       f.lat,
       f.long,
       "N"
-    ) < 5 );
+    ) <= 0.5 );
 
     // now check if any nearby facilities are a distance of zero
     const nearbyWithDistance = [];

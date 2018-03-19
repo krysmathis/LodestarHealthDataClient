@@ -11,7 +11,8 @@ const styles = {
     padding: 10,
     width: '90%',
     zIndex: 100,
-    position: 'absolute'
+    position: 'absolute',
+    paddingRight: 30
   },
   another: {
     backgroundColor: 'red'

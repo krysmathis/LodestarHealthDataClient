@@ -1,7 +1,6 @@
 .map-overlay {
   position: absolute;
-  width: 35%;
-  top: 50%;
+  top: 65%;
   bottom: 10px;
   left: 0;
   max-height: 40%; 
