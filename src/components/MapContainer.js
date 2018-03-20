@@ -64,7 +64,7 @@ export default class MapContainer extends React.Component {
 
   // update the facility information
   // TODO: rename this to overlapping facilities box
-  displayFacilityDetails(_facility,_nearby) {
+  displayFacilityDetails(_facility,_nearby, allFacilities) {
     
     let _overlayClass = 'map-overlay animated slideInLeft'
     
@@ -78,7 +78,7 @@ export default class MapContainer extends React.Component {
         facility: _facility,
         facilitiesInRange: _nearby,
         showSidebar: true,
-        overlayClass: _overlayClass
+        overlayClass: _overlayClass,
     })
 
     if (_facility === null) {
@@ -115,7 +115,7 @@ export default class MapContainer extends React.Component {
     .then(data => {
       if(data) {
 
-            // TODO: capture the user's home location
+            // The API stores a home location for each user if logged in
             this.getHomeLocation();
             /*
               Calculate the average marker size in order to create a scalable
@@ -124,15 +124,23 @@ export default class MapContainer extends React.Component {
             const totalMarkerSize = data
                               .filter(f => f.cY_Discharges > 0)
                               .reduce(function (acc, obj) { return acc + obj.cY_Discharges; }, 0);
-            const _avgMarkerSize = totalMarkerSize/data.length;
             
-          
+            const _avgCY_Discharges = totalMarkerSize/data.length;
+            
+
             this.setState({
                 facilities: data,
-                avgMarkerSize: _avgMarkerSize
-            });
+                avgMarkerSize: _avgCY_Discharges
+            }, () => this.calcAverages);
           }
         });
+  }
+
+  calcAverages = () => {
+    const {facilities} = this.state;
+    
+    // const avgDischargesPerCapita = facilities.reduce ((a,b) => (a.))
+
   }
 
   publishNearbyLocation = (id) => {
@@ -210,11 +218,12 @@ export default class MapContainer extends React.Component {
     return facility && (
       <InfoContainer
         containerClass={'infoContainer-no-border animated fadeIn'}
+        
         onClose={() => {
           this.setState({facility: null})
           this.displayFacilityDetails(null)
           }} >
-        <FacilityInfo info={facility} setHomeLocation={this.submitHomeLocation} handleClose={this.displayFacilityDetails}/>
+        <FacilityInfo info={facility} comparisonData={this.state._nearby} setHomeLocation={this.submitHomeLocation} handleClose={this.displayFacilityDetails}/>
       </InfoContainer>
     );
   }

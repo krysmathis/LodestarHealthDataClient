@@ -9,13 +9,11 @@
     padding: 0;
     justify-content: center;
 }
-/* 
-.info__footer {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    padding-right: 60px;
-} */
+
+.info__header{
+display: flex;
+justify-content: space-between;
+}
 
 .tabs__nav {
     display: flex;
@@ -35,3 +33,7 @@
     color: white;
 }
 
+.chart__area {
+    display: flex;
+    flex-direction: row;
+}

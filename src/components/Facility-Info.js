@@ -3,6 +3,8 @@ import QualityTable from './tables/QualityTable';
 import MarketTable from './tables/MarketTable';
 import FinanceTable from './tables/FinanceTable';
 import InformationTable from './tables/InformationTable';
+import FinanceChart from './charts/FinanceChart';
+
 import Tabs from './Tabs';
 import './Facility-Info.css';
 
@@ -62,9 +64,9 @@ export default class FacilityInfo extends PureComponent {
       <div>
         <div>
         <div style={{...styles.box}}>
-          <header className='info__footer px8 py8 bg-gray-faint round-b-ml txt-s'>
-            <button className="btn btn-primary" onClick={this.closeFacilityInfo}>close</button>
-            <button className="btn btn-primary" onClick={this.setHomeLocation}>Make Home Location</button>
+          <header className='info__header px8 py8 bg-gray-faint round-b-ml txt-s'>
+            <button onClick={this.setHomeLocation}><svg className='icon h24 w24'><use xlinkHref='#icon-home'/></svg></button>
+            <button onClick={this.closeFacilityInfo}><svg className='icon h24 w24'><use xlinkHref='#icon-close'/></svg></button>
           </header>
           <h2 style={{...styles.info__h2}}>
             {displayName} 
@@ -84,6 +86,9 @@ export default class FacilityInfo extends PureComponent {
               </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Finance'}>
                 <FinanceTable facility={info}/>
+                <div className="chart__area">
+                  {/* <FinanceChart data={this.props.comparisonData}/> */}
+                </div>
               </Tab>
           </Tabs>
         </div>

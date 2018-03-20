@@ -1,5 +1,6 @@
 import React from "react";
 import MAPBOXGL, {Marker, Popup, FlyToInterpolator} from 'react-map-gl';
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import './InteractiveMap.css';
@@ -13,6 +14,8 @@ MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhyc
 const defaultZoom = 8.5;
 const facilityZoom = 11;
 const baseMarkerSize = 20;
+
+
 
 class InteractiveMap extends React.Component {
   constructor(props) {
@@ -203,26 +206,39 @@ class InteractiveMap extends React.Component {
     // this is where we could publish data into the sidebar
     // collect the nearby facilities
 
-    let nearby = this.props.facilities.filter(f => distance(
+    //let nearby = this.props.facilities.filter(f => distance(
+    //   facility.lat,
+    //   facility.long,
+    //   f.lat,
+    //   f.long,
+    //   "N"
+    // ) <= .5 );
+
+    let facilitiesWithDistance = this.props.facilities.map(f => {
+      f.distance = distance(
       facility.lat,
       facility.long,
       f.lat,
       f.long,
       "N"
-    ) <= 0.5 );
+      )
+      return f
+    });
 
-    // now check if any nearby facilities are a distance of zero
-    const nearbyWithDistance = [];
-    nearby.forEach(f => {
-      f.distance = distance(
-        facility.lat,
-        facility.long,
-        f.lat,
-        f.long,
-        "N"
-      ).toFixed(2);
-      nearbyWithDistance.push(f);
-    })
+  const nearbyWithDistance = facilitiesWithDistance.filter(f => f.distance <= .5);   
+
+    //now check if any nearby facilities are a distance of zero
+    // const nearbyWithDistance = [];
+    // nearby.forEach(f => {
+    //   f.distance = distance(
+    //     facility.lat,
+    //     facility.long,
+    //     f.lat,
+    //     f.long,
+    //     "N"  
+    //   ).toFixed(2);
+    //   nearbyWithDistance.push(f);
+    // })
     
 
     /* 
@@ -231,7 +247,7 @@ class InteractiveMap extends React.Component {
     */
 
     this.setState({popupInfo: facility});
-    this.props.publishDetails(facility, nearbyWithDistance);
+    this.props.publishDetails(facility, nearbyWithDistance, facilitiesWithDistance);
     
 
 }
@@ -255,7 +271,6 @@ _renderPopup() {
 }
 
 
-
   render() {
     const { viewport } = this.state;
 
@@ -274,6 +289,7 @@ _renderPopup() {
         </div>
         {this.props.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}            
         {/* {this._renderPopup()} */}
+       
       </MAPBOXGL>
         
       </div>
