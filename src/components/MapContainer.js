@@ -136,13 +136,7 @@ export default class MapContainer extends React.Component {
         });
   }
 
-  calcAverages = () => {
-    const {facilities} = this.state;
-    
-    // const avgDischargesPerCapita = facilities.reduce ((a,b) => (a.))
-
-  }
-
+  
   publishNearbyLocation = (id) => {
     const facility = this.state.facilitiesInRange.find(f => f.facilityId === id);
     this.submitSearchRequest(facility);

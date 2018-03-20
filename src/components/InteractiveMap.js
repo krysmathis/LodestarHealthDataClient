@@ -1,10 +1,11 @@
 import React from "react";
-import MAPBOXGL, {Marker, ScatterplotOverlay, Popup, FlyToInterpolator} from 'react-map-gl';
+import MAPBOXGL, {Marker, Popup, FlyToInterpolator} from 'react-map-gl';
 import DeckGLOverlay from './Deck-GL-Overlay';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import './InteractiveMap.css';
 import distance from '../utils/DistanceCalc';
+
 
 //"mapbox://styles/krysmathis/cjeimaj4r1k6w2rqeflmdfwc8",
 const mapStyle = 'mapbox://styles/mapbox/streets-v9'
@@ -18,7 +19,6 @@ const HCA_COLOR = '#030f42';
 const HCA_COLOR_ARR = [3, 15, 66];
 const OTHER_COLOR = "red";
 const OTHER_COLOR_ARR = [255,0,0];
-let DeckGLLayer = [];
 // const ScatterplotOverlay = require('./scatterplot-overlay');
 
 class InteractiveMap extends React.Component {
@@ -47,8 +47,6 @@ class InteractiveMap extends React.Component {
     this._goToViewport = this._goToViewport.bind(this);
   }
 
-  
-
 
   // added the map will not properly resize without it, it will 'stick' in the first setting
   componentWillReceiveProps(nextProps) {
@@ -61,9 +59,6 @@ class InteractiveMap extends React.Component {
   }
 
   
-  componentDidMount() {
-    DeckGLLayer = this.props.facilities.map(f => [f.long, f.lat,Math.max((f.cY_Discharges/this.props.avgMarkerSize * baseMarkerSize)*100),baseMarkerSize*10, f.system_Affiliation_Name]);
-  }
 
   _goToViewport = (longitude, latitude, zoom) => {
 
@@ -152,11 +147,12 @@ class InteractiveMap extends React.Component {
    */
   const zoomChangeAt = defaultZoom;
   if (this.state.viewport.zoom < zoomChangeAt) {
-    markerSize = 5;
+    // markerSize = 5;
     
-    if (  system !== "HCA") {
-      return;
-    }
+    // if (  system !== "HCA") {
+    //   return;
+    // }
+    return // this is handled by the deck.gl layer now
   }
   
     // could control the color and size from here as each Marker is a one
@@ -181,7 +177,8 @@ class InteractiveMap extends React.Component {
         <FacilityPin  size={markerSize} 
                       color={color} 
                       opacity={.75}
-                      selected={selected}                      
+                      selected={selected} 
+                      onMouseOver={() => console.log("test")}                     
                       onClick={
                         () => {
                          this._showSelectedFacility(facility);
@@ -249,9 +246,10 @@ _renderPopup() {
       anchor="top"
       longitude={popupInfo.long}
       latitude={popupInfo.lat}
-      onMouseExit={() => {
-        this.setState({popupInfo: null})
-        this.props.publishDetails(null)
+      onClick={() => {
+        console.log("clicked")
+        // this.setState({popupInfo: null})
+        // this.props.publishDetails(null)
         }} >
       hello World!
     </Popup>
@@ -270,7 +268,7 @@ _renderPopup() {
         onViewportChange={this._onChangeViewport}
         mapStyle={mapStyle}
         ref={map => (this.mapRef = map)}
-        
+        mousemove={() => console.log("entered")}
         {...viewport}
         >
         <div className="locationBlock">
@@ -279,17 +277,16 @@ _renderPopup() {
         {
           this.state.viewport.zoom < defaultZoom ? 
           <DeckGLOverlay
-            viewport={viewport}
-            data={this.props.facilities.filter(f=> this._withinBounds(f)).map(f => [f.long, f.lat,Math.max((f.cY_Discharges/this.props.avgMarkerSize * baseMarkerSize)*100),baseMarkerSize*10, f.system_Affiliation_Name])}
-            radius={30}
-            maleColor={HCA_COLOR_ARR}
-            femaleColor={OTHER_COLOR_ARR}
+          viewport={viewport}
+          data={this.props.facilities.filter(f=> this._withinBounds(f)).map(f => [f.long, f.lat,Math.max((f.cY_Discharges/this.props.avgMarkerSize * baseMarkerSize)*100),baseMarkerSize*10, f.system_Affiliation_Name])}
+          radius={30}
+          maleColor={HCA_COLOR_ARR}
+          femaleColor={OTHER_COLOR_ARR}
           />      
           : null
         }
         {this.props.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}            
-        {/* {this._renderPopup()} */}
-        
+        <button onClick={() => console.log(this._getBounds())}>click</button>
       </MAPBOXGL>
         
       </div>
