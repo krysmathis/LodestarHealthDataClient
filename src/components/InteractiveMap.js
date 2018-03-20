@@ -286,7 +286,6 @@ _renderPopup() {
           : null
         }
         {this.props.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}            
-        <button onClick={() => console.log(this._getBounds())}>click</button>
       </MAPBOXGL>
         
       </div>
