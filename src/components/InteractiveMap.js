@@ -206,14 +206,10 @@ class InteractiveMap extends React.Component {
     // this is where we could publish data into the sidebar
     // collect the nearby facilities
 
-    //let nearby = this.props.facilities.filter(f => distance(
-    //   facility.lat,
-    //   facility.long,
-    //   f.lat,
-    //   f.long,
-    //   "N"
-    // ) <= .5 );
-
+    // calculating the distance to all facilities due to the need to calculate
+    // nearest affiliated hospital and the need to calculate different measures
+    // based on the distance
+    
     let facilitiesWithDistance = this.props.facilities.map(f => {
       f.distance = distance(
       facility.lat,
@@ -226,20 +222,6 @@ class InteractiveMap extends React.Component {
     });
 
   const nearbyWithDistance = facilitiesWithDistance.filter(f => f.distance <= .5);   
-
-    //now check if any nearby facilities are a distance of zero
-    // const nearbyWithDistance = [];
-    // nearby.forEach(f => {
-    //   f.distance = distance(
-    //     facility.lat,
-    //     facility.long,
-    //     f.lat,
-    //     f.long,
-    //     "N"  
-    //   ).toFixed(2);
-    //   nearbyWithDistance.push(f);
-    // })
-    
 
     /* 
         here we would not set the state if there are multiple facilities
