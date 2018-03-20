@@ -1,5 +1,6 @@
 import React from "react";
 import './Info-Container.css';
+import '../../node_modules/animate.css';
 
 
 

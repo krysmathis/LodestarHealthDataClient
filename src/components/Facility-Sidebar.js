@@ -33,7 +33,7 @@ class FacilitySidebar extends React.Component {
             <h1>Overlapping Locations</h1>
             <ul className="nearbyLocations__ul">
             {this.props.facilitiesInRange.sort((a,b) => a.distance - b.distance).map((f) => 
-                f.facilityId === this.props.facility.facilityId ? null : <li onClick={this.publishFacility} className="nearbyLocations__li" key={`nearby-${f.facilityId}`} id={`nearby-${f.facilityId}`}><div className="nearbyLocations__name">{f.facility_Name}</div> <div>{f.distance}</div></li>
+                f.facilityId === this.props.facility.facilityId ? null : <li onClick={this.publishFacility} className="nearbyLocations__li" key={`nearby-${f.facilityId}`} id={`nearby-${f.facilityId}`}><div className="nearbyLocations__name">{f.facility_Name}</div></li>
             )}
              </ul>
              </div>
@@ -51,9 +51,9 @@ class FacilitySidebar extends React.Component {
             return  (
                 
                 <div>
-                    <div className='absolute top-ml left bottom z1 w-full w360-ml px12 py12-ml'>
+                    <div className='absolute top-ml left z1 w-full w280-ml px12 py12-ml'>
                         <div className='flex-parent flex-parent--column viewport-third h-auto-ml hmax-full bg-white round-ml shadow-darken10'>
-                        <div className='px12 py12 scroll-auto'>
+                        <div className='px8 py8 scroll-auto'>
                             <h3 className='txt-m txt-bold mb8'>{this.props.facility.system_Affiliation_Name}</h3>
                              { this.renderNearbyLocationNames() }
                         </div>

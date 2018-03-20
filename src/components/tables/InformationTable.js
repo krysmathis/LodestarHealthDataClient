@@ -1,5 +1,4 @@
 import React from 'react';
-import DollarConvert from '../../utils/DollarConvert';
 import numberWithCommas from '../../utils/NumbersWithCommas';
 export default class InformationTable extends React.Component {
     

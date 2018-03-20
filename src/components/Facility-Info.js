@@ -28,17 +28,16 @@ const styles = {
 
 const Tab = (props) => {
 
-  console.log
   return (
-      <li className={`tab ${props.isActive ? 'active' : ''}`}>
-          <a className={`tab-link ${props.linkClassName} `}
-              onClick={(event) => {
-                  event.preventDefault();
-                  props.onClick(props.tabIndex);
-              }}>
+      <li className={`tab ${props.isActive ? 'active' : ''}`}
+            onClick={(event) => {
+              event.preventDefault();
+              props.onClick(props.tabIndex);
+          }
+        }>       
+        {/* <svg className='icon h12 w12'><use xlinkHref={props.iconClassName}/></svg> */}
               <i className={`tab-icon ${props.iconClassName}`}/>
               {props.label}
-          </a>
       </li>
   )
 }
@@ -63,7 +62,7 @@ export default class FacilityInfo extends PureComponent {
       <div>
         <div>
         <div style={{...styles.box}}>
-          <header className='info__footer px12 py12 bg-gray-faint round-b-ml txt-s'>
+          <header className='info__footer px8 py8 bg-gray-faint round-b-ml txt-s'>
             <button className="btn btn-primary" onClick={this.closeFacilityInfo}>close</button>
             <button className="btn btn-primary" onClick={this.setHomeLocation}>Make Home Location</button>
           </header>
@@ -71,7 +70,7 @@ export default class FacilityInfo extends PureComponent {
             {displayName} 
           </h2>
           <Tabs defaultActiveTabIndex={0} className='tabs__nav'>
-              <Tab iconClassName={'icon-class-0'} linkClassName={'link-class-0'} label={'All'}>
+              <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-0'} label={'All'}>
                 <InformationTable facility={info}/>
                 <QualityTable facility={info}/>
                 <MarketTable facility={info}/>

@@ -6,9 +6,9 @@
     font-size: .75em;
     background-color: black;
     color: white;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 15px;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
 }
 
 nav {
@@ -45,7 +45,7 @@ nav {
 }
 
 .infoContainer-no-border {
-    width: 40%;
+    width: 50%;
     top: 0px;
     bottom: 0;
     right: 0px;
@@ -80,26 +80,41 @@ nav {
     width: 40%;
 }
 
-
+.map-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 30%;
+    max-height: 50%; 
+    z-index: 1001; 
+  
+  }
+  
+  .map-overlay h1 {
+    font-size: 1.15em !important;
+    font-weight: 800;
+    padding: 10px;
+  }
 
  .nearbyLocations__ul {
      display: flex;
      flex-direction: column;
-     padding-top: 5px;
      padding-bottom: 5px;
-     margin-top: 10px;
      line-height: 120%;
+     padding-left: 5px;
  }
 
  .nearbyLocations__name {
-     width: 80%;
+     width: 100%;
+
  }
 
  .nearbyLocations__li {
      min-height: 50px;
      display: flex;
      align-content: space-between;
-     padding-top: 5px;
+     padding: 5px;
+     margin-right: 5px
  }
  .nearbyLocations__li:hover {
     background-color: lightgrey;

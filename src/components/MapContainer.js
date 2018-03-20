@@ -85,7 +85,7 @@ export default class MapContainer extends React.Component {
       this.updateDimensions(0)
     } else {
       // now move the map over
-      this.updateDimensions(.35)
+      this.updateDimensions(.5)
     }
   
   }
@@ -209,7 +209,7 @@ export default class MapContainer extends React.Component {
 
     return facility && (
       <InfoContainer
-        containerClass={'infoContainer-no-border animate fadeInRight'}
+        containerClass={'infoContainer-no-border animated fadeIn'}
         onClose={() => {
           this.setState({facility: null})
           this.displayFacilityDetails(null)

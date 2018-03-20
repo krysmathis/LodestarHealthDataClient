@@ -162,8 +162,8 @@ class InteractiveMap extends React.Component {
     let selected = false;
     if (this.state.popupInfo !== null) {
       selected = facility.facilityId === this.state.popupInfo.facilityId;
-    }
-
+    }    
+    
     return (
       <Marker key={`marker-${index}`}
         longitude={facility.long}
@@ -181,8 +181,6 @@ class InteractiveMap extends React.Component {
       </Marker>
     );
   }
-
-
 
   _showSelectedFacility = (facility) => {
     
@@ -271,10 +269,10 @@ _renderPopup() {
         ref={map => (this.mapRef = map)}
         {...viewport}
         >
-      <div className="locationBlock">
+        <div className="locationBlock">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
-        {this.props.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}
+        {this.props.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}            
         {/* {this._renderPopup()} */}
       </MAPBOXGL>
         
