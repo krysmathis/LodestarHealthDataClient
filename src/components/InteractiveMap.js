@@ -18,7 +18,7 @@ const HCA_COLOR = '#030f42';
 const HCA_COLOR_ARR = [3, 15, 66];
 const OTHER_COLOR = "red";
 const OTHER_COLOR_ARR = [255,0,0];
-
+let DeckGLLayer = [];
 // const ScatterplotOverlay = require('./scatterplot-overlay');
 
 class InteractiveMap extends React.Component {
@@ -47,7 +47,8 @@ class InteractiveMap extends React.Component {
     this._goToViewport = this._goToViewport.bind(this);
   }
 
- 
+  
+
 
   // added the map will not properly resize without it, it will 'stick' in the first setting
   componentWillReceiveProps(nextProps) {
@@ -60,9 +61,8 @@ class InteractiveMap extends React.Component {
   }
 
   
-
   componentDidMount() {
- 
+    DeckGLLayer = this.props.facilities.map(f => [f.long, f.lat,Math.max((f.cY_Discharges/this.props.avgMarkerSize * baseMarkerSize)*100),baseMarkerSize*10, f.system_Affiliation_Name]);
   }
 
   _goToViewport = (longitude, latitude, zoom) => {
@@ -103,6 +103,7 @@ class InteractiveMap extends React.Component {
         low: rawBounds._sw.lng
       }
     };
+
     return bounds;
   };
 
@@ -279,7 +280,7 @@ _renderPopup() {
           this.state.viewport.zoom < defaultZoom ? 
           <DeckGLOverlay
             viewport={viewport}
-            data={this.props.facilities.map(f => [f.long, f.lat,Math.max((f.cY_Discharges/this.props.avgMarkerSize * baseMarkerSize)*100),baseMarkerSize*10, f.system_Affiliation_Name])}
+            data={this.props.facilities.filter(f=> this._withinBounds(f)).map(f => [f.long, f.lat,Math.max((f.cY_Discharges/this.props.avgMarkerSize * baseMarkerSize)*100),baseMarkerSize*10, f.system_Affiliation_Name])}
             radius={30}
             maleColor={HCA_COLOR_ARR}
             femaleColor={OTHER_COLOR_ARR}
