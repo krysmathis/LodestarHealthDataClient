@@ -3,7 +3,7 @@ import QualityTable from './tables/QualityTable';
 import MarketTable from './tables/MarketTable';
 import FinanceTable from './tables/FinanceTable';
 import InformationTable from './tables/InformationTable';
-import FinanceChart from './charts/FinanceChart';
+// import FinanceChart from './charts/FinanceChart';
 
 import Tabs from './Tabs';
 import './Facility-Info.css';
@@ -23,7 +23,8 @@ const styles = {
   },
   info__h2: {
     fontWeight: 800,
-    fontSize: '1.5em'
+    fontSize: '1.5em',
+    padding: '20px'
   }
   
 }
@@ -68,23 +69,25 @@ export default class FacilityInfo extends PureComponent {
             <button onClick={this.setHomeLocation}><svg className='icon h24 w24'><use xlinkHref='#icon-home'/></svg></button>
             <button onClick={this.closeFacilityInfo}><svg className='icon h24 w24'><use xlinkHref='#icon-close'/></svg></button>
           </header>
-          <h2 style={{...styles.info__h2}}>
-            {displayName} 
-          </h2>
+
           <Tabs defaultActiveTabIndex={0} className='tabs__nav'>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-0'} label={'All'}>
+              <h2 style={{...styles.info__h2}}>{displayName} </h2>
                 <InformationTable facility={info}/>
                 <QualityTable facility={info}/>
                 <MarketTable facility={info}/>
                 <FinanceTable facility={info}/>
               </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Quality'}>
+              <h2 style={{...styles.info__h2}}>{displayName} </h2>
                 <QualityTable facility={info}/>
               </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Market'}>
+              <h2 style={{...styles.info__h2}}>{displayName} </h2>
                 <MarketTable facility={info}/>
               </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Finance'}>
+                <h2 style={{...styles.info__h2}}>{displayName} </h2>
                 <FinanceTable facility={info}/>
                 <div className="chart__area">
                   {/* <FinanceChart data={this.props.comparisonData}/> */}

@@ -109,6 +109,10 @@ nav {
 
  }
 
+ .facility__sidebar {
+    max-height: 200px !important;
+ }
+
  .nearbyLocations__li {
      min-height: 50px;
      display: flex;

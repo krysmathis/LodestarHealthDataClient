@@ -28,35 +28,35 @@ export default class FinanceTable extends React.Component {
         <tbody>
         <tr>
             <td className="column__name">Fund Balance</td>
-            <td className="column__value">{dollarConvert(fund_Balance)}</td> 
+            <td className="center">{dollarConvert(fund_Balance)}</td> 
         </tr>
         <tr>
             <td >Current Assets</td>
-            <td>{dollarConvert(current_Assets)}</td> 
+            <td className="center">{dollarConvert(current_Assets)}</td> 
         </tr>
         <tr>
             <td>Current Liabilities</td>
-            <td>{dollarConvert(current_Liabilities)}</td> 
+            <td className="center">{dollarConvert(current_Liabilities)}</td> 
         </tr>
         <tr>
             <td>Total Liabilities</td>
-            <td>{dollarConvert(total_Liabilities)}</td> 
+            <td className="center">{dollarConvert(total_Liabilities)}</td> 
         </tr>
         <tr>
             <td>Estimated NR</td>
-            <td>{dollarConvert(estimated_NR)}</td> 
+            <td className="center">{dollarConvert(estimated_NR)}</td> 
         </tr>
         <tr>
             <td>Estimated CM</td>
-            <td>{dollarConvert(estimated_CM)}</td> 
+            <td className="center">{dollarConvert(estimated_CM)}</td> 
         </tr>
         <tr>
             <td>Estimated EBITDA</td>
-            <td>{dollarConvert(estimated_EBITDA)}</td> 
+            <td className="center">{dollarConvert(estimated_EBITDA)}</td> 
         </tr>
         <tr>
             <td>Estimated EBITDAR</td>
-            <td>{dollarConvert(ebitdar)}</td> 
+            <td className="center">{dollarConvert(ebitdar)}</td> 
         </tr>
 
         </tbody>

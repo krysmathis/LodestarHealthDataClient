@@ -3,9 +3,8 @@ import {
     XYPlot,
     XAxis,
     YAxis,
-    HorizontalBarSeries,
     VerticalBarSeries,
-    HorizontalBarSeriesCanvas
+
   } from 'react-vis';
   import '../../../node_modules/react-vis/dist/style.css';
 

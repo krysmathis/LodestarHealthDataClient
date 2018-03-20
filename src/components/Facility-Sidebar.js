@@ -52,7 +52,7 @@ class FacilitySidebar extends React.Component {
                 
                 <div>
                     <div className='absolute top-ml left z1 w-full w280-ml px12 py12-ml'>
-                        <div className='flex-parent flex-parent--column viewport-third bg-white round-ml shadow-darken10'>
+                        <div className='facility__sidebar flex-parent flex-parent--column viewport-third bg-white round-ml shadow-darken10'>
                         <div className='px8 py8 scroll-auto'>
                             <h3 className='txt-m txt-bold mb8'>{this.props.facility.system_Affiliation_Name}</h3>
                              { this.renderNearbyLocationNames() }

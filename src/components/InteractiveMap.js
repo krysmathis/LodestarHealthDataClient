@@ -1,6 +1,6 @@
 import React from "react";
-import MAPBOXGL, {Marker, Popup, FlyToInterpolator} from 'react-map-gl';
-
+import MAPBOXGL, {Marker, ScatterplotOverlay, Popup, FlyToInterpolator} from 'react-map-gl';
+import DeckGLOverlay from './Deck-GL-Overlay';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import FacilityPin from './Facility-Pin';
 import './InteractiveMap.css';
@@ -14,8 +14,12 @@ MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhyc
 const defaultZoom = 8.5;
 const facilityZoom = 11;
 const baseMarkerSize = 20;
+const HCA_COLOR = '#030f42';
+const HCA_COLOR_ARR = [3, 15, 66];
+const OTHER_COLOR = "red";
+const OTHER_COLOR_ARR = [255,0,0];
 
-
+// const ScatterplotOverlay = require('./scatterplot-overlay');
 
 class InteractiveMap extends React.Component {
   constructor(props) {
@@ -134,7 +138,8 @@ class InteractiveMap extends React.Component {
     marker size is dynamic based on a calculation and depends on
     if the facility is an HCA facility or not
     */
-   let markerSize = facility.cY_Discharges/this.props.avgMarkerSize * baseMarkerSize;
+   const calculatedMarkerSize = facility.cY_Discharges/this.props.avgMarkerSize * baseMarkerSize
+   let markerSize = calculatedMarkerSize >  baseMarkerSize ? calculatedMarkerSize : baseMarkerSize;
    if(system === "HCA") {
       markerSize = (markerSize * 2)
    } 
@@ -157,7 +162,7 @@ class InteractiveMap extends React.Component {
     // to one representation of a facility
     // if the system is HCA show up as blue otherwise as red
     let color = "black"
-    system === "HCA" ? color = "#030F42" : color = "red";
+    system === "HCA" ? color = HCA_COLOR : color = OTHER_COLOR;
 
     // logic to handle if the facility is the selected facility so the program
     // will ensure the user can visually distinguish between the selected marker
@@ -235,7 +240,7 @@ class InteractiveMap extends React.Component {
 }
 
 _renderPopup() {
-
+  
   const {popupInfo} = this.state;
 
   return popupInfo && (
@@ -264,14 +269,26 @@ _renderPopup() {
         onViewportChange={this._onChangeViewport}
         mapStyle={mapStyle}
         ref={map => (this.mapRef = map)}
+        
         {...viewport}
         >
         <div className="locationBlock">
           <div>{`Longitude: ${viewport.longitude.toFixed(4)} Latitude: ${viewport.latitude.toFixed(4)} Zoom: ${viewport.zoom.toFixed(2)}`}</div>
         </div>
+        {
+          this.state.viewport.zoom < defaultZoom ? 
+          <DeckGLOverlay
+            viewport={viewport}
+            data={this.props.facilities.map(f => [f.long, f.lat,Math.max((f.cY_Discharges/this.props.avgMarkerSize * baseMarkerSize)*100),baseMarkerSize*10, f.system_Affiliation_Name])}
+            radius={30}
+            maleColor={HCA_COLOR_ARR}
+            femaleColor={OTHER_COLOR_ARR}
+          />      
+          : null
+        }
         {this.props.facilities.filter(f=> this._withinBounds(f)).map(this._renderFacilityMarker)}            
         {/* {this._renderPopup()} */}
-       
+        
       </MAPBOXGL>
         
       </div>

@@ -127,7 +127,7 @@ export default class MapContainer extends React.Component {
             
             const _avgCY_Discharges = totalMarkerSize/data.length;
             
-
+            data.sort((a,b) => a.cY_Discharges - b.cY_Discharges)
             this.setState({
                 facilities: data,
                 avgMarkerSize: _avgCY_Discharges

@@ -22,7 +22,7 @@ export default class QualityTable extends React.Component {
     <tbody>
     <tr>
         <td className="column__name">Overall Score</td>
-        <td>{overall_Hospital_Linear_Mean_Score}</td> 
+        <td className="center">{overall_Hospital_Linear_Mean_Score}</td> 
     </tr>
     <tr>
         <td>Complications And Deaths</td>
