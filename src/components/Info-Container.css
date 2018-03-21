@@ -172,4 +172,20 @@
     .height-50 {
         height: 80% !important;
     }
+
 }
+
+@media (max-width: 320px) {
+    .infoContainer-no-border {
+
+        width: 120%;
+        right: -60px;
+
+    }
+
+    .info__box {
+        width: 100%;
+
+    }
+}
+
