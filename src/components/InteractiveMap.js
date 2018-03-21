@@ -174,7 +174,9 @@ class InteractiveMap extends React.Component {
         longitude={facility.long}
         latitude={facility.lat} 
         >
-        <FacilityPin  size={markerSize} 
+        <FacilityPin  
+        size={markerSize} 
+        name={facility.facility_Name}
                       color={color} 
                       opacity={.75}
                       selected={selected} 

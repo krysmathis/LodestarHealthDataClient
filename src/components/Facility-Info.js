@@ -3,7 +3,7 @@ import QualityTable from './tables/QualityTable';
 import MarketTable from './tables/MarketTable';
 import FinanceTable from './tables/FinanceTable';
 import InformationTable from './tables/InformationTable';
-// import FinanceChart from './charts/FinanceChart';
+import PerformanceChart from './charts/PerformanceChart';
 
 import Tabs from './Tabs';
 import './Facility-Info.css';
@@ -74,6 +74,7 @@ export default class FacilityInfo extends PureComponent {
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Quality'}>
               <h2 style={{...styles.info__h2}}>{displayName} </h2>
                 <QualityTable facility={info}/>
+                {/* <PerformanceChart /> */}
               </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Market'}>
               <h2 style={{...styles.info__h2}}>{displayName} </h2>

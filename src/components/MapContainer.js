@@ -180,7 +180,9 @@ export default class MapContainer extends React.Component {
       }
     }).then(result =>{
       if(result.ok) {
-        console.log(result.json())
+        this.setState({
+          homeLocation: [longitude, latitude]
+        })
       }
     }) // convert to json
 
@@ -233,11 +235,12 @@ if not then use the one from the navigator
       }, () => this.displayFacilityDetails(null))
   }
 
-   goToHomeLocation = (loggedIn) => {
+  goToHomeLocation = (loggedIn) => {
        
      // this should clear the facility popup
      setTimeout(() => {
-       if (loggedIn === true) {
+       
+      if (this.props.userLoggedIn) {
          
         // update the viewport
          const home = this.state.homeLocation

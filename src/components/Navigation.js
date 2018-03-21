@@ -107,7 +107,7 @@ export default class Navigation extends Component {
     submitUser = () => {
 
         const {username, password} = this.state;
-        const strongPassword = new new RegExp("(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$");
+        const strongPassword = new RegExp("(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$");
 
         // validate that both inputs have text
         if (username.length > 0 && strongPassword.test(password) > 0) {

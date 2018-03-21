@@ -160,4 +160,8 @@
      .nearbyLocations__li {
         min-height: 40px;
     }
+
+    .height-50 {
+        height: 80% !important;
+    }
 }
