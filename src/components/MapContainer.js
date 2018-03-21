@@ -28,6 +28,7 @@ export default class MapContainer extends React.Component {
         token: null,
         facilities: [],
         avgMarkerSize: 6000,
+        homeLocation: []
        }
 
        this.displayFacilityDetails = this.displayFacilityDetails.bind(this);
@@ -37,15 +38,23 @@ export default class MapContainer extends React.Component {
     
     componentDidMount = () => {
 
+      console.log("Attempting geolocation")
+      navigator.geolocation.getCurrentPosition(() => console.log("I found you!"))
+
       this.updateDimensions();
       window.addEventListener("resize", this.updateDimensions);
       
       this.getFacilities(); 
-
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position =>
-          console.log("navigator position ", position)
-        );
+       
+        navigator.geolocation.getCurrentPosition(position => {
+          
+          console.log(position)
+          
+          this.setState({
+            homeLocation: [position.coordinates.longitude, position.coordinates.latitude]
+          })
+        });
       } 
     }
   
@@ -122,7 +131,7 @@ export default class MapContainer extends React.Component {
               marker size
             */
             const totalMarkerSize = data
-                              .filter(f => f.cY_Discharges > 0)
+                              .filter(f => f.cY_Discharges > 0 && f.cY_Discharges < 60000)
                               .reduce(function (acc, obj) { return acc + obj.cY_Discharges; }, 0);
             
             const _avgCY_Discharges = totalMarkerSize/data.length;
@@ -195,14 +204,59 @@ export default class MapContainer extends React.Component {
       if (r !== undefined) {
         const _lat = r.lat;
         const _lon = r.lon;
-  
+        
+        // store the home location
+        this.setState({
+          homeLocation: [_lon, _lat]
+        })
+
         // adjust the viewport to the saved location
-        this.map._goToViewport(_lon,_lat, 8.5);
+        this.map._goToViewport(_lon,_lat, 10.5);
       }
 
     }) // convert to json
 
   }
+  
+  // send the user to the home location
+    /*
+Go to home location, if the user is logged in use the one supplied as a prop
+if not then use the one from the navigator
+    */
+
+  clearFacility = () => {
+      this.setState({
+        facility: null,
+      }, () => this.displayFacilityDetails(null))
+  }
+
+   goToHomeLocation = (loggedIn) => {
+       
+     // this should clear the facility popup
+     setTimeout(() => {
+       if (loggedIn === true) {
+         // update the viewport
+         const home = this.state.homeLocation
+         this.map._goToViewport( home[0], home[1], 10.5);
+         
+        } else {
+          // use the navigator to get the user's current location
+          // the update the navigator
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position =>
+              console.log("navigator position ", position)
+            , console.log("Could not locate user"));
+          } else if (this.state.homeLocation.length > 0) {
+            const location = this.state.homeLocation;
+            this.map._goToViewport(location[0], location[1], 10.5);
+          }
+        }
+     },100)
+      
+    setTimeout(this.clearFacility(), 100);
+      
+        
+    }
 
   renderFacilityInfo() {
 
@@ -226,7 +280,7 @@ export default class MapContainer extends React.Component {
   render() {
     return (
       <div className="">
-      <Navigation ref={nav => {this.nav = nav}} userLogOut={this.props.userLogOut} facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest} toggle={this.displayFacilityDetails}/>
+      <Navigation ref={nav => {this.nav = nav}} userLogOut={this.props.userLogOut} facilities={this.state.facilities} onSubmit={this.props.onSubmit} userLoggedIn={this.props.userLoggedIn} onFacilitySubmit={this.submitSearchRequest} toggle={this.displayFacilityDetails} goHome={this.goToHomeLocation}/>
         <div className='viewport-full relative scroll-hidden'>
           { // this is the loading display
             this.state.facilities.length === 0 ?

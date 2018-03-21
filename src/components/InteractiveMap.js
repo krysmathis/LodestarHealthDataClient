@@ -14,7 +14,7 @@ MAPBOXGL.accessToken = 'pk.eyJ1Ijoia3J5c21hdGhpcyIsImEiOiJjamUyc3RmZ3owbHFjMnhyc
 // default level of zoom for the map
 const defaultZoom = 8.5;
 const facilityZoom = 11;
-const baseMarkerSize = 20;
+const baseMarkerSize = 5;
 const HCA_COLOR = '#030f42';
 const HCA_COLOR_ARR = [3, 15, 66];
 const OTHER_COLOR = "red";

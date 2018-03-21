@@ -118,6 +118,7 @@ export default class Navigation extends Component {
         this.props.toggle(null);
     }
 
+
     /*
         Description:
         In the render function, the program creates a reference to the 
@@ -131,6 +132,15 @@ export default class Navigation extends Component {
             showSidebar: false
         })  
     }
+
+    // Function to send the user to their home location
+    sendUserHome = () => {
+        this.props.goHome(this.state.loggedIn !== null)
+        this.setState({
+            showFilter: false,
+            showSidebar: false
+        }) 
+    }
     
     render() {
         // the nav bar will control the user login and filter box
@@ -141,6 +151,7 @@ export default class Navigation extends Component {
             
             <button className="nav__btn" onClick={this.showFilterSidebar}><svg className='icon h36 w36'><use xlinkHref='#icon-search'/></svg></button>
             <button className="nav__btn" onClick={this.showLoginSidebar}><svg className='icon h36 w36'><use xlinkHref='#icon-user'/></svg></button>
+            <button className="nav__btn" onClick={this.sendUserHome}><svg className='icon h36 w36'><use xlinkHref='#icon-home'/></svg></button>
              
             
             </nav> 

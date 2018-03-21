@@ -64,6 +64,8 @@ nav {
     box-shadow: rgba(0,0,0,.2) -1px 1px 5px;
 }
 
+
+
 .notScrollable {
     overflow: hidden;
 }
@@ -87,14 +89,13 @@ nav {
     width: 30%;
     max-height: 50%; 
     z-index: 1001; 
+}
   
-  }
-  
-  .map-overlay h1 {
+.map-overlay h1 {
     font-size: 1.15em !important;
     font-weight: 800;
     padding: 10px;
-  }
+}
 
  .nearbyLocations__ul {
      display: flex;
@@ -135,4 +136,3 @@ nav {
     align-content: center;
     justify-content: center;
  }
-
