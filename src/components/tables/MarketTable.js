@@ -25,19 +25,19 @@ export default class MarketTable extends React.Component {
         <tbody>
         <tr>
             <td className="column__name">CY Commercial Market Share</td>
-            <td>{(current_Year_Commercial_Market_Share * 100).toFixed(1) + "%"}</td> 
+            <td className="center">{(current_Year_Commercial_Market_Share * 100).toFixed(1) + "%"}</td> 
         </tr>
         <tr>
             <td>CY Market Share</td>
-            <td>{(current_Year_Market_Share * 100).toFixed(1) + "%"}</td> 
+            <td className="center">{(current_Year_Market_Share * 100).toFixed(1) + "%"}</td> 
         </tr>
         <tr>
             <td>Household Income</td>
-            <td>{"$" + numberWithCommas(household_Income.toFixed(0))}</td> 
+            <td className="center">{"$" + numberWithCommas(household_Income.toFixed(0))}</td> 
         </tr>
         <tr>
             <td>Population Growth (2017-2022)</td>
-            <td>{(total_2017_22_Pop_Growth * 100).toFixed(1) + "%"}</td> 
+            <td className="center">{(total_2017_22_Pop_Growth * 100).toFixed(1) + "%"}</td> 
         </tr>
         </tbody>
         </table>

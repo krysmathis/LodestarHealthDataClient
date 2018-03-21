@@ -9,18 +9,7 @@ import Tabs from './Tabs';
 import './Facility-Info.css';
 
 const styles = {
-  box: {
-    backgroundColor: 'white',
-    margin: 0,
-    padding: 10,
-    width: '90%',
-    zIndex: 100,
-    position: 'absolute',
-    paddingRight: 30
-  },
-  another: {
-    backgroundColor: 'red'
-  },
+
   info__h2: {
     fontWeight: 800,
     fontSize: '1.5em',
@@ -64,10 +53,14 @@ export default class FacilityInfo extends PureComponent {
     return (
       <div>
         <div>
-        <div style={{...styles.box}}>
+        <div className="info__box">
           <header className='info__header px8 py8 bg-gray-faint round-b-ml txt-s'>
-            <button onClick={this.setHomeLocation}><svg className='icon h24 w24'><use xlinkHref='#icon-home'/></svg>Set as Home Location</button>
-            <button onClick={this.closeFacilityInfo}><svg className='icon h24 w24'><use xlinkHref='#icon-close'/></svg>Exit</button>
+            <button className="tooltip" onClick={this.setHomeLocation}><svg className='icon h24 w24'><use xlinkHref='#icon-viewport'/></svg>
+              <span className="tooltiptext tooltip-right">Save as home location</span>
+            </button>
+            <button className="tooltip" onClick={this.closeFacilityInfo}><svg className='icon h24 w24'><use xlinkHref='#icon-close'/></svg>
+              <span className="tooltiptext tooltip-left">Close</span>
+            </button>
           </header>
 
           <Tabs defaultActiveTabIndex={0} className='tabs__nav'>

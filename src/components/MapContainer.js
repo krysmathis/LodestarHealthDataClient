@@ -9,8 +9,6 @@ import Navigation from './Navigation';
 import getApiPath from '../utils/EnvironmentFinder';
 
 
-
-
 // The map container contains the sidebar and the interactive map
 export default class MapContainer extends React.Component {
     constructor(props) {
@@ -38,19 +36,13 @@ export default class MapContainer extends React.Component {
     
     componentDidMount = () => {
 
-      console.log("Attempting geolocation")
-      navigator.geolocation.getCurrentPosition(() => console.log("I found you!"))
-
       this.updateDimensions();
       window.addEventListener("resize", this.updateDimensions);
       
       this.getFacilities(); 
       if (navigator.geolocation) {
        
-        navigator.geolocation.getCurrentPosition(position => {
-          
-          console.log(position)
-          
+        navigator.geolocation.getCurrentPosition(position => {          
           this.setState({
             homeLocation: [position.coords.longitude, position.coords.latitude]
           })
@@ -60,10 +52,18 @@ export default class MapContainer extends React.Component {
   
     updateDimensions = (offset) => {
 
+      // when the viewport is small do not offset the map because
+      // the info box is going to show over the map
+      
       const _offset = offset > 0 ? offset : 0;
       const _windowDimensions = this.state.windowDimensions
       _windowDimensions.height = window.innerHeight;
-      _windowDimensions.width = window.innerWidth - (window.innerWidth * _offset);
+      
+      if (window.innerWidth < 800) {
+        _windowDimensions.width = window.innerWidth;
+      } else {
+        _windowDimensions.width = window.innerWidth - (window.innerWidth * _offset);
+      }
       
       this.setState({
         _windowDimensions
@@ -166,6 +166,9 @@ export default class MapContainer extends React.Component {
   submitHomeLocation = (latitude, longitude) => {
 
     if (this.props.userLoggedIn === null) {
+      // save it to local storage
+      const coords = {latitude: latitude, longitude: longitude}
+      localStorage.setItem("Home",JSON.stringify(coords));
       return;
     }
 
@@ -235,20 +238,21 @@ if not then use the one from the navigator
      // this should clear the facility popup
      setTimeout(() => {
        if (loggedIn === true) {
-         // update the viewport
+         
+        // update the viewport
          const home = this.state.homeLocation
          this.map._goToViewport( home[0], home[1], 10.5);
          
         } else {
           // use the navigator to get the user's current location
           // the update the navigator
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position =>
-              console.log("navigator position ", position)
-            , console.log("Could not locate user"));
-          } else if (this.state.homeLocation.length > 0) {
+          if (this.state.homeLocation.length > 0) {
             const location = this.state.homeLocation;
             this.map._goToViewport(location[0], location[1], 10.5);
+          } else if (localStorage.getItem("Home")) {
+            const location = JSON.parse(localStorage.getItem("Home"))
+            console.log(location)
+            this.map._goToViewport(location.longitude, location.latitude, 10.5);
           }
         }
      },100)

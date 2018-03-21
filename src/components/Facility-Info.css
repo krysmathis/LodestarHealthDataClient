@@ -1,13 +1,24 @@
+.info__box {
+    background-color: 'white';
+    margin: 0;
+    padding: 10;
+    width: '90%';
+    z-index: 100;
+    position: 'absolute';
+    padding-right: 10
+}
+
 .tab {
     display: flex;
     overflow: hidden;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     background-color: white;
     width: 25%;
     text-align: center;
     margin: 0 auto;
-    padding: 0;
+    padding: 10px;
     justify-content: center;
+    border-bottom: 2px solid white;
 }
 
 .info__header{
@@ -23,14 +34,15 @@ justify-content: space-between;
 
 .tab:hover {
     cursor: pointer;
+    border-bottom: 2px solid blue;
 }
 
 .tab-link {
     width: 100%;
 }
 .active {
-    background-color: black;
-    color: white;
+    border-bottom: 2px solid blue;
+    color: black;
 }
 
 .chart__area {
@@ -45,4 +57,43 @@ justify-content: space-between;
 
 .data__table {
     margin-bottom: 30px;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+ 
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1001;
+    padding: 5px;
+
+    
+}
+
+.tooltip-right {
+    top: -5px;
+    left: 105%; 
+}
+
+.tooltip-left {
+    top: -5px;
+    right: 105%; 
+}
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }

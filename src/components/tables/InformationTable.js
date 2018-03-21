@@ -22,16 +22,16 @@ export default class InformationTable extends React.Component {
         <tbody>
         <tr>
             <td className="column__name">System Affiliation</td>
-            <td>{system_Affiliation_Name}</td> 
+            <td className="center">{system_Affiliation_Name}</td> 
         </tr>
 
         <tr>
             <td>CY Discharges</td>
-            <td>{numberWithCommas(cY_Discharges)}</td> 
+            <td className="center">{numberWithCommas(cY_Discharges)}</td> 
         </tr>
         <tr>
             <td>Likelihood To Recommend</td>
-            <td>{likelihood_To_Recommend}</td> 
+            <td className="center">{likelihood_To_Recommend}</td> 
         </tr>
         </tbody>
         </table>
