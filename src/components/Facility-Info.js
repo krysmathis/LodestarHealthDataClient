@@ -66,8 +66,8 @@ export default class FacilityInfo extends PureComponent {
         <div>
         <div style={{...styles.box}}>
           <header className='info__header px8 py8 bg-gray-faint round-b-ml txt-s'>
-            <button onClick={this.setHomeLocation}><svg className='icon h24 w24'><use xlinkHref='#icon-home'/></svg></button>
-            <button onClick={this.closeFacilityInfo}><svg className='icon h24 w24'><use xlinkHref='#icon-close'/></svg></button>
+            <button onClick={this.setHomeLocation}><svg className='icon h24 w24'><use xlinkHref='#icon-home'/></svg>Set as Home Location</button>
+            <button onClick={this.closeFacilityInfo}><svg className='icon h24 w24'><use xlinkHref='#icon-close'/></svg>Exit</button>
           </header>
 
           <Tabs defaultActiveTabIndex={0} className='tabs__nav'>

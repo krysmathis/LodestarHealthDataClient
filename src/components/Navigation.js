@@ -22,6 +22,7 @@ export default class Navigation extends Component {
             showFilter: false,
             showLogin: false,
             showSidebar: false,
+            passwordClass: 'input round-l'
         };    
         this.updatePassword = this.updatePassword.bind(this);
         this.updateUsername = this.updateUsername.bind(this);
@@ -62,15 +63,29 @@ export default class Navigation extends Component {
     }
     
     updatePassword = (evt) => {
-    this.setState({password: evt.target.value});
+        
+        const strongPassword = new RegExp("(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$");
+        const classNames = ['password__input-invalid', 'password__input-valid']
+        
+        let strength = classNames[0]
+        if (strongPassword.test(evt.target.value)) {
+            strength = classNames[1]
+        }
+        this.setState({
+            password: evt.target.value,
+            passwordClass: strength
+        });
     }
 
     renderUserLogin = () => {
     
         if (this.state.loggedIn === null) {
-           return (<div className="nav__user-login flex-parent">
-                <input className='input border-r--0 round-l' label="username" type="text" placeholder="username" onChange={this.updateUsername}/>
-                <input className='input border-r--0 round-l' abel="password" type="password" placeholder="password" onChange={this.updatePassword}/>
+           return (<div className="nav__user-login flex-parent column">
+                <label>Username</label>
+                <input className='input round-l' label="username" type="text" placeholder="username" onChange={this.updateUsername}/>
+                <label>Password</label>
+                <input className={this.state.passwordClass} abel="password" type="password" placeholder="password" onChange={this.updatePassword}/>
+                <p>Password must be 8 characters, contain 1 digit, 1 special character, 1 lower case letter and 1 uppercase letter. </p>
                 <button className='btn px24 round-r' onClick={this.submitUser}>Login</button>
             </div>)
         } else {
@@ -92,10 +107,13 @@ export default class Navigation extends Component {
     submitUser = () => {
 
         const {username, password} = this.state;
-        
+        const strongPassword = new RegExp("(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$");
+
         // validate that both inputs have text
-        if (username.length > 0 && password.length > 0) {
+        if (username.length > 0 && strongPassword.test(password) > 0) {
             this.props.onSubmit(username, password);
+        } else {
+            alert("not strong enough");
         }
     }
 
@@ -158,7 +176,7 @@ export default class Navigation extends Component {
 
             {this.state.showLogin ?
                 <InfoContainer
-                containerClass={'infoContainer'}
+                containerClass={'infoContainer height-50'}
                 >
                 <div className="full-width">
                     {this.renderUserLogin()}

@@ -14,7 +14,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .nav__btn {
@@ -31,4 +31,14 @@
 
 .full-width {
     width: 100%;
+}
+
+.password__input-valid {
+    background-color: green;
+    opacity: .5;
+}
+
+.password__input-invalid {
+    background-color: red;
+    opacity: .5;
 }

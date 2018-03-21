@@ -52,7 +52,7 @@ export default class MapContainer extends React.Component {
           console.log(position)
           
           this.setState({
-            homeLocation: [position.coordinates.longitude, position.coordinates.latitude]
+            homeLocation: [position.coords.longitude, position.coords.latitude]
           })
         });
       } 

@@ -17,8 +17,14 @@ nav {
 }
 
 .nav__user-login {
+    box-sizing: border-box;
+    position: absolute;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: space-around;
+    /* height: 25%; */
+    padding: 10px;
+    width: 95%;    
 }
 
 .mapContainer__nav {
@@ -42,6 +48,11 @@ nav {
     display: flex;
     align-content: center;
     overflow: auto;
+    box-sizing: border-box;
+} 
+
+.height-50 {
+    height: 50% !important;
 }
 
 .infoContainer-no-border {
