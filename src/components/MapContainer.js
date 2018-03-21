@@ -21,6 +21,7 @@ export default class MapContainer extends React.Component {
         },
         facility: null,
         facilitiesInRange: [],
+        allFacilities: [],
         showSidebar: false,
         overlayClass: 'map-overlay hidden',
         token: null,
@@ -86,6 +87,7 @@ export default class MapContainer extends React.Component {
     this.setState({
         facility: _facility,
         facilitiesInRange: _nearby,
+        allFacilities: allFacilities,
         showSidebar: true,
         overlayClass: _overlayClass,
     })
@@ -94,7 +96,7 @@ export default class MapContainer extends React.Component {
       this.updateDimensions(0)
     } else {
       // now move the map over
-      this.updateDimensions(.5)
+      this.updateDimensions(.45)
     }
   
   }
@@ -241,23 +243,23 @@ if not then use the one from the navigator
      setTimeout(() => {
        
       if (this.props.userLoggedIn) {
-         
         // update the viewport
          const home = this.state.homeLocation
          this.map._goToViewport( home[0], home[1], 10.5);
-         
-        } else {
+      } else {
           // use the navigator to get the user's current location
           // the update the navigator
-          if (this.state.homeLocation.length > 0) {
-            const location = this.state.homeLocation;
-            this.map._goToViewport(location[0], location[1], 10.5);
-          } else if (localStorage.getItem("Home")) {
+          if (localStorage.getItem("Home")) {
             const location = JSON.parse(localStorage.getItem("Home"))
             console.log(location)
             this.map._goToViewport(location.longitude, location.latitude, 10.5);
-          }
-        }
+          // otherwise check and see if a home locaiotn is set
+          } else if (this.state.homeLocation.length > 0) {
+            const location = this.state.homeLocation;
+            this.map._goToViewport(location[0], location[1], 10.5);
+          } 
+          
+      }
      },100)
       
     setTimeout(this.clearFacility(), 100);
@@ -278,7 +280,7 @@ if not then use the one from the navigator
           this.setState({facility: null})
           this.displayFacilityDetails(null)
           }} >
-        <FacilityInfo info={facility} comparisonData={this.state._nearby} setHomeLocation={this.submitHomeLocation} handleClose={this.displayFacilityDetails}/>
+        <FacilityInfo info={facility} comparisonData={this.state.allFacilities} setHomeLocation={this.submitHomeLocation} handleClose={this.displayFacilityDetails}/>
       </InfoContainer>
     );
   }

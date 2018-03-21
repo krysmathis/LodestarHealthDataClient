@@ -47,9 +47,23 @@ export default class FacilityInfo extends PureComponent {
   }
 
   render() {
+    console.log(info)
+    // cY_Discharges
+
+    const cY_Discharges = this.props.comparisonData.map(f=> f.cY_Discharges)
+    
+    const likelihoodToRecommend = this.props.comparisonData
+        .filter(f => f.likelihood_To_Recommend > 0)
+        .map(f=> f.likelihood_To_Recommend)
+
+    const overallScore = this.props.comparisonData
+        .filter(f => f.overall_Hospital_Linear_Mean_Score > 0)
+        .map(f => f.overall_Hospital_Linear_Mean_Score)
+    
+
     const {info} = this.props;
     const displayName = `${info.facility_Name}`;
-
+console.log(this.props);
     return (
       <div>
         <div>
@@ -71,10 +85,19 @@ export default class FacilityInfo extends PureComponent {
                 <MarketTable facility={info}/>
                 <FinanceTable facility={info}/>
               </Tab>
+              <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'General'}>
+              <h2 style={{...styles.info__h2}}>{displayName} </h2>
+                <InformationTable facility={info}/>
+                <div className="charts__container">
+                  <PerformanceChart title={'CY Discharges'} data={cY_Discharges} threshold={20} facility={info.cY_Discharges} />
+                  <PerformanceChart title={'Likelihood To Recommend'} data={likelihoodToRecommend} threshold={20} facility={info.likelihood_To_Recommend} />
+                </div>
+              </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Quality'}>
               <h2 style={{...styles.info__h2}}>{displayName} </h2>
                 <QualityTable facility={info}/>
-                {/* <PerformanceChart /> */}
+                <PerformanceChart title={'Overall Linear Mean Score'} data={overallScore} threshold={20} facility={info.overall_Hospital_Linear_Mean_Score} />
+                {/* <PerformanceChart data={cY_Discharges} threshold={20} facility={info.cY_Discharges} /> */}
               </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Market'}>
               <h2 style={{...styles.info__h2}}>{displayName} </h2>
