@@ -64,6 +64,7 @@ export default class FacilityInfo extends PureComponent {
 
   render() {
 
+    const {info} = this.props;
     // cY_Discharges
 
     const cY_Discharges = this.props.comparisonData.map(f=> f.cY_Discharges)
@@ -76,8 +77,11 @@ export default class FacilityInfo extends PureComponent {
         .filter(f => f.overall_Hospital_Linear_Mean_Score > 0)
         .map(f => f.overall_Hospital_Linear_Mean_Score)
     
-
-    const {info} = this.props;
+    const overallScoreSystem = this.props.comparisonData
+      .filter(f => f.overall_Hospital_Linear_Mean_Score > 0 && f.system_Affiliation_Name !== undefined && f.system_Affiliation_Name === info.system_Affiliation_Name)
+      .map(f => f.overall_Hospital_Linear_Mean_Score)
+    
+    const systemCount = overallScoreSystem.length
 
     return (
       <div>
@@ -110,6 +114,7 @@ export default class FacilityInfo extends PureComponent {
                 <QualityTable facility={info}/>
                 <div className="charts__container">
                 <PerformanceChart title={'Overall Linear Mean Score'} data={overallScore} threshold={20} facility={info.overall_Hospital_Linear_Mean_Score} />
+                <PerformanceChart title={`System Overall Linear Mean Score (${systemCount})`} data={overallScoreSystem} threshold={20} facility={info.overall_Hospital_Linear_Mean_Score} />
                 </div>
               </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Market'}>

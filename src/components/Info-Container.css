@@ -165,7 +165,7 @@
         align-content: center;
         overflow-y: auto;
         overflow-x: hidden;
-        height: -webkit-fill-available;
+        height: stretch;
         box-shadow: rgba(0,0,0,.2) -1px 1px 5px;
     }
 
