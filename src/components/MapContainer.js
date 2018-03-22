@@ -7,6 +7,7 @@ import FacilityInfo from './Facility-Info';
 import InfoContainer from './Info-Container';
 import Navigation from './Navigation';
 import getApiPath from '../utils/EnvironmentFinder';
+import Swipe from 'react-swipe-component';
 
 
 // The map container contains the sidebar and the interactive map
@@ -232,6 +233,7 @@ if not then use the one from the navigator
     */
 
   clearFacility = () => {
+    
       this.setState({
         facility: null,
       }, () => this.displayFacilityDetails(null))
@@ -267,21 +269,33 @@ if not then use the one from the navigator
         
     }
 
+
+  _onSwipeRightListener = () => {
+    this.displayFacilityDetails(null);
+  }
+
   renderFacilityInfo() {
 
     // TODO: toggle off if the nav element is clicked
     const {facility} = this.state;
 
     return facility && (
+      <Swipe
+      nodeName="div"
+      className="test"
+      onSwipedRight={this._onSwipeRightListener} 
+      mouseSwipe={true}
+      >
       <InfoContainer
-        containerClass={'infoContainer-no-border animated fadeIn'}
-        
+        containerClass={'infoContainer-no-border'}
+        className="facility__container"
         onClose={() => {
           this.setState({facility: null})
           this.displayFacilityDetails(null)
           }} >
         <FacilityInfo info={facility} comparisonData={this.state.allFacilities} setHomeLocation={this.submitHomeLocation} handleClose={this.displayFacilityDetails}/>
       </InfoContainer>
+      </Swipe>
     );
   }
 
@@ -306,6 +320,7 @@ if not then use the one from the navigator
                 ref={map => { this.map = map; }}
                 avgMarkerSize={this.state.avgMarkerSize}
                 setHomeLocation={this.submitHomeLocation}
+                onClick={() => console.log("clicked")}
               /> }
           </div>
           </div>

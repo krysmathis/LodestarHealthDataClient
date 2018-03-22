@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+
 import QualityTable from './tables/QualityTable';
 import MarketTable from './tables/MarketTable';
 import FinanceTable from './tables/FinanceTable';
@@ -14,6 +15,9 @@ const styles = {
     fontWeight: 800,
     fontSize: '1.5em',
     padding: '20px'
+  },
+  title: {
+    display: 'flex' 
   }
   
 }
@@ -34,8 +38,20 @@ const Tab = (props) => {
   )
 }
 
+
+
 export default class FacilityInfo extends PureComponent {
 
+  getTitle = () => {
+    return (
+      <div style={{...styles.title}}>
+        <h2 style={{...styles.info__h2}}>{this.props.info.facility_Name} </h2>
+        <button className="tooltip" onClick={this.setHomeLocation}><svg className='icon h24 w24'><use xlinkHref='#icon-viewport'/></svg>
+          <span className="tooltiptext tooltip-left">Save as home location</span>
+        </button>
+      </div>
+    )
+  }
 
   closeFacilityInfo = () => {
     this.props.handleClose(null);
@@ -47,7 +63,7 @@ export default class FacilityInfo extends PureComponent {
   }
 
   render() {
-    console.log(info)
+
     // cY_Discharges
 
     const cY_Discharges = this.props.comparisonData.map(f=> f.cY_Discharges)
@@ -62,31 +78,27 @@ export default class FacilityInfo extends PureComponent {
     
 
     const {info} = this.props;
-    const displayName = `${info.facility_Name}`;
-console.log(this.props);
+
     return (
       <div>
         <div>
         <div className="info__box">
           <header className='info__header px8 py8 bg-gray-faint round-b-ml txt-s'>
-            <button className="tooltip" onClick={this.setHomeLocation}><svg className='icon h24 w24'><use xlinkHref='#icon-viewport'/></svg>
-              <span className="tooltiptext tooltip-right">Save as home location</span>
-            </button>
             <button className="tooltip" onClick={this.closeFacilityInfo}><svg className='icon h24 w24'><use xlinkHref='#icon-close'/></svg>
-              <span className="tooltiptext tooltip-left">Close</span>
+              <span className="tooltiptext tooltip-right">Close</span>
             </button>
           </header>
 
           <Tabs defaultActiveTabIndex={0} className='tabs__nav'>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-0'} label={'All'}>
-              <h2 style={{...styles.info__h2}}>{displayName} </h2>
+                {this.getTitle()}
                 <InformationTable facility={info}/>
                 <QualityTable facility={info}/>
                 <MarketTable facility={info}/>
                 <FinanceTable facility={info}/>
               </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'General'}>
-              <h2 style={{...styles.info__h2}}>{displayName} </h2>
+              {this.getTitle()}
                 <InformationTable facility={info}/>
                 <div className="charts__container">
                   <PerformanceChart title={'CY Discharges'} data={cY_Discharges} threshold={20} facility={info.cY_Discharges} />
@@ -94,17 +106,16 @@ console.log(this.props);
                 </div>
               </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Quality'}>
-              <h2 style={{...styles.info__h2}}>{displayName} </h2>
+              {this.getTitle()}
                 <QualityTable facility={info}/>
                 <PerformanceChart title={'Overall Linear Mean Score'} data={overallScore} threshold={20} facility={info.overall_Hospital_Linear_Mean_Score} />
-                {/* <PerformanceChart data={cY_Discharges} threshold={20} facility={info.cY_Discharges} /> */}
               </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Market'}>
-              <h2 style={{...styles.info__h2}}>{displayName} </h2>
+              {this.getTitle()}
                 <MarketTable facility={info}/>
               </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Finance'}>
-                <h2 style={{...styles.info__h2}}>{displayName} </h2>
+              {this.getTitle()}
                 <FinanceTable facility={info}/>
                 <div className="chart__area">
                   {/* <FinanceChart data={this.props.comparisonData}/> */}

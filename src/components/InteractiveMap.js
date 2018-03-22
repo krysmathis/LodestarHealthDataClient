@@ -119,7 +119,21 @@ class InteractiveMap extends React.Component {
     
   };
 
+  clearPopupInfo = () => {
+    this.setState({
+      popupInfo: null
+    })
+  }
 
+
+  updateFacilityColor = facility => {
+    
+    const system = facility.system_Affiliation_Name;
+    let color = "black"
+    system === "HCA" ? color = HCA_COLOR : color = OTHER_COLOR;
+
+
+  }
   _renderFacilityMarker = (facility, index) => {
     
     // do not render if there is nothing to render  
@@ -179,8 +193,7 @@ class InteractiveMap extends React.Component {
         name={facility.facility_Name}
                       color={color} 
                       opacity={.75}
-                      selected={selected} 
-                      onMouseOver={() => console.log("test")}                     
+                      selected={selected}                    
                       onClick={
                         () => {
                          this._showSelectedFacility(facility);

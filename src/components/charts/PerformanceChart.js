@@ -47,7 +47,6 @@ export default class PerformanceChart extends React.Component {
           const binObj = {x: b.x0, y: b.length}
           if (facility >= b.x0 && facility < b.x1) {
             target = binObj;
-            console.log(binObj)
           }
           return binObj;
         })

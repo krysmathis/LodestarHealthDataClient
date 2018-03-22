@@ -3,7 +3,7 @@
     height: 100%; /* Full-height: remove this if you want "auto" height */
     width: 60px; /* Set the width of the sidebar */
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1001; /* Stay on top */
+    z-index: 10; /* Stay on top */
     top: 0; /* Stay at the top */
     right: 0;
     background-color: #111; /* Black */
