@@ -108,7 +108,9 @@ export default class FacilityInfo extends PureComponent {
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Quality'}>
               {this.getTitle()}
                 <QualityTable facility={info}/>
+                <div className="charts__container">
                 <PerformanceChart title={'Overall Linear Mean Score'} data={overallScore} threshold={20} facility={info.overall_Hospital_Linear_Mean_Score} />
+                </div>
               </Tab>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} label={'Market'}>
               {this.getTitle()}

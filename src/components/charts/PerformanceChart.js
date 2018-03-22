@@ -26,10 +26,21 @@ export default class PerformanceChart extends React.Component {
 
     generateHistogram = () => {
 
+
+
         const data = this.props.data;
         const threshold = this.props.threshold;
         const facility = this.props.facility;
         
+        if (facility === 0 || 
+          facility === null || 
+          facility === undefined || 
+          data === null ||
+          data === undefined || 
+          data.length === 0) {
+          return {data: [], target: {}}
+        }
+
         const intervals = [Math.min(...data), Math.max(...data)]
 
         const getBins = histogram()
@@ -57,6 +68,16 @@ export default class PerformanceChart extends React.Component {
         
       const {data, target} = this.generateHistogram();
       const title = this.props.title;
+      
+
+      if (target === 0 || 
+        target === null || 
+        target === undefined || 
+        data === null ||
+        data === undefined || 
+        data.length === 0) {
+        return (<div></div>)
+      }
 
 
         return (

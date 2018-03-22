@@ -47,7 +47,12 @@ class FilterBox extends React.Component {
         ) {
             return
         }
-        const filteredResults = this.props.facilities.filter(f => f.facility_Name.toLowerCase().includes(this.state.filterText.toLowerCase()));
+        const filteredResults = this.props.facilities.filter(f => f.facility_Name.toLowerCase().includes(this.state.filterText.toLowerCase()))
+                                .sort((a,b) =>{
+                                    if(a.facility_Name < b.facility_Name) return -1;
+                                    if(a.facility_Name > b.facility_Name) return 1;
+                                    return 0;
+                                });
         const listOfFacilitiesThatContainSubstring = filteredResults.map((f) => 
             <li className="filterBox__li" key={f.facilityId} onClick={this.submitFilter} id={f.facilityId}>{f.facility_Name}</li>
         );

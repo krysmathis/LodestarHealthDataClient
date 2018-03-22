@@ -16,6 +16,7 @@ class FacilitySidebar extends React.Component {
     publishFacility = (evt) => {
         const id = parseInt(evt.target.parentNode.id.split('nearby-')[1],0);
         this.props.onClick(id);
+        // setTimeout(this.props.closeSidebar(),1500);
     }
     
     renderNearbyLocationNames = () => {
@@ -46,20 +47,19 @@ class FacilitySidebar extends React.Component {
             return;
         } else {
             return  (
-                
-                <div>
-                    <div className='facility__sidebar absolute top-ml left z1 w-full w280-ml px12 py12-ml'>
-                        <div className=' flex-parent flex-parent--column bg-white round-ml shadow-darken10'>
+                <div >
+                    <div className='facility__sidebar'>
+                        <div className='flex-parent flex-parent--column'>
                             <div className='px8 py8 scroll-auto'>
-                                <h3 className='txt-m txt-bold mb8'>{this.props.facility.system_Affiliation_Name}</h3>
                                 { this.renderNearbyLocationNames() }
                             </div>
                         </div>
-                        <footer className='flex-parent flex-parent--column  overlapping__footer round-b-ml txt-s'>
-                            <button onClick={this.props.closeSidebar} className="overlapping__btn-dismiss flex-parent flex-parent--row flex-parent--center-main btn btn--black round"><svg className='icon h24 w24'><use xlinkHref='#icon-close'/></svg><span>Dismiss</span></button>
-                        </footer>
+                        <div className='flex-parent flex-parent--column  overlapping__footer round-b-ml txt-s'>
+                            <div onClick={this.props.closeSidebar} className="overlapping__btn-dismiss flex-parent flex-parent--row flex-parent--center-main btn btn--black round"><svg className='icon h24 w24'><use xlinkHref='#icon-close'/></svg><span>Dismiss</span></div>
+                        </div>
                     </div>
                 </div>
+
                 )
         }
     }

@@ -89,7 +89,8 @@
     }
 
     .facility__sidebar {
-        max-height: 130px !important;
+        background-color: white;
+        max-height: 50% !important;
     }
     .map-overlay {
         position: absolute;
@@ -126,7 +127,7 @@
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 440px) {
 
 
 
@@ -149,7 +150,7 @@
 
     .infoContainer-no-border {
 
-        width: 90%;
+        width: 100%;
         top: 0px;
         bottom: 0px;
         right: 0px;
@@ -178,15 +179,15 @@
     }
 
     .facility__sidebar {
-        max-height: 130px !important;
+        width: 100%;
+        max-height: 50% !important;
     }
     .map-overlay {
         position: absolute;
-        top: 90%;
-        left: 5px;
-        width: 90%;
-        max-height: 50px; 
+        top: 25%;
+        width: 100%;
         z-index: 1001; 
+        margin: 0 auto;
     }
       
     .map-overlay h1 {

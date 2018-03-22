@@ -65,7 +65,7 @@ nav {
     position: absolute;
     top: 20%;
     right: 10px;
-    width: 30%;
+    width: 100%;
     max-height: 50%; 
     z-index: 1001; 
 
@@ -93,13 +93,16 @@ nav {
  }
 
  .facility__sidebar {
-    box-sizing: border-box;
-    max-height: 200px !important;
+    border: 2px solid lightgray;
+    box-shadow: 5px 5px 5px rgba(0,0,0,.3);
+    background-color: white;
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
  }
 
  .overlapping__footer {
     justify-content: center;
-    margin-top: 10px;
  }
 
  .overlapping__btn-dismiss {

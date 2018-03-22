@@ -61,7 +61,7 @@ export default class MapContainer extends React.Component {
       const _windowDimensions = this.state.windowDimensions
       _windowDimensions.height = window.innerHeight;
       
-      if (window.innerWidth < 800) {
+      if (window.innerWidth < 700) {
         _windowDimensions.width = window.innerWidth;
       } else {
         _windowDimensions.width = window.innerWidth - (window.innerWidth * _offset);
@@ -146,7 +146,7 @@ export default class MapContainer extends React.Component {
       setTimeout(this.map.clearPopupInfo(),100);
     } else {
       // now move the map over
-      this.updateDimensions(.40)
+      this.updateDimensions(.4);
     }
   
   }
@@ -167,10 +167,12 @@ export default class MapContainer extends React.Component {
   publishNearbyLocation = (id) => {
     const facility = this.state.facilitiesInRange.find(f => f.facilityId === id);
     this.submitSearchRequest(facility);
+    
   }
 
   submitSearchRequest = (facility) => {
     this.map._searchFormSubmit(facility);
+    
   }
 
   updateUsernameInNav = (username) => {
