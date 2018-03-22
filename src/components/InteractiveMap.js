@@ -126,14 +126,7 @@ class InteractiveMap extends React.Component {
   }
 
 
-  updateFacilityColor = facility => {
-    
-    const system = facility.system_Affiliation_Name;
-    let color = "black"
-    system === "HCA" ? color = HCA_COLOR : color = OTHER_COLOR;
-
-
-  }
+  
   _renderFacilityMarker = (facility, index) => {
     
     // do not render if there is nothing to render  

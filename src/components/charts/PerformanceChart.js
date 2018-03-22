@@ -17,17 +17,13 @@ const styles = {
   margin: 0
 }
 
+/*
+  props: 
+    data = an array of just the datapoints that go into the map
+    threshold = the number of bins
+*/
 export default class PerformanceChart extends React.Component {
-    
-    data = () => {
-        this.props.data;
-    }
-    
-    /*
-      props: 
-        data = an array of just the datapoints that go into the map
-        threshold = the number of bins
-    */
+
     generateHistogram = () => {
 
         const data = this.props.data;
@@ -36,10 +32,11 @@ export default class PerformanceChart extends React.Component {
         
         const intervals = [Math.min(...data), Math.max(...data)]
 
-        const bins = histogram()
+        const getBins = histogram()
         .domain(intervals)    // Set the domain to cover the entire interval
         .thresholds(threshold)
-        (data);
+        
+        const bins = getBins(data);
 
         let target = {}
         // convert the bins into something the map can use

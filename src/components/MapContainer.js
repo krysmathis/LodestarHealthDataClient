@@ -73,34 +73,7 @@ export default class MapContainer extends React.Component {
       
     };
 
-  // update the facility information
-  // TODO: rename this to overlapping facilities box
-  displayFacilityDetails(_facility,_nearby, allFacilities) {
-    
-    let _overlayClass = 'map-overlay animated slideInLeft'
-    
-    if (_facility === null || _nearby.length <= 1) {
-      _overlayClass = 'map-overlay hidden'
-
-    }
-
-    // update the nearby facilities to get the ones on top of it
-    this.setState({
-        facility: _facility,
-        facilitiesInRange: _nearby,
-        allFacilities: allFacilities,
-        showSidebar: true,
-        overlayClass: _overlayClass,
-    })
-
-    if (_facility === null) {
-      this.updateDimensions(0)
-    } else {
-      // now move the map over
-      this.updateDimensions(.45)
-    }
   
-  }
 
   getSavedToken() {
     return localStorage.getItem("token")
@@ -148,6 +121,42 @@ export default class MapContainer extends React.Component {
         });
   }
 
+  // update the facility information
+  // TODO: rename this to overlapping facilities box
+  displayFacilityDetails(_facility,_nearby, allFacilities) {
+    
+    let _overlayClass = 'map-overlay animated slideInLeft'
+    
+    if (_facility === null || _nearby.length <= 1) {
+      _overlayClass = 'map-overlay hidden'
+
+    }
+
+    // update the nearby facilities to get the ones on top of it
+    this.setState({
+        facility: _facility,
+        facilitiesInRange: _nearby,
+        allFacilities: allFacilities,
+        showSidebar: true,
+        overlayClass: _overlayClass,
+    })
+
+    if (_facility === null) {
+      this.updateDimensions(0);
+      setTimeout(this.map.clearPopupInfo(),100);
+    } else {
+      // now move the map over
+      this.updateDimensions(.45)
+    }
+  
+  }
+
+  clearFacility = () => {
+    
+    this.setState({
+      facility: null,
+    }, () => this.displayFacilityDetails(null))
+  }
   
   publishNearbyLocation = (id) => {
     const facility = this.state.facilitiesInRange.find(f => f.facilityId === id);
@@ -231,13 +240,7 @@ export default class MapContainer extends React.Component {
 Go to home location, if the user is logged in use the one supplied as a prop
 if not then use the one from the navigator
     */
-
-  clearFacility = () => {
-    
-      this.setState({
-        facility: null,
-      }, () => this.displayFacilityDetails(null))
-  }
+  
 
   goToHomeLocation = (loggedIn) => {
        
@@ -320,12 +323,10 @@ if not then use the one from the navigator
                 ref={map => { this.map = map; }}
                 avgMarkerSize={this.state.avgMarkerSize}
                 setHomeLocation={this.submitHomeLocation}
-                onClick={() => console.log("clicked")}
               /> }
           </div>
           </div>
-              {/* this is where the info shows up - needs a better name */}
-              {this.renderFacilityInfo()}
+                  {this.renderFacilityInfo()}
             <div className={this.state.overlayClass}>
               { this.state.showSidebar ? 
               <div>
