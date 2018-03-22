@@ -185,6 +185,7 @@
     .map-overlay {
         position: absolute;
         top: 25%;
+        right: 10px;
         width: 100%;
         z-index: 1001; 
         margin: 0 auto;
@@ -216,8 +217,8 @@
 @media (max-width: 320px) {
     .infoContainer-no-border {
         z-index: 1001;
-        width: 120%;
-        right: -50px;
+        width: 100%;
+        right: -60px;
        
 
     }
