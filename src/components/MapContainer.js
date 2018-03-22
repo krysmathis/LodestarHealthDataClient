@@ -125,7 +125,7 @@ export default class MapContainer extends React.Component {
   // TODO: rename this to overlapping facilities box
   displayFacilityDetails(_facility,_nearby, allFacilities) {
     
-    let _overlayClass = 'map-overlay animated slideInLeft'
+    let _overlayClass = 'map-overlay animated slideUpBottom'
     
     if (_facility === null || _nearby.length <= 1) {
       _overlayClass = 'map-overlay hidden'
@@ -146,7 +146,7 @@ export default class MapContainer extends React.Component {
       setTimeout(this.map.clearPopupInfo(),100);
     } else {
       // now move the map over
-      this.updateDimensions(.45)
+      this.updateDimensions(.40)
     }
   
   }
@@ -156,6 +156,12 @@ export default class MapContainer extends React.Component {
     this.setState({
       facility: null,
     }, () => this.displayFacilityDetails(null))
+  }
+
+  closeSidebar = () => {
+    this.setState({
+      showSidebar: false
+    })
   }
   
   publishNearbyLocation = (id) => {
@@ -273,7 +279,7 @@ if not then use the one from the navigator
     }
 
 
-  _onSwipeRightListener = () => {
+  _onSwipeListener = () => {
     this.displayFacilityDetails(null);
   }
 
@@ -286,12 +292,13 @@ if not then use the one from the navigator
       <Swipe
       nodeName="div"
       className="test"
-      onSwipedRight={this._onSwipeRightListener} 
+      onSwipedRight={this._onSwipeListener} 
+      onSwipedLeft={this._onSwipeListener} 
       mouseSwipe={true}
       >
       <InfoContainer
         containerClass={'infoContainer-no-border'}
-        className="facility__container"
+        className={"facility__container animated fadeInRight"}
         onClose={() => {
           this.setState({facility: null})
           this.displayFacilityDetails(null)
@@ -330,7 +337,7 @@ if not then use the one from the navigator
             <div className={this.state.overlayClass}>
               { this.state.showSidebar ? 
               <div>
-                <FacilitySidebar onClick={this.publishNearbyLocation} facility={this.state.facilities} facilitiesInRange={this.state.facilitiesInRange}/> 
+                <FacilitySidebar onClick={this.publishNearbyLocation} facility={this.state.facilities} closeSidebar={this.closeSidebar} facilitiesInRange={this.state.facilitiesInRange}/> 
                 </div>: 
                 null 
               }

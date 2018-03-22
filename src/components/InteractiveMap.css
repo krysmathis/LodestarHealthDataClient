@@ -37,47 +37,11 @@ nav {
     justify-content: space-between;
 }
 
-.infoContainer {
-    width: 35%;
-    top: 0px;
-    bottom: 0;
-    right: 60px;
-    margin: 10px;
-    position: absolute;
-    background-color: white;
-    z-index: 1001;
-    box-shadow: rgba(0,0,0,.2) -1px 1px 5px;
-    border-radius: 10px;
-    padding: 10px;
-    display: flex;
-    align-content: center;
-    overflow: auto;
-    box-sizing: border-box;
-} 
-
 .height-50 {
     height: 50% !important;
 }
 
-.infoContainer-no-border {
-    width: 45%;
-    top: 0px;
-    bottom: 0;
-    right: 0px;
-    margin: 0px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    position: absolute;
-    background-color: white;
-    z-index: 100;
-    padding: 10px;
-    display: flex;
-    align-content: center;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
-    box-shadow: rgba(0,0,0,.2) -1px 1px 5px;
-}
+
 
 
 
@@ -99,17 +63,20 @@ nav {
 
 .map-overlay {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 20%;
+    right: 10px;
     width: 30%;
     max-height: 50%; 
     z-index: 1001; 
+
 }
   
 .map-overlay h1 {
     font-size: 1.15em !important;
     font-weight: 800;
     padding: 10px;
+    background-color: black;
+    color: white;
 }
 
  .nearbyLocations__ul {
@@ -126,7 +93,17 @@ nav {
  }
 
  .facility__sidebar {
+    box-sizing: border-box;
     max-height: 200px !important;
+ }
+
+ .overlapping__footer {
+    justify-content: center;
+    margin-top: 10px;
+ }
+
+ .overlapping__btn-dismiss {
+     align-items: center;
  }
 
  .nearbyLocations__li {

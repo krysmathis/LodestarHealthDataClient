@@ -1,14 +1,51 @@
 
+.infoContainer {
+    width: 35%;
+    top: 0px;
+    bottom: 0;
+    right: 60px;
+    margin: 10px;
+    position: absolute;
+    background-color: white;
+    z-index: 1001;
+    box-shadow: rgba(0,0,0,.2) -1px 1px 5px;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    align-content: center;
+    overflow: auto;
+    box-sizing: border-box;
+} 
+
+.infoContainer-no-border {
+    width: 40%;
+    top: 0px;
+    bottom: 0;
+    right: 0px;
+    margin: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    position: absolute;
+    background-color: white;
+    z-index: 100;
+    padding: 10px;
+    display: flex;
+    align-content: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    box-shadow: rgba(0,0,0,.2) -1px 1px 5px;
+}
 
  @media (max-width: 1000px) {
 
 
 
     .infoContainer {
-        width: 80%;
+        width: 50%;
         top: 0px;
         bottom: 0;
-        right: 0px;
+        right: 60px;
         margin: 10px;
         position: absolute;
         background-color: white;
@@ -23,7 +60,7 @@
 
     .infoContainer-no-border {
 
-        width: 90%;
+        width: 50%;
         top: 0px;
         bottom: 0px;
         right: 0px;
@@ -38,7 +75,7 @@
         align-content: center;
         overflow-y: auto;
         overflow-x: hidden;
-        height: 80%;
+        height: 100%;
         box-shadow: rgba(0,0,0,.2) -1px 1px 5px;
     }
 
@@ -56,8 +93,8 @@
     }
     .map-overlay {
         position: absolute;
-        top: 85%;
-        left: 5px;
+        top: 25%;
+        left: 25px;
         width: 90%;
         max-height: 50px; 
         z-index: 1001; 
@@ -113,9 +150,9 @@
     .infoContainer-no-border {
 
         width: 90%;
-        top: 30px;
+        top: 0px;
         bottom: 0px;
-        right: 30px;
+        right: 0px;
         margin: 0px;
         margin-top: 0px;
         margin-bottom: 0px;
@@ -127,7 +164,7 @@
         align-content: center;
         overflow-y: auto;
         overflow-x: hidden;
-        height: 80%;
+        height: -webkit-fill-available;
         box-shadow: rgba(0,0,0,.2) -1px 1px 5px;
     }
 
@@ -177,14 +214,15 @@
 
 @media (max-width: 320px) {
     .infoContainer-no-border {
-
+        z-index: 1001;
         width: 120%;
-        right: -60px;
+        right: -100px;
+       
 
     }
 
     .info__box {
-        width: 100%;
+        width: 90%;
 
     }
 }
