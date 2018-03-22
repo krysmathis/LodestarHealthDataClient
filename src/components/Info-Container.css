@@ -227,5 +227,14 @@
         width: 90%;
 
     }
+
+    .map-overlay {
+        position: absolute;
+        top: 25%;
+        right: 25px;
+        width: 80%;
+        z-index: 1001; 
+        margin: 0 auto;
+    }
 }
 
