@@ -67,6 +67,7 @@ export default class FacilityInfo extends PureComponent {
     const {info} = this.props;
     // cY_Discharges
 
+    console.log(this.props.comparisonData)
     const cY_Discharges = this.props.comparisonData.map(f=> f.cY_Discharges)
     
     const likelihoodToRecommend = this.props.comparisonData
@@ -88,7 +89,7 @@ export default class FacilityInfo extends PureComponent {
         <div>
         <div className="info__box">
           <header className='info__header px8 py8 bg-gray-faint round-b-ml txt-s'>
-            <button className="tooltip" onClick={this.closeFacilityInfo}><svg className='icon h24 w24'><use xlinkHref='#icon-close'/></svg>
+            <button className="tooltip" onClick={this.closeFacilityInfo}><svg className='icon h36 w36'><use xlinkHref='#icon-close'/></svg>
               <span className="tooltiptext tooltip-right">Close</span>
             </button>
           </header>

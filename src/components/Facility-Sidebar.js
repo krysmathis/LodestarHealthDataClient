@@ -55,7 +55,7 @@ class FacilitySidebar extends React.Component {
                             </div>
                         </div>
                         <div className='flex-parent flex-parent--column  overlapping__footer round-b-ml txt-s'>
-                            <div onClick={this.props.closeSidebar} className="overlapping__btn-dismiss flex-parent flex-parent--row flex-parent--center-main btn btn--black round"><svg className='icon h24 w24'><use xlinkHref='#icon-close'/></svg><span>Dismiss</span></div>
+                            <div onClick={this.props.closeSidebar} className="overlapping__btn-dismiss flex-parent flex-parent--row flex-parent--center-main btn btn--black round"><svg className='icon h36 w36'><use xlinkHref='#icon-close'/></svg><span>Dismiss</span></div>
                         </div>
                     </div>
                 </div>
