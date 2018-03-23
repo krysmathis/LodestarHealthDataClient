@@ -67,7 +67,6 @@ export default class FacilityInfo extends PureComponent {
     const {info} = this.props;
     // cY_Discharges
 
-    console.log(this.props.comparisonData)
     const cY_Discharges = this.props.comparisonData.map(f=> f.cY_Discharges)
     
     const likelihoodToRecommend = this.props.comparisonData
