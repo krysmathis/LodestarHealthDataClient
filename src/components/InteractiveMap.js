@@ -263,7 +263,6 @@ _renderPopup() {
       longitude={popupInfo.long}
       latitude={popupInfo.lat}
       onClick={() => {
-        console.log("clicked")
         // this.setState({popupInfo: null})
         // this.props.publishDetails(null)
         }} >
@@ -284,7 +283,6 @@ _renderPopup() {
         onViewportChange={this._onChangeViewport}
         mapStyle={mapStyle}
         ref={map => (this.mapRef = map)}
-        mousemove={() => console.log("entered")}
         {...viewport}
         >
         <div className="locationBlock">

@@ -264,7 +264,6 @@ if not then use the one from the navigator
           // the update the navigator
           if (localStorage.getItem("Home")) {
             const location = JSON.parse(localStorage.getItem("Home"))
-            console.log(location)
             this.map._goToViewport(location.longitude, location.latitude, 10.5);
           // otherwise check and see if a home locaiotn is set
           } else if (this.state.homeLocation.length > 0) {
