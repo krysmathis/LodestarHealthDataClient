@@ -128,8 +128,7 @@ class InteractiveMap extends React.Component {
 
   hoverAction = (evt) => {
       let e = this.mapRef.getMap();
-      debugger
-      console.log(e,evt)
+      //console.log(e,evt)
   }
   
   _renderFacilityMarker = (facility, index) => {
