@@ -58,6 +58,7 @@ class InteractiveMap extends React.Component {
     });
   }
 
+
   
 
   _goToViewport = (longitude, latitude, zoom) => {
@@ -125,7 +126,11 @@ class InteractiveMap extends React.Component {
     })
   }
 
-
+  hoverAction = (evt) => {
+      let e = this.mapRef.getMap();
+      debugger
+      console.log(e,evt)
+  }
   
   _renderFacilityMarker = (facility, index) => {
     
@@ -180,17 +185,20 @@ class InteractiveMap extends React.Component {
       <Marker key={`marker-${index}`}
         longitude={facility.long}
         latitude={facility.lat} 
+        onMouseOver={(evt) => this.hoverAction(evt)}
         >
         <FacilityPin  
         size={markerSize} 
         name={facility.facility_Name}
-                      color={color} 
-                      opacity={.75}
-                      selected={selected}                    
-                      onClick={
-                        () => {
-                         this._showSelectedFacility(facility);
-                        }}
+        color={color} 
+        opacity={.75}
+        selected={selected}                    
+        onMouseOver={(evt) => this.hoverAction(evt)}
+        onClick={
+          (evt) => {
+            this.hoverAction(evt)
+            this._showSelectedFacility(facility);
+          }}
                       />
       </Marker>
     );
@@ -238,7 +246,8 @@ class InteractiveMap extends React.Component {
         here we would not set the state if there are multiple facilities
         and display a popup instead and then send it the values below
     */
-
+    
+// don't call publish details until resolving which location to select
     this.setState({popupInfo: facility});
     this.props.publishDetails(facility, nearbyWithDistance, facilitiesWithDistance);
     

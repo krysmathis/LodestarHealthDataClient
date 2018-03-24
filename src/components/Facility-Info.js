@@ -92,7 +92,7 @@ export default class FacilityInfo extends PureComponent {
               <span className="tooltiptext tooltip-right">Close</span>
             </button>
           </header>
-
+          <div className="info-container__close-circle">close</div>
           <Tabs defaultActiveTabIndex={0} className='tabs__nav'>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-0'} label={'All'}>
                 {this.getTitle()}

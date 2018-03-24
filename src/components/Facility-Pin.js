@@ -21,7 +21,7 @@ export default class FacilityPin extends PureComponent {
               {!selected ? <circle  cx={size} cy={size} r={size/2} stroke={color} strokeWidth="10" fill={color} opacity={opacity} /> : 
               <circle className="selected__marker"  cx={size} cy={size} r={size/2} stroke={'black'} strokeWidth="10" fill={'black'} opacity={1} />}
           </svg>
-         <span className='tooltiptext'>{this.props.name}</span>
+         <span className='tooltiptext' onClick={onClick}>{this.props.name}</span>
       </div>
     );
   }

@@ -21,6 +21,24 @@
     border-bottom: 2px solid white;
 }
 
+.info-container__close-circle {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    color: white;
+    position: absolute;
+    top: 25%;
+    left: -50px;
+    z-index: 1003;
+    /* visibility: hidden; */
+    /* border: 1px solid black; */
+}
+
+.info-container__close-circle:hover {
+    visibility: visible;
+    background-color: black;
+}
+
 .info__header{
 display: flex;
 justify-content: space-between;
