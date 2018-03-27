@@ -22,14 +22,18 @@
 }
 
 .info-container__close-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     width: 100px;
     height: 100px;
     color: white;
     position: absolute;
     top: 25%;
-    left: -50px;
+    left: -40px;
     z-index: 1003;
+    transition: background-color 1s;
     /* visibility: hidden; */
     /* border: 1px solid black; */
 }
@@ -37,6 +41,7 @@
 .info-container__close-circle:hover {
     visibility: visible;
     background-color: black;
+    color: white;
 }
 
 .info__header{
@@ -44,6 +49,9 @@ display: flex;
 justify-content: space-between;
 }
 
+.icon-white {
+    color: white;
+}
 .tabs__nav {
     display: flex;
     flex-direction: row;

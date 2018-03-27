@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-
+import './../../node_modules/animate.css'
 import QualityTable from './tables/QualityTable';
 import MarketTable from './tables/MarketTable';
 import FinanceTable from './tables/FinanceTable';
@@ -92,7 +92,7 @@ export default class FacilityInfo extends PureComponent {
               <span className="tooltiptext tooltip-right">Close</span>
             </button>
           </header>
-          <div className="info-container__close-circle">close</div>
+          <div onClick={this.closeFacilityInfo} className="info-container__close-circle animated slideInLeft"><svg className='icon h36 w36 icon-white'><use xlinkHref='#icon-close'/></svg></div>
           <Tabs defaultActiveTabIndex={0} className='tabs__nav'>
               <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-0'} label={'All'}>
                 {this.getTitle()}
