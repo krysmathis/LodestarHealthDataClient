@@ -73,6 +73,7 @@ class App extends Component {
         'mode': 'no-cors',
         'headers': {
                 'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://blissful-kare-a8283f.netlify.app/'
             }
        }
     })
