@@ -88,7 +88,7 @@ export default class MapContainer extends React.Component {
     
     fetch (getApiPath() + "/Facility", {
       method: 'GET',
-      mode: 'cors',
+      mode: 'no-cors',
       headers: {
         'Authorization': 'Bearer ' + this.getSavedToken(),
         'Access-Control-Allow-Origin': 'https://blissful-kare-a8283f.netlify.app'
