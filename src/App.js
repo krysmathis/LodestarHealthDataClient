@@ -37,7 +37,8 @@ class App extends Component {
         method: 'GET',
         mode: 'no-cors',
         headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem("token")
+          'Authorization': 'Bearer ' + localStorage.getItem("token"),
+          'Access-Control-Allow-Origin': 'https://blissful-kare-a8283f.netlify.app/'
         }
       }).then(result =>{
 
