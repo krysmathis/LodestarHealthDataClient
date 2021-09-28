@@ -35,7 +35,7 @@ class App extends Component {
     if (localStorage.getItem("token") !== null) {
       fetch (getApiPath() + "/token", {
         method: 'GET',
-        mode: 'cors',
+        mode: 'no-cors',
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem("token")
         }
@@ -70,7 +70,7 @@ class App extends Component {
       method:'POST',
       headers : { 
         'Accept': 'application/json',
-        'mode': 'cors',
+        'mode': 'no-cors',
         'headers': {
                 'Content-Type': 'application/json',
             }
