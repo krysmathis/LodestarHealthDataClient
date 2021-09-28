@@ -35,10 +35,11 @@ class App extends Component {
     if (localStorage.getItem("token") !== null) {
       fetch (getApiPath() + "/token", {
         method: 'GET',
-        mode: 'no-cors',
+        mode: 'cors',
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem("token"),
-          'Access-Control-Allow-Origin': 'https://blissful-kare-a8283f.netlify.app/'
+          // 'Access-Control-Allow-Origin': 'https://blissful-kare-a8283f.netlify.app/',
+          // 'Access-Control-Allow-Origin': 'localhost:3000'
         }
       }).then(result =>{
 
