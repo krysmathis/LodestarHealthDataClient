@@ -69,7 +69,11 @@ class App extends Component {
     fetch(target, {
       method:'POST',
       headers : { 
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'mode': 'cors',
+        'headers': {
+                'Content-Type': 'application/json',
+            }
        }
     })
     .then((token) => 

@@ -9,9 +9,9 @@ function getApiPath() {
     let targetUrl = 'https://api.lodestarhealthdata.com/api';
     
     // handling production vs development in a simple way    
-    if (window.location.href === "http://localhost:3000/") {
-        targetUrl = "http://localhost:5000/api";
-    } 
+    // if (window.location.href === "http://localhost:3000/") {
+    //     targetUrl = "http://localhost:5000/api";
+    // } 
 
     return targetUrl;
       
