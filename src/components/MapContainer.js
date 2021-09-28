@@ -91,7 +91,7 @@ export default class MapContainer extends React.Component {
       mode: 'cors',
       headers: {
         'Authorization': 'Bearer ' + this.getSavedToken(),
-        'Access-Control-Allow-Origin': 'https://blissful-kare-a8283f.netlify.app/'
+        'Access-Control-Allow-Origin': 'https://blissful-kare-a8283f.netlify.app'
         
       }
     }).then(result =>{
